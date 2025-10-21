@@ -1,0 +1,27 @@
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import './assets/styles/main.scss'
+
+// 修复 ResizeObserver 错误
+const resizeObserverErrorHandler = (err) => {
+  if (err.message === 'ResizeObserver loop completed with undelivered notifications.') {
+    return
+  }
+  throw err
+}
+window.addEventListener('error', resizeObserverErrorHandler)
+
+const app = createApp(App)
+
+// 注册所有图标
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(router)
+app.use(ElementPlus)
+app.mount('#app')
