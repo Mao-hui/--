@@ -71,9 +71,10 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetProduct } from '@/api'
 
 export default {
   name: 'Products',
@@ -82,83 +83,39 @@ export default {
     Footer
   },
   setup() {
-    const activeCategory = ref('service')
+    const activeCategory = ref('all')
     
     const categories = ref([
       {
-        key: 'service',
-        name: '服务快消',
-        icon: 'ShoppingCart'
-      },
-      {
-        key: 'manufacturing',
-        name: '工厂制造',
-        icon: 'Setting'
+        key: 'all',
+        name: '全部产品',
+        icon: 'Box'
       }
     ])
     
-    const products = ref({
-      service: [
-        {
-          id: 1,
-          name: '电商平台',
-          icon: 'Shop',
-          description: '专业的电商解决方案，支持多种商业模式',
-          tags: ['B2C', 'B2B2C', 'O2O', '跨境电商']
-        },
-        {
-          id: 2,
-          name: '外卖点餐系统',
-          icon: 'Food',
-          description: '完整的外卖点餐解决方案，支持多平台对接',
-          tags: ['美团', '饿了么', '蜂鸟众包', '自营平台']
-        },
-        {
-          id: 3,
-          name: '会员管理系统',
-          icon: 'User',
-          description: '智能会员管理，提升客户粘性和复购率',
-          tags: ['积分系统', '等级管理', '营销工具', '数据分析']
-        },
-        {
-          id: 4,
-          name: '支付系统',
-          icon: 'CreditCard',
-          description: '安全可靠的支付解决方案，支持多种支付方式',
-          tags: ['微信支付', '支付宝', '银联', '数字货币']
+    const products = ref({ all: [] })
+    
+    const stripHtml = (html) => {
+      if (!html) return ''
+      return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
+    }
+    
+    const loadProducts = async () => {
+      try {
+        const res = await apiGetProduct()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          products.value.all = res.data.map((item, idx) => ({
+            id: item.id || idx,
+            name: item.title || item.name || '产品',
+            icon: 'Box',
+            description: stripHtml(item.description || item.content) || '—',
+            tags: []
+          }))
         }
-      ],
-      manufacturing: [
-        {
-          id: 5,
-          name: 'MES生产管理系统',
-          icon: 'Monitor',
-          description: '制造执行系统，实现生产过程的数字化管理',
-          tags: ['生产计划', '工艺管理', '质量控制', '设备监控']
-        },
-        {
-          id: 6,
-          name: 'WMS仓储管理系统',
-          icon: 'Box',
-          description: '智能仓储管理，提升库存周转效率',
-          tags: ['入库管理', '出库管理', '库存盘点', '智能补货']
-        },
-        {
-          id: 7,
-          name: '设备监控系统',
-          icon: 'Warning',
-          description: '实时设备状态监控，预防性维护管理',
-          tags: ['实时监控', '故障预警', '维护计划', '数据分析']
-        },
-        {
-          id: 8,
-          name: '质量管理系统',
-          icon: 'Check',
-          description: '全流程质量管理，确保产品质量标准',
-          tags: ['检验标准', '不良品管理', '质量追溯', '统计分析']
-        }
-      ]
-    })
+      } catch (e) {
+        // 静默失败，保留空列表
+      }
+    }
     
     const setActiveCategory = (categoryKey) => {
       activeCategory.value = categoryKey
@@ -171,6 +128,10 @@ export default {
     const getCurrentProducts = () => {
       return products.value[activeCategory.value] || []
     }
+    
+    onMounted(() => {
+      loadProducts()
+    })
     
     return {
       activeCategory,

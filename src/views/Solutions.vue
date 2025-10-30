@@ -125,9 +125,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetScheme } from '@/api'
 
 export default {
   name: 'Solutions',
@@ -136,20 +137,9 @@ export default {
     Footer
   },
   setup() {
-    const activeSolution = ref('ecommerce')
+    const activeSolution = ref('')
     
-    const solutionCategories = ref([
-      {
-        key: 'ecommerce',
-        name: '服务快消',
-        icon: 'ShoppingCart'
-      },
-      {
-        key: 'manufacturing',
-        name: '工厂制造',
-        icon: 'Setting'
-      }
-    ])
+    const solutionCategories = ref([])
     
     const ecommerceModels = ref([
       {
@@ -285,6 +275,34 @@ export default {
     const setActiveSolution = (solutionKey) => {
       activeSolution.value = solutionKey
     }
+    
+    const loadSchemes = async () => {
+      try {
+        const res = await apiGetScheme()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          // 以大类分组生成导航
+          const group = {}
+          res.data.forEach(item => {
+            const key = item.bigIndustryName || item.bigIndustry || '其他'
+            if (!group[key]) group[key] = []
+            group[key].push(item)
+          })
+          solutionCategories.value = Object.keys(group).map((name, idx) => ({
+            key: `cat_${idx}`,
+            name,
+            icon: 'Collection'
+          }))
+          // 默认选中第一类
+          if (solutionCategories.value.length > 0) {
+            activeSolution.value = solutionCategories.value[0].key
+          }
+        }
+      } catch (e) {}
+    }
+    
+    onMounted(() => {
+      loadSchemes()
+    })
     
     return {
       activeSolution,

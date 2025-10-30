@@ -62,6 +62,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetNewsList } from '@/api'
 
 export default {
   name: 'News',
@@ -75,86 +76,48 @@ export default {
     const pageSize = ref(9)
     const selectedArticle = ref(null)
     
-    const newsList = ref([
-      {
-        id: 1,
-        title: '向量科技与马士基合作推进全球供应链脱碳管理',
-        date: '2025-10-11',
-        image: 'https://via.placeholder.com/300x200/4A90E2/FFFFFF?text=马士基合作',
-        content: '向量科技与马士基集团宣布建立战略合作伙伴关系，共同推进全球供应链的脱碳管理。此次合作将结合向量科技在工业数字化领域的专业技术和马士基在物流供应链方面的丰富经验，为企业提供更环保、更高效的供应链解决方案。'
-      },
-      {
-        id: 2,
-        title: '工业4.0时代：智能制造的新机遇与挑战',
-        date: '2025-10-10',
-        image: 'https://via.placeholder.com/300x200/7ED321/FFFFFF?text=工业4.0',
-        content: '随着工业4.0技术的不断发展，智能制造正在重塑传统制造业。本文深入分析了当前智能制造领域的新机遇与挑战，探讨了数字化转型对企业发展的重要意义。'
-      },
-      {
-        id: 3,
-        title: '电商平台技术升级：提升用户体验的关键',
-        date: '2025-10-09',
-        image: 'https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=电商升级',
-        content: '在竞争激烈的电商市场中，用户体验成为决定平台成功的关键因素。本文介绍了最新的电商平台技术升级方案，帮助企业提升用户满意度和转化率。'
-      },
-      {
-        id: 4,
-        title: '数字化转型：传统企业的必经之路',
-        date: '2025-10-08',
-        image: 'https://via.placeholder.com/300x200/4ECDC4/FFFFFF?text=数字化转型',
-        content: '数字化转型已成为传统企业发展的必然趋势。本文分析了数字化转型的核心要素和实施策略，为企业提供实用的转型指导。'
-      },
-      {
-        id: 5,
-        title: '云计算在工业领域的应用前景',
-        date: '2025-10-07',
-        image: 'https://via.placeholder.com/300x200/45B7D1/FFFFFF?text=云计算',
-        content: '云计算技术正在工业领域发挥越来越重要的作用。本文探讨了云计算在工业应用中的优势、挑战和未来发展趋势。'
-      },
-      {
-        id: 6,
-        title: '人工智能助力智能制造升级',
-        date: '2025-10-06',
-        image: 'https://via.placeholder.com/300x200/96CEB4/FFFFFF?text=人工智能',
-        content: '人工智能技术正在推动智能制造向更高层次发展。本文介绍了AI在制造业中的具体应用案例和未来发展方向。'
-      },
-      {
-        id: 7,
-        title: '数据安全：企业数字化转型的重要保障',
-        date: '2025-10-05',
-        image: 'https://via.placeholder.com/300x200/FECA57/FFFFFF?text=数据安全',
-        content: '在数字化转型过程中，数据安全成为企业必须重视的问题。本文分析了数据安全面临的挑战和相应的解决方案。'
-      },
-      {
-        id: 8,
-        title: '移动应用开发：企业服务的新趋势',
-        date: '2025-10-04',
-        image: 'https://via.placeholder.com/300x200/FF9FF3/FFFFFF?text=移动应用',
-        content: '移动应用正在成为企业服务的重要载体。本文探讨了移动应用开发的最新趋势和最佳实践。'
-      },
-      {
-        id: 9,
-        title: '区块链技术在供应链管理中的应用',
-        date: '2025-10-03',
-        image: 'https://via.placeholder.com/300x200/54A0FF/FFFFFF?text=区块链',
-        content: '区块链技术为供应链管理带来了新的可能性。本文分析了区块链在供应链中的应用场景和实际效果。'
-      }
-    ])
+    const newsList = ref([])
+    const totalNews = ref(0)
     
-    const totalNews = computed(() => newsList.value.length)
+    const totalNewsComputed = computed(() => totalNews.value)
+    
+    const fetchNews = async () => {
+      try {
+        const res = await apiGetNewsList({
+          pageSize: String(pageSize.value),
+          pageNum: String(currentPage.value)
+        })
+        // 兼容常见返回：{ code, data: { rows,total } } 或 { code, rows, total }
+        if (res && res.code === 200) {
+          const rows = res.data?.rows || res.rows || res.data || []
+          const total = res.data?.total || res.total || rows.length
+          newsList.value = rows.map((item, idx) => ({
+            id: item.id || item.tweetId || idx,
+            title: item.title || '新闻',
+            date: (item.releaseTime || item.updateTime || '').slice(0, 10),
+            image: item.logoUrl || item.url || 'https://via.placeholder.com/300x200/4A90E2/FFFFFF?text=NEWS',
+            content: item.content
+          }))
+          totalNews.value = Number(total) || newsList.value.length
+        }
+      } catch (e) {
+        newsList.value = []
+        totalNews.value = 0
+      }
+    }
     
     const selectArticle = (articleId) => {
       selectedArticle.value = articleId
       router.push(`/news/${articleId}`)
     }
     
-    const handlePageChange = (page) => {
+    const handlePageChange = async (page) => {
       currentPage.value = page
-      // 这里可以添加加载更多新闻的逻辑
+      await fetchNews()
     }
     
     onMounted(() => {
-      // 页面加载时的初始化逻辑
+      fetchNews()
     })
     
     return {
@@ -162,7 +125,7 @@ export default {
       pageSize,
       selectedArticle,
       newsList,
-      totalNews,
+      totalNews: totalNewsComputed,
       selectArticle,
       handlePageChange
     }

@@ -4,7 +4,7 @@
     
     <!-- 英雄区域 -->
     <section class="hero">
-      <div class="hero-background">
+      <div class="hero-background" :style="heroStyle">
         <div class="hero-content">
           <div class="container">
             <div class="hero-text">
@@ -111,9 +111,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme } from '@/api'
 
 export default {
   name: 'Home',
@@ -131,63 +132,103 @@ export default {
       '大数据分析'
     ])
     
-    const capabilities = ref([
-      {
-        icon: 'Monitor',
-        title: '响应式网站与平台开发',
-        description: '专业开发跨设备适配的现代Web应用与后台管理系统，结合前沿前端与后端技术，构建体验流畅、性能卓越、安全稳定的在线业务平台与数据可视化界面。'
-      },
-      {
-        icon: 'Setting',
-        title: '工业上位机与监控系统开发',
-        description: '专业定制工业上位机系统、生产监控看板及数据采集与监控控制系统，致力于实现生产设备的实时数据采集、工艺流程可视化、智能报警与高效控制。'
-      },
-      {
-        icon: 'ChatDotRound',
-        title: '微信生态开发',
-        description: '专业定制微信小程序、微信公众号、企业微信应用，包括工业设备监控小程序、移动巡检系统、微信服务号消息推送、微商城工业配件销售等。'
-      }
-    ])
+    const capabilities = ref([])
     
-    const solutions = ref([
-      {
-        title: '工厂制造业',
-        image: 'https://via.placeholder.com/500x300/4A90E2/FFFFFF?text=工厂制造业'
-      },
-      {
-        title: '服务快消',
-        image: 'https://via.placeholder.com/500x300/7ED321/FFFFFF?text=服务快消'
-      }
-    ])
+    const solutions = ref([])
     
-    const features = ref([
-      {
-        icon: 'User',
-        title: '超强技术团队',
-        description: '拥有80%以上本科学历的研发团队，常年服务ABB、奔驰、比亚迪等知名企业'
-      },
-      {
-        icon: 'Clock',
-        title: '售后及时响应',
-        description: '7x24小时技术支持，快速响应客户需求，确保项目稳定运行'
-      },
-      {
-        icon: 'Heart',
-        title: '完整的服务流程',
-        description: '从需求分析到项目交付，提供端到端的完整解决方案'
-      },
-      {
-        icon: 'Box',
-        title: '产品专业定制',
-        description: '深度理解客户需求，提供个性化的定制化软件服务'
+    const features = ref([])
+
+    const banners = ref([])
+
+    const stripHtml = (html) => {
+      if (!html) return ''
+      return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
+    }
+
+    const heroStyle = computed(() => {
+      const first = banners.value[0]
+      const img = first && first.url ? first.url : ''
+      const bgImg = img ? `, url('${img}') center/cover no-repeat` : ''
+      return {
+        background: `linear-gradient(135deg, #4A90E2 0%, #357ABD 100%)${bgImg}`
       }
-    ])
+    })
+
+    const loadBanner = async () => {
+      try {
+        const res = await apiGetBanner()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          banners.value = res.data
+        }
+      } catch (e) {
+        // 忽略，使用默认渐变背景
+      }
+    }
+
+    const loadDevelopment = async () => {
+      try {
+        const res = await apiGetDevelopment()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          capabilities.value = res.data.map(item => ({
+            icon: 'Picture',
+            title: item.title,
+            description: stripHtml(item.content) || stripHtml(item.description) || '',
+            image: item.url
+          }))
+        }
+      } catch (e) {}
+    }
+
+    const loadAdvantages = async () => {
+      try {
+        const res = await apiGetBannerUa()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          features.value = res.data.map(item => ({
+            icon: 'Picture',
+            title: item.title || '优势',
+            description: stripHtml(item.description) || '',
+            image: item.url
+          }))
+        }
+      } catch (e) {}
+    }
+
+    const loadSolutions = async () => {
+      try {
+        const res = await apiGetBannerScheme()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          // 取不同的大类，或直接取前2条展示
+          const list = res.data
+          const grouped = {}
+          list.forEach(i => {
+            const key = i.bigIndustry || i.code || '分类'
+            if (!grouped[key]) grouped[key] = []
+            grouped[key].push(i)
+          })
+          const mapped = Object.keys(grouped).map(k => ({
+            title: String(k),
+            image: grouped[k][0]?.bigUrl || grouped[k][0]?.smallUrl
+          }))
+          solutions.value = mapped.slice(0, 2)
+        }
+      } catch (e) {}
+    }
+
+    onMounted(async () => {
+      await Promise.all([
+        loadBanner(),
+        loadDevelopment(),
+        loadAdvantages(),
+        loadSolutions()
+      ])
+    })
     
     return {
       heroTags,
       capabilities,
       solutions,
-      features
+      features,
+      heroStyle
     }
   }
 }

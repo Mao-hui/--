@@ -1,12 +1,20 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
+// 兼容本地开发未能使用代理的情况：在 localhost 环境下直接指向后端域名
+const isLocalhost = typeof window !== 'undefined' && /localhost|127\.0\.0\.1/.test(window.location.host)
+const fallbackBase = isLocalhost ? 'http://119.45.45.25' : ''
+
 // 基础 axios 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API || '', // 可通过 .env 配置 VUE_APP_BASE_API
+  baseURL: process.env.VUE_APP_BASE_API || fallbackBase || '',
   timeout: 15000,
   withCredentials: false
 })
+
+// 统一设置为 JSON 请求体
+service.defaults.headers.post['Content-Type'] = 'application/json'
+service.defaults.headers.put['Content-Type'] = 'application/json'
 
 // 请求拦截器：可在此注入 token、公共参数等
 service.interceptors.request.use(
@@ -15,6 +23,9 @@ service.interceptors.request.use(
     const token = localStorage.getItem('TOKEN')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+    }
+    if (config.method && ['post', 'put', 'patch'].includes(config.method)) {
+      config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json'
     }
     return config
   },
