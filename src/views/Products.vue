@@ -16,14 +16,28 @@
           <div class="products-sidebar">
             <div class="sidebar-title">产品分类</div>
             <div class="sidebar-menu">
-              <div 
-                v-for="category in categories" 
-                :key="category.key"
-                :class="['menu-item', { active: activeCategory === category.key }]"
-                @click="setActiveCategory(category.key)"
+              <div
+                :class="['menu-item', { active: activeCategory === 'all' }]"
+                @click="setActiveCategory('all')"
               >
-                <el-icon><component :is="category.icon" /></el-icon>
-                <span>{{ category.name }}</span>
+                <el-icon><component :is="'Box'" /></el-icon>
+                <span>全部产品</span>
+              </div>
+              <div
+                class="menu-group"
+                v-for="group in categoryGroups"
+                :key="group.key"
+              >
+                <div class="group-title">{{ group.name }}</div>
+                <div
+                  v-for="child in group.children"
+                  :key="child.key"
+                  :class="['menu-item', { active: activeCategory === child.key }]"
+                  @click="setActiveCategory(child.key)"
+                >
+                  <el-icon><component :is="child.icon || 'Collection'" /></el-icon>
+                  <span>{{ child.name }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -32,32 +46,36 @@
           <div class="products-main">
             <div class="category-content">
               <h2>{{ getCurrentCategory().name }}</h2>
-              <div class="products-grid">
-                <div 
-                  v-for="product in getCurrentProducts()" 
-                  :key="product.id"
-                  class="product-card card"
-                >
-                  <div class="product-icon">
-                    <el-icon :size="40">
-                      <component :is="product.icon" />
-                    </el-icon>
+              <div v-if="loading" class="loading">加载中...</div>
+              <div v-else>
+                <div v-if="error" class="error">{{ error }}</div>
+                <div class="products-grid">
+                  <div 
+                    v-for="product in getCurrentProducts()" 
+                    :key="product.id"
+                    class="product-card card"
+                  >
+                    <div class="product-icon">
+                      <el-icon :size="40">
+                        <component :is="product.icon" />
+                      </el-icon>
+                    </div>
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <div class="product-tags">
+                      <el-tag 
+                        v-for="tag in product.tags" 
+                        :key="tag" 
+                        size="small"
+                        type="info"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                    </div>
+                    <el-button type="primary" size="small" class="product-btn" @click="openDetail(product)">
+                      了解详情
+                    </el-button>
                   </div>
-                  <h3>{{ product.name }}</h3>
-                  <p>{{ product.description }}</p>
-                  <div class="product-tags">
-                    <el-tag 
-                      v-for="tag in product.tags" 
-                      :key="tag" 
-                      size="small"
-                      type="info"
-                    >
-                      {{ tag }}
-                    </el-tag>
-                  </div>
-                  <el-button type="primary" size="small" class="product-btn">
-                    了解详情
-                  </el-button>
                 </div>
               </div>
             </div>
@@ -66,6 +84,10 @@
       </div>
     </div>
     
+    <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="720px">
+      <div class="rich-content" v-html="currentProduct && currentProduct.rawDescription"></div>
+    </el-dialog>
+
     <Footer />
   </div>
 </template>
@@ -84,16 +106,12 @@ export default {
   },
   setup() {
     const activeCategory = ref('all')
-    
-    const categories = ref([
-      {
-        key: 'all',
-        name: '全部产品',
-        icon: 'Box'
-      }
-    ])
-    
+    const loading = ref(false)
+    const error = ref('')
+    const categoryGroups = ref([]) // [{ key, name, children: [{key,name}] }]
     const products = ref({ all: [] })
+    const dialogVisible = ref(false)
+    const currentProduct = ref(null)
     
     const stripHtml = (html) => {
       if (!html) return ''
@@ -101,19 +119,47 @@ export default {
     }
     
     const loadProducts = async () => {
+      loading.value = true
+      error.value = ''
       try {
         const res = await apiGetProduct()
         if (res && res.code === 200 && Array.isArray(res.data)) {
-          products.value.all = res.data.map((item, idx) => ({
-            id: item.id || idx,
-            name: item.title || item.name || '产品',
-            icon: 'Box',
-            description: stripHtml(item.description || item.content) || '—',
-            tags: []
-          }))
+          // 构建分组与产品映射
+          const bigMap = new Map()
+          const smallMap = new Map()
+          const allList = []
+          res.data.forEach((item, idx) => {
+            const bigKey = `big-${item.bigIndustryId}`
+            const smallKey = `small-${item.smallIndustryId}`
+            if (!bigMap.has(bigKey)) {
+              bigMap.set(bigKey, { key: bigKey, name: item.bigIndustryName, children: [] })
+            }
+            if (!smallMap.has(smallKey)) {
+              smallMap.set(smallKey, { key: smallKey, name: item.smallIndustryName, icon: 'Collection' })
+              bigMap.get(bigKey).children.push(smallMap.get(smallKey))
+            }
+            const product = {
+              id: item.productId || idx,
+              name: item.productName || '产品',
+              icon: 'Box',
+              description: stripHtml(item.description) || '—',
+              rawDescription: item.description || '',
+              tags: [item.bigIndustryName, item.smallIndustryName],
+              smallKey
+            }
+            allList.push(product)
+            if (!products.value[smallKey]) products.value[smallKey] = []
+            products.value[smallKey].push(product)
+          })
+          products.value.all = allList
+          categoryGroups.value = Array.from(bigMap.values())
+        } else {
+          error.value = (res && (res.msg || res.message)) || '加载失败'
         }
       } catch (e) {
-        // 静默失败，保留空列表
+        error.value = '加载失败，请稍后重试'
+      } finally {
+        loading.value = false
       }
     }
     
@@ -122,11 +168,21 @@ export default {
     }
     
     const getCurrentCategory = () => {
-      return categories.value.find(cat => cat.key === activeCategory.value)
+      if (activeCategory.value === 'all') return { key: 'all', name: '全部产品' }
+      for (const g of categoryGroups.value) {
+        const f = g.children.find(c => c.key === activeCategory.value)
+        if (f) return f
+      }
+      return { key: 'all', name: '全部产品' }
     }
     
     const getCurrentProducts = () => {
       return products.value[activeCategory.value] || []
+    }
+    
+    const openDetail = (product) => {
+      currentProduct.value = product
+      dialogVisible.value = true
     }
     
     onMounted(() => {
@@ -135,11 +191,16 @@ export default {
     
     return {
       activeCategory,
-      categories,
+      categoryGroups,
       products,
+      loading,
+      error,
       setActiveCategory,
       getCurrentCategory,
-      getCurrentProducts
+      getCurrentProducts,
+      dialogVisible,
+      currentProduct,
+      openDetail
     }
   }
 }
@@ -198,6 +259,13 @@ export default {
   }
   
   .sidebar-menu {
+    .menu-group {
+      .group-title {
+        font-size: 14px;
+        color: $text-color-secondary;
+        padding: 10px 20px 5px;
+      }
+    }
     .menu-item {
       @include flex-center;
       gap: 10px;
@@ -286,6 +354,11 @@ export default {
       }
     }
   }
+}
+
+.loading, .error {
+  padding: 20px 0;
+  color: $text-color-regular;
 }
 
 @media (max-width: 768px) {
