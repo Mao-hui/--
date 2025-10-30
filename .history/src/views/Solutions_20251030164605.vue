@@ -533,7 +533,7 @@ export default {
 /* 新增：方案卡样式与通用状态样式 */
 .solution-content {
   .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
+  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
   .scheme-cover { width: 100%; height: 160px; background: #f6f8fa; }
   .scheme-cover img { width: 100%; height: 100%; object-fit: cover; }
   .scheme-body { padding: 16px; }
@@ -542,7 +542,6 @@ export default {
   .scheme-desc { color: $text-color-regular; font-size: 14px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .scheme-tags { margin-top: 10px; display: flex; gap: 6px; }
   .scheme-actions { padding: 12px 16px 16px; display: flex; justify-content: flex-end; }
-  .scheme-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0,0,0,.08); }
 }
 
 .loading, .error { padding: 20px 0; color: $text-color-regular; }
