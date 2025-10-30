@@ -68,16 +68,12 @@
       </div>
     </div>
     
-    <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.schemeName" width="900px">
-      <div class="rich-content" v-html="detailItem && detailItem.description"></div>
-    </el-dialog>
-    
     <Footer />
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetScheme } from '@/api'
@@ -89,13 +85,9 @@ export default {
     Footer
   },
   setup() {
-    const loading = ref(false)
-    const error = ref('')
-    const dialogVisible = ref(false)
-    const detailItem = ref(null)
-    const bigCategories = ref([])
-    const activeBig = ref('')
-    const bigToSchemes = ref({})
+    const activeSolution = ref('')
+    
+    const solutionCategories = ref([])
     
     const ecommerceModels = ref([
       {
@@ -228,69 +220,45 @@ export default {
       }
     ])
     
-    const setActiveBig = (key) => { activeBig.value = key }
-    const stripHtml = (html) => {
-      if (!html) return ''
-      return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
+    const setActiveSolution = (solutionKey) => {
+      activeSolution.value = solutionKey
     }
+    
     const loadSchemes = async () => {
-      loading.value = true
-      error.value = ''
       try {
         const res = await apiGetScheme()
         if (res && res.code === 200 && Array.isArray(res.data)) {
-          const bigMap = new Map()
-          const bucket = {}
-          res.data.forEach((it, idx) => {
-            const bigKey = `big-${it.bigIndustryId}`
-            if (!bigMap.has(bigKey)) {
-              bigMap.set(bigKey, { key: bigKey, name: it.bigIndustryName, url: it.bigIndustryUrl })
-              bucket[bigKey] = []
-            }
-            bucket[bigKey].push({
-              id: it.schemeId || idx,
-              schemeName: it.schemeName,
-              description: it.description || '',
-              brief: stripHtml(it.description) || '—',
-              bigName: it.bigIndustryName,
-              smallName: it.smallIndustryName,
-              smallUrl: it.smallIndustryUrl
-            })
+          // 以大类分组生成导航
+          const group = {}
+          res.data.forEach(item => {
+            const key = item.bigIndustryName || item.bigIndustry || '其他'
+            if (!group[key]) group[key] = []
+            group[key].push(item)
           })
-          bigCategories.value = Array.from(bigMap.values())
-          bigToSchemes.value = bucket
-          if (bigCategories.value.length) activeBig.value = bigCategories.value[0].key
-        } else {
-          error.value = (res && (res.msg || res.message)) || '加载失败'
+          solutionCategories.value = Object.keys(group).map((name, idx) => ({
+            key: `cat_${idx}`,
+            name,
+            icon: 'Collection'
+          }))
+          // 默认选中第一类
+          if (solutionCategories.value.length > 0) {
+            activeSolution.value = solutionCategories.value[0].key
+          }
         }
-      } catch (e) {
-        error.value = '加载失败，请稍后重试'
-      } finally {
-        loading.value = false
-      }
+      } catch (e) {}
     }
-    const openDetail = (item) => { detailItem.value = item; dialogVisible.value = true }
-    const currentBig = computed(() => bigCategories.value.find(b => b.key === activeBig.value))
-    const currentSchemes = computed(() => bigToSchemes.value[activeBig.value] || [])
     
     onMounted(() => {
       loadSchemes()
     })
     
     return {
-      loading,
-      error,
-      bigCategories,
-      activeBig,
-      currentBig,
-      currentSchemes,
+      activeSolution,
+      solutionCategories,
       ecommerceModels,
       ecommerceFeatures,
       manufacturingSystems,
-      setActiveBig,
-      dialogVisible,
-      detailItem,
-      openDetail
+      setActiveSolution
     }
   }
 }
@@ -531,27 +499,5 @@ export default {
   .features-grid {
     grid-template-columns: 1fr !important;
   }
-}
-
-/* 新增：方案卡样式与通用状态样式 */
-.solution-content {
-  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-  .scheme-cover { width: 100%; height: 160px; background: #f6f8fa; }
-  .scheme-cover img { width: 100%; height: 100%; object-fit: cover; }
-  .scheme-body { padding: 16px; }
-  .scheme-title { font-size: 18px; margin: 0 0 6px; color: $text-color-primary; }
-  .scheme-sub { margin: 0 0 8px; color: $text-color-secondary; font-size: 13px; }
-  .scheme-desc { color: $text-color-regular; font-size: 14px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .scheme-tags { margin-top: 10px; display: flex; gap: 6px; }
-  .scheme-actions { padding: 12px 16px 16px; display: flex; justify-content: flex-end; }
-}
-
-.loading, .error { padding: 20px 0; color: $text-color-regular; }
-
-/* 弹窗富文本优化 */
-::v-deep(.el-dialog__body) {
-  .rich-content img { max-width: 100%; display: block; margin: 12px 0; border-radius: 6px; }
-  .rich-content { max-height: 60vh; overflow: auto; line-height: 1.75; }
 }
 </style>

@@ -532,26 +532,4 @@ export default {
     grid-template-columns: 1fr !important;
   }
 }
-
-/* 新增：方案卡样式与通用状态样式 */
-.solution-content {
-  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-  .scheme-cover { width: 100%; height: 160px; background: #f6f8fa; }
-  .scheme-cover img { width: 100%; height: 100%; object-fit: cover; }
-  .scheme-body { padding: 16px; }
-  .scheme-title { font-size: 18px; margin: 0 0 6px; color: $text-color-primary; }
-  .scheme-sub { margin: 0 0 8px; color: $text-color-secondary; font-size: 13px; }
-  .scheme-desc { color: $text-color-regular; font-size: 14px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .scheme-tags { margin-top: 10px; display: flex; gap: 6px; }
-  .scheme-actions { padding: 12px 16px 16px; display: flex; justify-content: flex-end; }
-}
-
-.loading, .error { padding: 20px 0; color: $text-color-regular; }
-
-/* 弹窗富文本优化 */
-::v-deep(.el-dialog__body) {
-  .rich-content img { max-width: 100%; display: block; margin: 12px 0; border-radius: 6px; }
-  .rich-content { max-height: 60vh; overflow: auto; line-height: 1.75; }
-}
 </style>
