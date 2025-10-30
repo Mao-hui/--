@@ -32,7 +32,7 @@ export function apiGetHire(data = {}) {
 // 获取新闻咨询(分页) body: { pageSize: '10', pageNum: '1' }
 export function apiGetNewsList(body) {
   return request({
-    url: '/api/homePage/getNews', // 若后端实际为其他路径，请告知我调整
+    url: '/api/homePage/getSysTweetPageList',
     method: 'post',
     data: body
   })

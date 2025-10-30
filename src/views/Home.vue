@@ -2,9 +2,17 @@
   <div class="home">
     <Header />
     
-    <!-- 英雄区域 -->
+    <!--  -->
     <section class="hero">
-      <div class="hero-background" :style="heroStyle">
+      <!-- 有 banner 数据用轮播展示 -->
+      <el-carousel v-if="banners.length > 0" :interval="3000" height="420px" arrow="hover" indicator-position="outside">
+        <el-carousel-item v-for="item in banners" :key="item.id">
+          <img :src="item.url" alt="banner" class="hero-slide" />
+        </el-carousel-item>
+      </el-carousel>
+
+      <!-- 无数据保留原有背景与文案 -->
+      <div v-else class="hero-background" :style="heroStyle">
         <div class="hero-content">
           <div class="container">
             <div class="hero-text">
@@ -96,6 +104,31 @@
       </div>
     </section>
     
+    <!-- 新闻中心 -->
+    <section class="news section">
+      <div class="container">
+        <h2 class="section-title">新闻中心</h2>
+        <div v-if="newsLoading && newsList.length === 0" class="news-empty">正在加载新闻...</div>
+        <div v-else-if="!newsLoading && newsList.length === 0" class="news-empty">暂无新闻数据</div>
+        <div v-else class="news-list">
+          <div 
+            v-for="item in newsList" 
+            :key="item.id" 
+            class="news-item card"
+            @click="goNewsDetail(item)"
+          >
+            <div class="news-content">
+              <h3 class="news-title">{{ item.title }}</h3>
+              <div class="news-date">{{ item.date }}</div>
+            </div>
+            <div class="news-thumb">
+              <img :src="item.image" alt="news" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <!-- 浮动联系按钮 -->
     <div class="floating-actions">
       <el-button type="primary" circle size="large" class="floating-btn">
@@ -114,7 +147,7 @@
 import { ref, onMounted, computed } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme } from '@/api'
+import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme, apiGetNewsList } from '@/api'
 
 export default {
   name: 'Home',
@@ -139,6 +172,9 @@ export default {
     const features = ref([])
 
     const banners = ref([])
+
+    const newsList = ref([])
+    const newsLoading = ref(false)
 
     const stripHtml = (html) => {
       if (!html) return ''
@@ -214,12 +250,49 @@ export default {
       } catch (e) {}
     }
 
+    const formatDate = (val) => {
+      if (!val) return ''
+      const d = new Date(val)
+      const y = d.getFullYear()
+      const m = String(d.getMonth() + 1).padStart(2, '0')
+      const day = String(d.getDate()).padStart(2, '0')
+      return `${y}-${m}-${day}`
+    }
+
+    const loadNews = async () => {
+      try {
+        newsLoading.value = true
+        const res = await apiGetNewsList({ pageSize: '2', pageNum: '1' })
+        if (res && res.code === 200) {
+          const rows = Array.isArray(res.rows) ? res.rows : []
+          newsList.value = rows.slice(0, 2).map(item => ({
+            id: item.tweetId || item.id,
+            title: item.title,
+            date: formatDate(item.releaseTime || item.createTime),
+            image: item.logoUrl || banners.value[0]?.url || 'https://via.placeholder.com/120x120/EEE/999?text=News',
+            content: item.content
+          }))
+        }
+      } catch (e) {
+        newsList.value = []
+      } finally {
+        newsLoading.value = false
+      }
+    }
+
+    const goNewsDetail = (item) => {
+      // 约定路由：/news/:id 或 /news/detail?id=
+      // 这里采用查询参数，避免配置动态路由
+      window.location.hash = `#/news?id=${encodeURIComponent(item.id)}`
+    }
+
     onMounted(async () => {
       await Promise.all([
         loadBanner(),
         loadDevelopment(),
         loadAdvantages(),
-        loadSolutions()
+        loadSolutions(),
+        loadNews()
       ])
     })
     
@@ -228,7 +301,11 @@ export default {
       capabilities,
       solutions,
       features,
-      heroStyle
+      heroStyle,
+      banners,
+      newsList,
+      newsLoading,
+      goNewsDetail
     }
   }
 }
@@ -241,9 +318,16 @@ export default {
 }
 
 .hero {
-  height: 600px;
+  height: 420px;
   position: relative;
   overflow: hidden;
+  
+  .hero-slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   
   .hero-background {
     position: absolute;
@@ -482,9 +566,74 @@ export default {
   }
 }
 
+.news {
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .news-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #f8f9fb;
+    }
+  }
+
+  .news-content {
+    flex: 1;
+    padding-right: 16px;
+  }
+
+  .news-title {
+    font-size: 18px;
+    color: $text-color-primary;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+  }
+
+  .news-date {
+    font-size: 12px;
+    color: $text-color-secondary;
+  }
+
+  .news-thumb {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f2f3f5;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .news-empty {
+    text-align: center;
+    color: $text-color-regular;
+    padding: 24px 0;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
-    height: 500px;
+    height: 300px;
+    
+    :deep(.el-carousel__container) {
+      height: 300px !important;
+    }
     
     .hero-content .hero-text {
       h1 {
