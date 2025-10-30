@@ -41,24 +41,43 @@
       </div>
     </section>
     
-    <!-- 解决方案横幅 -->
+    <!-- 解决方案（与移动端一致的主分类/子类型切换） -->
     <section class="solutions-banner section">
       <div class="container">
-        <h2 class="section-title">解决方案</h2>
-        <div class="solutions-banner-content">
-          <div class="solution-item">
+        <h2 class="section-title">
+          解决方案
+          <div v-if="showSubtypes" class="back-button" @click="backToMainCategories">返回</div>
+        </h2>
+        
+        <!-- 主分类视图 -->
+        <div v-if="!showSubtypes" class="solutions-banner-content">
+          <div 
+            v-for="item in solutionsList" 
+            :key="item.title" 
+            class="solution-item"
+            @click="showSolutionSubtypes(item)"
+          >
             <div class="solution-image">
-              <img src="https://via.placeholder.com/600x300/4A90E2/FFFFFF?text=工厂制造业" alt="工厂制造业" />
+              <img :src="item.image" :alt="item.title" />
               <div class="solution-overlay">
-                <h3>工厂制造业</h3>
+                <h3>{{ item.title }}</h3>
               </div>
             </div>
           </div>
-          <div class="solution-item">
+        </div>
+
+        <!-- 子类型视图 -->
+        <div v-else class="solutions-banner-content">
+          <div 
+            v-for="sub in currentSolutionSubtypes" 
+            :key="sub.title" 
+            class="solution-item"
+            @click="viewSubtypeDetail(sub)"
+          >
             <div class="solution-image">
-              <img src="https://via.placeholder.com/600x300/7ED321/FFFFFF?text=服务快消" alt="服务快消" />
+              <img :src="sub.image" :alt="sub.title" />
               <div class="solution-overlay">
-                <h3>服务快消</h3>
+                <h3>{{ sub.title }}</h3>
               </div>
             </div>
           </div>
@@ -131,7 +150,7 @@
 import { ref, onMounted, computed } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme, apiGetNewsList } from '@/api'
+import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme, apiGetNewsList, apiGetScheme } from '@/api'
 
 export default {
   name: 'Home',
@@ -152,6 +171,11 @@ export default {
     const capabilities = ref([])
     
     const solutions = ref([])
+    // PC 解决方案（主分类/子类型结构）
+    const solutionsList = ref([])
+    const showSubtypes = ref(false)
+    const currentSolution = ref(null)
+    const currentSolutionSubtypes = ref([])
     
     const features = ref([])
 
@@ -215,21 +239,32 @@ export default {
 
     const loadSolutions = async () => {
       try {
-        const res = await apiGetBannerScheme()
+        // 使用 PC 首页接口：与移动端一致的数据结构
+        const res = await apiGetScheme()
         if (res && res.code === 200 && Array.isArray(res.data)) {
-          // 取不同的大类，或直接取前2条展示
           const list = res.data
-          const grouped = {}
-          list.forEach(i => {
-            const key = i.bigIndustry || i.code || '分类'
-            if (!grouped[key]) grouped[key] = []
-            grouped[key].push(i)
+          // 按大类分组
+          const groupMap = {}
+          list.forEach(item => {
+            const big = item.bigIndustryName || '其他'
+            if (!groupMap[big]) groupMap[big] = []
+            groupMap[big].push(item)
           })
-          const mapped = Object.keys(grouped).map(k => ({
-            title: String(k),
-            image: grouped[k][0]?.bigUrl || grouped[k][0]?.smallUrl
-          }))
-          solutions.value = mapped.slice(0, 2)
+          // 转换为主分类/子类型结构
+          const mapped = Object.keys(groupMap).map(bigName => {
+            const children = groupMap[bigName]
+            const subtypes = children.map(c => ({
+              title: c.smallIndustryName,
+              image: c.smallIndustryUrl || c.bigIndustryUrl,
+              type: c.smallIndustryName // 可根据需要映射为路由参数
+            }))
+            return {
+              title: bigName,
+              image: children[0]?.bigIndustryUrl || children[0]?.smallIndustryUrl,
+              subtypes
+            }
+          })
+          solutionsList.value = mapped
         }
       } catch (e) {}
     }
@@ -270,6 +305,23 @@ export default {
       window.location.hash = `#/news?id=${encodeURIComponent(item.id)}`
     }
 
+    const showSolutionSubtypes = (solution) => {
+      currentSolution.value = solution
+      currentSolutionSubtypes.value = solution?.subtypes || []
+      showSubtypes.value = true
+    }
+
+    const backToMainCategories = () => {
+      showSubtypes.value = false
+      currentSolution.value = null
+      currentSolutionSubtypes.value = []
+    }
+
+    const viewSubtypeDetail = (sub) => {
+      // 可在此跳转到解决方案详情页；先保留占位
+      console.log('查看子类型', sub)
+    }
+
     onMounted(async () => {
       await Promise.all([
         loadBanner(),
@@ -284,12 +336,19 @@ export default {
       heroTags,
       capabilities,
       solutions,
+      solutionsList,
+      showSubtypes,
+      currentSolution,
+      currentSolutionSubtypes,
       features,
       heroStyle,
       banners,
       newsList,
       newsLoading,
-      goNewsDetail
+      goNewsDetail,
+      showSolutionSubtypes,
+      backToMainCategories,
+      viewSubtypeDetail
     }
   }
 }
