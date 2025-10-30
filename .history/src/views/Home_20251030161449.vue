@@ -513,7 +513,7 @@ export default {
   
   .back-button {
     position: absolute;
-    top: -2feat0px;
+    top: -20px;
     right: -30px; /* 轻微突出到图片区域右外侧 */
     display: inline-flex;
     align-items: center;
