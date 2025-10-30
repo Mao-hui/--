@@ -49,32 +49,37 @@
               <div v-if="loading" class="loading">加载中...</div>
               <div v-else>
                 <div v-if="error" class="error">{{ error }}</div>
-                <div class="products-grid">
+                <el-empty v-else-if="!getCurrentProducts().length" description="暂无产品" />
+                <div v-else class="products-grid">
                   <div 
                     v-for="product in getCurrentProducts()" 
                     :key="product.id"
                     class="product-card card"
                   >
-                    <div class="product-icon">
-                      <el-icon :size="40">
-                        <component :is="product.icon" />
-                      </el-icon>
+                    <div class="product-header">
+                      <div class="product-icon">
+                        <el-icon :size="40">
+                          <component :is="product.icon" />
+                        </el-icon>
+                      </div>
+                      <h3 class="product-title">{{ product.name }}</h3>
                     </div>
-                    <h3>{{ product.name }}</h3>
-                    <p>{{ product.description }}</p>
+                    <p class="product-desc">{{ product.description }}</p>
                     <div class="product-tags">
                       <el-tag 
                         v-for="tag in product.tags" 
                         :key="tag" 
                         size="small"
-                        type="info"
+                        effect="light"
                       >
                         {{ tag }}
                       </el-tag>
                     </div>
-                    <el-button type="primary" size="small" class="product-btn" @click="openDetail(product)">
-                      了解详情
-                    </el-button>
+                    <div class="product-footer">
+                      <el-button type="primary" size="small" class="product-btn" @click="openDetail(product)">
+                        了解详情
+                      </el-button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -84,7 +89,7 @@
       </div>
     </div>
     
-    <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="720px">
+    <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="800px">
       <div class="rich-content" v-html="currentProduct && currentProduct.rawDescription"></div>
     </el-dialog>
 
@@ -248,6 +253,8 @@ export default {
   padding: 30px 0;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   height: fit-content;
+  position: sticky;
+  top: 90px;
   
   .sidebar-title {
     font-size: 18px;
@@ -307,51 +314,47 @@ export default {
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
+      gap: 24px;
     }
     
     .product-card {
-      padding: 30px 20px;
-      text-align: center;
+      padding: 20px 20px 16px;
+      display: flex;
+      flex-direction: column;
       transition: all 0.3s ease;
+      border: 1px solid $border-color-lighter;
       
       &:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
       }
       
-      .product-icon {
-        margin-bottom: 20px;
-        
-        .el-icon {
-          color: $primary-color;
-        }
+      .product-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .product-icon { 
+        width: 44px; height: 44px; border-radius: 12px; background: rgba($primary-color, .08); @include flex-center;
+        .el-icon { color: $primary-color; }
       }
       
-      h3 {
-        font-size: 20px;
-        color: $text-color-primary;
-        margin-bottom: 15px;
-      }
+      .product-title { font-size: 18px; color: $text-color-primary; font-weight: 600; }
       
-      p {
-        color: $text-color-regular;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        font-size: 14px;
-      }
+      .product-desc { color: $text-color-regular; line-height: 1.7; margin-bottom: 14px; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
       
       .product-tags {
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         
         .el-tag {
-          margin: 0 5px 5px 0;
+          margin: 0 6px 6px 0;
+          border-color: $border-color-lighter;
         }
       }
       
-      .product-btn {
-        width: 100%;
-        border-radius: 20px;
-      }
+      .product-footer { margin-top: auto; display: flex; justify-content: flex-end; }
+      .product-btn { border-radius: 18px; padding: 6px 14px; }
     }
   }
 }
@@ -390,5 +393,11 @@ export default {
       font-size: 16px;
     }
   }
+}
+
+/* 弹窗富文本区域优化 */
+::v-deep(.el-dialog__body) {
+  .rich-content img { max-width: 100%; display: block; margin: 12px 0; border-radius: 6px; }
+  .rich-content { max-height: 60vh; overflow: auto; line-height: 1.75; }
 }
 </style>
