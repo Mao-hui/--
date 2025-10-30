@@ -8,7 +8,7 @@
       <el-carousel 
         v-if="banners.length > 0" 
         :interval="3000" 
-        height="420px" 
+        height="360px" 
         arrow="always" 
         indicator-position="outside"
         trigger="click"
@@ -361,7 +361,7 @@ export default {
 }
 
 .hero {
-  height: 420px;
+  height: 360px;
   position: relative;
   overflow: hidden;
   
@@ -703,10 +703,10 @@ export default {
 
 @media (max-width: 768px) {
   .hero {
-    height: 300px;
+    height: 240px;
     
     :deep(.el-carousel__container) {
-      height: 300px !important;
+      height: 240px !important;
     }
     
     .hero-content .hero-text {
