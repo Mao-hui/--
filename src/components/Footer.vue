@@ -41,6 +41,14 @@
             <p>企业微信: wangsong8455</p>
             <p>公司地址: 蚌埠市蚌山区绿地珠峰B座1009室</p>
           </div>
+          <!-- <div class="qr-code">
+            <div class="qr-placeholder">
+              <el-icon><QrCode /></el-icon>
+            </div>
+            <span>关注向量</span>
+          </div> -->
+        </div>
+        <div class="footer-section">
           <div class="qr-code">
             <div class="qr-placeholder">
               <el-icon><QrCode /></el-icon>
@@ -71,13 +79,14 @@ export default {
   padding: 50px 0 20px;
   
   .footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: nowrap; /* 同一排展示 */
+    gap: 24px;
+    margin-bottom: 24px;
   }
   
   .footer-section {
+    flex: 0 0 200px; /* 与原grid的minmax(200px,1fr)保持一致的最小宽度 */
     h3 {
       color: white;
       margin-bottom: 20px;
@@ -162,7 +171,7 @@ export default {
 @media (max-width: 768px) {
   .footer {
     .footer-content {
-      grid-template-columns: 1fr;
+      flex-wrap: wrap;
       gap: 20px;
     }
   }
