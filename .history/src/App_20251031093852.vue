@@ -5,7 +5,7 @@
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
       <div class="contact-btn phone-btn" @click="handlePhoneClick">
-        <el-icon><Phone /></el-icon>
+        <el-icon><PhoneFilled /></el-icon>
       </div>
       <div class="contact-btn chat-btn" @click="handleChatClick">
         <el-icon><ChatDotRound /></el-icon>
@@ -15,8 +15,14 @@
 </template>
 
 <script>
+import { PhoneFilled, ChatDotRound } from '@element-plus/icons-vue'
+
 export default {
   name: 'App',
+  components: {
+    PhoneFilled,
+    ChatDotRound
+  },
   methods: {
     handlePhoneClick() {
       window.location.href = 'tel:18255246289'
@@ -31,9 +37,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import './assets/styles/main.scss';
-
+<style>
 #app {
   font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -49,58 +53,5 @@ export default {
 body {
   line-height: 1.6;
   color: #333;
-}
-
-/* 固定联系按钮 */
-.fixed-contact-buttons {
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.contact-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #409EFF;
-  color: white;
-  @include flex-center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
-  transition: all 0.3s ease;
-  
-  .el-icon {
-    font-size: 24px;
-  }
-  
-  &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(64, 158, 255, 0.6);
-    background: #66B1FF;
-  }
-  
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
-@media (max-width: 768px) {
-  .fixed-contact-buttons {
-    right: 20px;
-    bottom: 20px;
-  }
-  
-  .contact-btn {
-    width: 50px;
-    height: 50px;
-    
-    .el-icon {
-      font-size: 22px;
-    }
-  }
 }
 </style>

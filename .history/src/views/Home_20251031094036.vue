@@ -598,6 +598,38 @@ export default {
   }
 }
 
+.floating-actions {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+  
+  .floating-btn {
+    width: 60px;
+    height: 60px;
+    padding: 0; /* 消除按钮内边距导致的视觉偏移 */
+    margin: 0;  /* 保证两枚按钮水平位置完全一致 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(64, 158, 255, 0.3);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(64, 158, 255, 0.4);
+    }
+    
+    .el-icon {
+      font-size: 24px;
+    }
+  }
+}
+
 .news {
   .news-list {
     display: flex;
@@ -686,6 +718,19 @@ export default {
   .solutions-banner .solutions-banner-content,
   .why-choose .features-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .floating-actions {
+    right: 15px;
+    
+    .floating-btn {
+      width: 50px;
+      height: 50px;
+      
+      .el-icon {
+        font-size: 20px;
+      }
+    }
   }
 }
 </style>

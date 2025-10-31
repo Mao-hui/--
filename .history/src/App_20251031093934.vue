@@ -32,8 +32,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/styles/main.scss';
-
 #app {
   font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

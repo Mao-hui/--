@@ -5,7 +5,7 @@
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
       <div class="contact-btn phone-btn" @click="handlePhoneClick">
-        <el-icon><Phone /></el-icon>
+        <el-icon><PhoneFilled /></el-icon>
       </div>
       <div class="contact-btn chat-btn" @click="handleChatClick">
         <el-icon><ChatDotRound /></el-icon>
@@ -31,9 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import './assets/styles/main.scss';
-
+<style>
 #app {
   font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

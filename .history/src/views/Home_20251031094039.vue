@@ -687,5 +687,18 @@ export default {
   .why-choose .features-grid {
     grid-template-columns: 1fr;
   }
+  
+  .floating-actions {
+    right: 15px;
+    
+    .floating-btn {
+      width: 50px;
+      height: 50px;
+      
+      .el-icon {
+        font-size: 20px;
+      }
+    }
+  }
 }
 </style>
