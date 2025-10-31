@@ -80,7 +80,7 @@ body {
 .fixed-contact-buttons {
   position: fixed;
   right: 30px;
-  bottom: 200px;
+  bottom: 100px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
