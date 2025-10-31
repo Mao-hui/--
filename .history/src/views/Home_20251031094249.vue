@@ -351,7 +351,7 @@ export default {
 }
 
 .hero {
-  height: 280px;
+  height: 360px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -375,7 +375,6 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    // object-fit: aspectFill;
     display: block;
     pointer-events: none; /* 不拦截触摸/鼠标拖动，便于手势切换 */
     user-select: none;

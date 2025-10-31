@@ -351,32 +351,16 @@ export default {
 }
 
 .hero {
-  height: 280px;
+  height: 360px;
   position: relative;
   overflow: hidden;
-  width: 100%;
-  
-  :deep(.el-carousel) {
-    width: 100%;
-    height: 100%;
-  }
-  
-  :deep(.el-carousel__container) {
-    width: 100%;
-    height: 100%;
-  }
-  
-  :deep(.el-carousel__item) {
-    width: 100%;
-    height: 100%;
-  }
   
   .hero-slide {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    // object-fit: aspectFill;
+    object-fit: contain;
     display: block;
+    background: #f5f7fa; /* 避免等比缩放时两侧或上下留黑 */
     pointer-events: none; /* 不拦截触摸/鼠标拖动，便于手势切换 */
     user-select: none;
     -webkit-user-drag: none;

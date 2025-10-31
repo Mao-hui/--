@@ -374,8 +374,7 @@ export default {
   .hero-slide {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    // object-fit: aspectFill;
+    object-fit: aspectFill;
     display: block;
     pointer-events: none; /* 不拦截触摸/鼠标拖动，便于手势切换 */
     user-select: none;
