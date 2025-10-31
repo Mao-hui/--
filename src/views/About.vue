@@ -2,12 +2,12 @@
   <div class="about">
     <Header />
     
-    <div class="page-header">
+    <!-- <div class="page-header">
       <div class="container">
         <h1>关于我们</h1>
         <p>专业的软件开发服务商，助力企业数字化转型</p>
       </div>
-    </div>
+    </div> -->
     
     <div class="about-content">
       <div class="container">
@@ -41,25 +41,27 @@
         <!-- 联系我们 -->
         <div class="contact-section section">
           <h2>联系我们</h2>
-          <div class="contact-info">
-            <div class="contact-item">
-              <el-icon><Phone /></el-icon>
-              <span>联系电话: 18255246289</span>
+          <div class="contact-wrapper">
+            <div class="contact-info">
+              <div class="contact-item">
+                <el-icon><Phone /></el-icon>
+                <span>联系电话: 18255246289</span>
+              </div>
+              <div class="contact-item">
+                <el-icon><ChatDotRound /></el-icon>
+                <span>企业微信: wangsong8455</span>
+              </div>
+              <div class="contact-item">
+                <el-icon><Location /></el-icon>
+                <span>公司地址: 蚌埠市蚌山区绿地珠峰B座1009室</span>
+              </div>
             </div>
-            <div class="contact-item">
-              <el-icon><ChatDotRound /></el-icon>
-              <span>企业微信: wangsong8455</span>
+            <div class="qr-code">
+              <div class="qr-placeholder">
+                <img src="@/assets/image/qrcode.png" alt="关注向量二维码" />
+              </div>
+              <span>关注向量</span>
             </div>
-            <div class="contact-item">
-              <el-icon><Location /></el-icon>
-              <span>公司地址: 蚌埠市蚌山区绿地珠峰B座1009室</span>
-            </div>
-          </div>
-          <div class="qr-code">
-            <div class="qr-placeholder">
-              <img src="@/assets/image/qrcode.png" alt="关注向量二维码" />
-            </div>
-            <span>关注向量</span>
           </div>
         </div>
         
@@ -201,13 +203,24 @@ export default {
 .company-banner {
   position: relative;
   margin-bottom: 60px;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
   
   img {
     width: 100%;
-    height: 400px;
+    height: 280px;
     object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  &:hover img {
+    transform: scale(1.05);
   }
   
   .banner-overlay {
@@ -216,31 +229,52 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
     @include flex-center;
     
     h2 {
       color: white;
       font-size: 48px;
       font-weight: bold;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
     }
   }
 }
 
 .company-intro {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 60px 40px;
   margin-bottom: 60px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
   
   .intro-content {
     .intro-text {
       h2 {
-        font-size: 32px;
+        font-size: 36px;
         color: $text-color-primary;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         text-align: center;
+        position: relative;
+        padding-bottom: 20px;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 3px;
+          background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+          border-radius: 2px;
+        }
       }
       
       .intro-image {
@@ -251,16 +285,22 @@ export default {
           width: 300px;
           height: 200px;
           object-fit: cover;
-          border-radius: 8px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+        
+        &:hover img {
+          transform: scale(1.05);
         }
       }
       
       .intro-description {
         p {
           font-size: 16px;
-          line-height: 1.8;
+          line-height: 2;
           color: $text-color-primary;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
           text-align: justify;
           
           &:last-child {
@@ -274,39 +314,76 @@ export default {
 
 .contact-section {
   background: white;
-  border-radius: 12px;
-  padding: 40px;
+  border-radius: 16px;
+  padding: 50px 40px;
   margin-bottom: 60px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
   
   h2 {
-    font-size: 32px;
+    font-size: 36px;
     color: $text-color-primary;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+      border-radius: 2px;
+    }
+  }
+  
+  .contact-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    justify-content: space-between;
   }
   
   .contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
     
     .contact-item {
       @include flex-center;
-      gap: 10px;
-      padding: 15px;
-      background: $background-color-light;
-      border-radius: 8px;
+      gap: 12px;
+      padding: 18px 20px;
+      background: linear-gradient(135deg, rgba($primary-color, 0.05) 0%, rgba($primary-color, 0.02) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba($primary-color, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: linear-gradient(135deg, rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.05) 100%);
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba($primary-color, 0.15);
+      }
       
       .el-icon {
         color: $primary-color;
-        font-size: 20px;
+        font-size: 22px;
+        flex-shrink: 0;
       }
       
       span {
         font-size: 16px;
         color: $text-color-primary;
+        font-weight: 500;
       }
     }
   }
@@ -315,15 +392,24 @@ export default {
     @include flex-center;
     flex-direction: column;
     gap: 15px;
+    flex-shrink: 0;
     
     .qr-placeholder {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       background: white;
-      border: 2px solid $border-color-base;
-      border-radius: 8px;
+      border: 2px solid rgba($primary-color, 0.2);
+      border-radius: 12px;
       @include flex-center;
       overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 24px rgba($primary-color, 0.2);
+        border-color: $primary-color;
+      }
       
       img {
         width: 100%;
@@ -335,28 +421,68 @@ export default {
     span {
       font-size: 16px;
       color: $text-color-primary;
-      font-weight: 500;
+      font-weight: 600;
+      letter-spacing: 1px;
     }
   }
 }
 
 .jobs-section {
   background: white;
-  border-radius: 12px;
-  padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
   
   h2 {
-    font-size: 32px;
+    font-size: 36px;
     color: $text-color-primary;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+      border-radius: 2px;
+    }
   }
   
   .jobs-table {
     .el-table {
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      
+      ::v-deep(.el-table__header) {
+        background: linear-gradient(135deg, rgba($primary-color, 0.08) 0%, rgba($primary-color, 0.03) 100%);
+        
+        th {
+          background: transparent;
+          color: $text-color-primary;
+          font-weight: 600;
+        }
+      }
+      
+      ::v-deep(.el-table__row) {
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: rgba($primary-color, 0.03);
+          transform: scale(1.01);
+        }
+      }
     }
   }
 }
@@ -365,9 +491,64 @@ export default {
 
 /* 职位详情弹窗 */
 ::v-deep(.el-dialog__body) {
-  .job-detail { max-height: 60vh; overflow: auto; }
-  .job-meta { display: flex; flex-wrap: wrap; gap: 12px; color: $text-color-secondary; font-size: 13px; margin-bottom: 10px; }
-  .rich-content img { max-width: 100%; display: block; margin: 12px 0; border-radius: 6px; }
+  .job-detail { 
+    max-height: 65vh; 
+    overflow: auto;
+    padding: 10px 0;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 3px;
+      
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+    }
+  }
+  
+  .job-meta { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 16px; 
+    padding: 16px;
+    background: linear-gradient(135deg, rgba($primary-color, 0.05) 0%, rgba($primary-color, 0.02) 100%);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    
+    span {
+      color: $text-color-regular; 
+      font-size: 14px;
+      padding: 6px 12px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid rgba($primary-color, 0.1);
+    }
+  }
+  
+  .rich-content { 
+    line-height: 1.8;
+    
+    img { 
+      max-width: 100%; 
+      display: block; 
+      margin: 16px 0; 
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    p {
+      margin-bottom: 12px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -383,12 +564,22 @@ export default {
     }
   }
   
-  .company-banner .banner-overlay h2 {
-    font-size: 32px;
+  .company-banner {
+    margin-bottom: 40px;
+    
+    img {
+      height: 200px;
+    }
+    
+    .banner-overlay h2 {
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
   }
   
   .company-intro {
     padding: 30px 20px;
+    border-radius: 12px;
     
     .intro-content .intro-text {
       .intro-image {
@@ -403,11 +594,18 @@ export default {
       }
       
       h2 {
-        font-size: 24px;
+        font-size: 26px;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        
+        &::after {
+          width: 40px;
+        }
       }
       
       .intro-description p {
         font-size: 14px;
+        line-height: 1.8;
       }
     }
   }
@@ -415,13 +613,30 @@ export default {
   .contact-section,
   .jobs-section {
     padding: 30px 20px;
+    border-radius: 12px;
     
     h2 {
-      font-size: 24px;
+      font-size: 26px;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      
+      &::after {
+        width: 40px;
+      }
+    }
+    
+    .contact-wrapper {
+      flex-direction: column;
+      gap: 30px;
     }
     
     .contact-info {
-      grid-template-columns: 1fr;
+      width: 100%;
+    }
+    
+    .qr-code .qr-placeholder {
+      width: 120px;
+      height: 120px;
     }
   }
 }
