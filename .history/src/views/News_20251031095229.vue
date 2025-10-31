@@ -51,21 +51,25 @@
               v-for="article in displayedList" 
               :key="article.id"
               :class="['news-card', 'card', { active: selectedArticle === article.id }]"
+              @click="handleOpen(article)"
             >
               <div class="news-image">
                 <img :src="article.image" :alt="article.title" />
+                <div class="image-mask"></div>
+                <div class="date-badge">{{ article.date }}</div>
               </div>
               <div class="news-content">
-                <div class="news-date">{{ article.date }}</div>
-                <h3 class="news-title">{{ article.title }}</h3>
+                <h3>{{ article.title }}</h3>
                 <p class="news-excerpt">{{ article.excerpt }}</p>
-                <div class="news-action">
-                  <el-button type="primary" class="detail-btn" @click.stop="handleOpen(article)">
-                    查看详情
-                  </el-button>
-                </div>
               </div>
             </div>
+          </div>
+          <!-- 右侧预览面板（桌面端显示） -->
+          <div class="preview-panel card" v-if="previewItem">
+            <h3 class="preview-title">{{ previewItem.title }}</h3>
+            <div class="preview-meta">{{ previewItem.date }}</div>
+            <img v-if="previewItem.image" class="preview-cover" :src="previewItem.image" :alt="previewItem.title" />
+            <div class="rich-content" v-html="previewItem.content"></div>
           </div>
 
           <!-- 分页 -->
@@ -171,7 +175,11 @@ export default {
     }
     const openDetail = (article) => { detailItem.value = article; dialogVisible.value = true }
     const handleOpen = (article) => {
-      openDetail(article)
+      previewItem.value = article
+      // 移动端用弹窗，桌面端仅右侧预览
+      if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) {
+        openDetail(article)
+      }
       selectedArticle.value = article.id
     }
     
@@ -286,7 +294,10 @@ export default {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   
   &.news-layout {
-    display: block;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 30px;
+    align-items: start;
   }
   
   .news-toolbar {
@@ -338,21 +349,21 @@ export default {
   
   .news-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 20px;
     margin-bottom: 30px;
   }
   
   .news-card {
+    cursor: pointer;
     transition: all 0.3s ease;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    align-items: stretch;
     background: white;
     border-radius: 12px;
     border: 1px solid $border-color-lighter;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    cursor: pointer;
     
     &:hover {
       transform: translateY(-6px);
@@ -366,93 +377,79 @@ export default {
     }
     
     .news-image {
-      width: 100%;
-      height: 160px;
+      width: 280px;
+      height: 180px;
       overflow: hidden;
       position: relative;
       flex-shrink: 0;
+      border-radius: 12px 0 0 12px;
       
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.5s ease;
-        display: block;
+      }
+      
+      .image-mask {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 60px;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+      }
+      
+      .date-badge {
+        position: absolute;
+        left: 16px;
+        bottom: 12px;
+        color: #fff;
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
     }
     
     &:hover .news-image img {
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
     
     .news-content {
-      padding: 16px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       flex: 1;
       
-      .news-date {
-        color: $text-color-secondary;
-        font-size: 12px;
-        margin-bottom: 8px;
-        line-height: 1;
-      }
-      
-      .news-title {
-        font-size: 16px;
+      h3 {
+        font-size: 20px;
         color: $text-color-primary;
-        margin: 0 0 8px;
-        line-height: 1.4;
+        margin: 0 0 12px;
+        line-height: 1.5;
         font-weight: 600;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        @include text-ellipsis;
         transition: color 0.3s ease;
-        min-height: 44px;
       }
       
       .news-excerpt {
         color: $text-color-regular;
-        font-size: 13px;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.8;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin: 0 0 16px;
-        flex: 1;
-      }
-      
-      .news-action {
-        margin-top: auto;
-        display: flex;
-        justify-content: center;
-        
-        .detail-btn {
-          width: 100%;
-          background: #303133;
-          border-color: #303133;
-          color: white;
-          border-radius: 6px;
-          font-weight: 500;
-          font-size: 14px;
-          padding: 10px;
-          transition: all 0.3s ease;
-          
-          &:hover {
-            background: #606266;
-            border-color: #606266;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(48, 49, 51, 0.3);
-          }
-        }
+        margin: 0;
       }
     }
     
-    &:hover .news-content .news-title {
+    &:hover .news-content h3 {
       color: $primary-color;
     }
   }
@@ -678,54 +675,15 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .news-section {
-    padding: 20px;
-    border-radius: 12px;
-    
-    h2 {
-      font-size: 28px;
-      margin-bottom: 30px;
-      
-      &::after {
-        width: 40px;
-      }
-    }
-  }
-  
-  .news-toolbar {
-    flex-direction: column;
-    padding: 16px;
-    
-    .tb-item {
-      max-width: 100%;
-    }
-  }
-  
-  .news-card {
-    flex-direction: column;
-    border-radius: 12px;
-    
-    .news-image {
-      width: 100%;
-      height: 220px;
-      border-radius: 12px 12px 0 0;
-    }
-    
-    .news-content {
-      padding: 20px;
-      
-      h3 {
-        font-size: 18px;
-      }
-    }
-  }
-  
+  .news-section.news-layout { grid-template-columns: 1fr; }
+  .news-toolbar { flex-direction: column; }
+  .news-card { flex-direction: column; }
+  .news-card .news-image { width: 100%; height: 200px; }
   .page-header {
     padding: 60px 0;
     
     h1 {
       font-size: 32px;
-      letter-spacing: 1px;
     }
     
     p {
@@ -734,36 +692,12 @@ export default {
   }
   
   .news-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  @media (max-width: 480px) {
-    .news-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+    grid-template-columns: 1fr;
   }
   
   .pagination-section {
     flex-direction: column;
     gap: 20px;
-    align-items: center;
-  }
-  
-  .preview-panel {
-    position: static;
-    max-height: none;
-    margin-top: 30px;
-    padding: 20px;
-    
-    .preview-title {
-      font-size: 20px;
-    }
-    
-    .preview-cover {
-      height: 200px;
-    }
   }
 }
 </style>

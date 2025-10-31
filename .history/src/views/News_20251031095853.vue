@@ -427,7 +427,7 @@ export default {
       }
       
       .news-action {
-        margin-top: auto;
+        // margin-top: auto;
         display: flex;
         justify-content: center;
         

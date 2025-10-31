@@ -171,7 +171,11 @@ export default {
     }
     const openDetail = (article) => { detailItem.value = article; dialogVisible.value = true }
     const handleOpen = (article) => {
-      openDetail(article)
+      previewItem.value = article
+      // 移动端用弹窗，桌面端仅右侧预览
+      if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) {
+        openDetail(article)
+      }
       selectedArticle.value = article.id
     }
     
@@ -286,7 +290,10 @@ export default {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   
   &.news-layout {
-    display: block;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 30px;
+    align-items: start;
   }
   
   .news-toolbar {
@@ -367,7 +374,7 @@ export default {
     
     .news-image {
       width: 100%;
-      height: 160px;
+      height: 200px;
       overflow: hidden;
       position: relative;
       flex-shrink: 0;
@@ -386,23 +393,23 @@ export default {
     }
     
     .news-content {
-      padding: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       flex: 1;
       
       .news-date {
         color: $text-color-secondary;
-        font-size: 12px;
-        margin-bottom: 8px;
+        font-size: 13px;
+        margin-bottom: 12px;
         line-height: 1;
       }
       
       .news-title {
-        font-size: 16px;
+        font-size: 18px;
         color: $text-color-primary;
-        margin: 0 0 8px;
-        line-height: 1.4;
+        margin: 0 0 12px;
+        line-height: 1.5;
         font-weight: 600;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -410,19 +417,19 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         transition: color 0.3s ease;
-        min-height: 44px;
+        min-height: 54px;
       }
       
       .news-excerpt {
         color: $text-color-regular;
-        font-size: 13px;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.6;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin: 0 0 16px;
+        margin: 0 0 20px;
         flex: 1;
       }
       
@@ -438,8 +445,6 @@ export default {
           color: white;
           border-radius: 6px;
           font-weight: 500;
-          font-size: 14px;
-          padding: 10px;
           transition: all 0.3s ease;
           
           &:hover {
@@ -681,6 +686,11 @@ export default {
   .news-section {
     padding: 20px;
     border-radius: 12px;
+    
+    &.news-layout {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
     
     h2 {
       font-size: 28px;

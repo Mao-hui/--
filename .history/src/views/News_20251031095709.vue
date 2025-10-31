@@ -583,7 +583,7 @@ export default {
 }
 
 .loading {
-  padding: 40px 0;
+  padding: 10px 0;
   color: $text-color-regular;
   
   :deep(.el-skeleton) {
