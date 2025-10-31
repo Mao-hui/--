@@ -3,7 +3,8 @@
     <div class="container">
       <div class="header-content">
         <div class="logo">
-          <h1>向量科技</h1>
+          <img src="@/assets/image/logo.png" alt="向量科技" />
+          <span class="logo-title">向量科技</span>
         </div>
         <nav class="nav">
           <div class="nav-menu">
@@ -83,14 +84,24 @@ export default {
     height: 70px;
   }
   
+  // .logo {
+  //   display: flex;
+  //   align-items: center;
+  //   img { height: 36px; display: block; }
+  // }
   .logo {
-    h1 {
-      color: $primary-color;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
-    }
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  img { height: 36px; display: block; }
+  .logo-title {
+    color: $primary-color;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 1;
   }
+}
   
   .nav {
     flex: 1;

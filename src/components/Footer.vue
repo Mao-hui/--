@@ -51,7 +51,7 @@
         <div class="footer-section">
           <div class="qr-code">
             <div class="qr-placeholder">
-              <el-icon><QrCode /></el-icon>
+              <img src="@/assets/image/qrcode.png" alt="关注向量二维码" />
             </div>
             <span>关注向量</span>
           </div>
@@ -141,10 +141,12 @@ export default {
         background: white;
         border-radius: 8px;
         @include flex-center;
+        overflow: hidden;
         
-        .el-icon {
-          font-size: 40px;
-          color: #666;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
       

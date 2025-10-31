@@ -13,7 +13,7 @@
       <div class="container">
         <!-- 公司介绍横幅 -->
         <div class="company-banner">
-          <img src="https://via.placeholder.com/1200x400/4A90E2/FFFFFF?text=关于我们" alt="关于我们" />
+          <img src="@/assets/image/banner.png" alt="关于我们" />
           <div class="banner-overlay">
             <h2>关于我们</h2>
           </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="qr-code">
             <div class="qr-placeholder">
-              <el-icon><QrCode /></el-icon>
+              <img src="@/assets/image/qrcode.png" alt="关注向量二维码" />
             </div>
             <span>关注向量</span>
           </div>
@@ -67,7 +67,7 @@
         <div class="jobs-section section" id="jobs">
           <h2>在招职位</h2>
           <div class="jobs-table">
-            <el-table :data="jobList" style="width: 100%">
+            <el-table :data="jobList" style="width: 100%" v-loading="loading">
               <el-table-column prop="position" label="职位名称" width="200" />
               <el-table-column prop="count" label="招聘人数" width="120" />
               <el-table-column prop="education" label="学历要求" width="120" />
@@ -81,19 +81,34 @@
                 </template>
               </el-table-column>
             </el-table>
+            <el-empty v-if="!loading && !jobList.length && !error" description="暂无招聘信息" />
+            <div v-if="error" class="error">{{ error }}</div>
           </div>
         </div>
       </div>
     </div>
     
+    <el-dialog v-model="dialogVisible" :title="currentJob && currentJob.position" width="800px">
+      <div class="job-detail">
+        <div class="job-meta">
+          <span>人数：{{ currentJob && currentJob.count }}</span>
+          <span>学历：{{ currentJob && currentJob.education }}</span>
+          <span>地点：{{ currentJob && currentJob.location }}</span>
+          <span>发布时间：{{ currentJob && currentJob.date }}</span>
+        </div>
+        <div class="rich-content" v-html="currentJob && currentJob.content"></div>
+      </div>
+    </el-dialog>
+
     <Footer />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { apiGetHire } from '@/api'
 
 export default {
   name: 'About',
@@ -102,51 +117,52 @@ export default {
     Footer
   },
   setup() {
-    const jobList = ref([
-      {
-        position: 'JAVA开发工程师',
-        count: '5',
-        education: '本科',
-        location: '蚌埠',
-        date: '2025-10-13'
-      },
-      {
-        position: 'Python开发工程师',
-        count: '2',
-        education: '本科',
-        location: '蚌埠',
-        date: '2025-10-13'
-      },
-      {
-        position: '系统运维工程师',
-        count: '2',
-        education: '本科',
-        location: '蚌埠',
-        date: '2025-10-13'
-      },
-      {
-        position: '前端开发工程师',
-        count: '3',
-        education: '本科',
-        location: '蚌埠',
-        date: '2025-10-12'
-      },
-      {
-        position: '产品经理',
-        count: '1',
-        education: '本科',
-        location: '蚌埠',
-        date: '2025-10-12'
+    const jobList = ref([])
+    const loading = ref(false)
+    const error = ref('')
+    const dialogVisible = ref(false)
+    const currentJob = ref(null)
+    
+    const loadHires = async () => {
+      loading.value = true
+      error.value = ''
+      try {
+        const res = await apiGetHire()
+        if (res && res.code === 200 && Array.isArray(res.data)) {
+          jobList.value = res.data.map((it, idx) => ({
+            id: it.hireId || idx,
+            position: it.name,
+            count: it.count,
+            education: it.educational,
+            location: it.workPlace,
+            date: (it.releaseTime || it.updateTime || '').slice(0, 10),
+            content: it.content || ''
+          }))
+        } else {
+          error.value = (res && (res.msg || res.message)) || '加载失败'
+        }
+      } catch (e) {
+        error.value = '加载失败，请稍后重试'
+      } finally {
+        loading.value = false
       }
-    ])
+    }
     
     const viewJobDetail = (job) => {
-      // 这里可以添加查看职位详情的逻辑
-      console.log('查看职位详情:', job)
+      currentJob.value = job
+      dialogVisible.value = true
     }
+    
+    onMounted(() => {
+      loadHires()
+    })
     
     return {
       jobList,
+      loading,
+      error,
+      dialogVisible,
+      currentJob,
       viewJobDetail
     }
   }
@@ -307,10 +323,12 @@ export default {
       border: 2px solid $border-color-base;
       border-radius: 8px;
       @include flex-center;
+      overflow: hidden;
       
-      .el-icon {
-        font-size: 60px;
-        color: $text-color-secondary;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
     
@@ -341,6 +359,15 @@ export default {
       overflow: hidden;
     }
   }
+}
+
+.error { color: $text-color-regular; padding: 12px 0; }
+
+/* 职位详情弹窗 */
+::v-deep(.el-dialog__body) {
+  .job-detail { max-height: 60vh; overflow: auto; }
+  .job-meta { display: flex; flex-wrap: wrap; gap: 12px; color: $text-color-secondary; font-size: 13px; margin-bottom: 10px; }
+  .rich-content img { max-width: 100%; display: block; margin: 12px 0; border-radius: 6px; }
 }
 
 @media (max-width: 768px) {
