@@ -4,11 +4,36 @@
     
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
-      <div class="contact-btn phone-btn" @click="handlePhoneClick">
-        <el-icon><Phone /></el-icon>
+      <!-- 电话按钮 -->
+      <div class="contact-btn-wrapper">
+        <div class="contact-btn phone-btn" @click="handlePhoneClick">
+          <el-icon><Phone /></el-icon>
+        </div>
+        <div class="contact-tooltip phone-tooltip">
+          <div class="tooltip-content">
+            <div class="tooltip-item">
+              <el-icon><Phone /></el-icon>
+              <span>咨询电话: 18255246286</span>
+            </div>
+            <div class="tooltip-text">咨询/购买/备案/建议</div>
+          </div>
+        </div>
       </div>
-      <div class="contact-btn chat-btn" @click="handleChatClick">
-        <el-icon><ChatDotRound /></el-icon>
+      
+      <!-- 聊天按钮 -->
+      <div class="contact-btn-wrapper">
+        <div class="contact-btn chat-btn" @click="handleChatClick">
+          <el-icon><ChatDotRound /></el-icon>
+        </div>
+        <div class="contact-tooltip chat-tooltip">
+          <div class="tooltip-content">
+            <div class="qr-code-image">
+              <img src="@/assets/image/qrcode.png" alt="微信二维码" />
+            </div>
+            <div class="tooltip-text">扫描上方二维码</div>
+            <div class="tooltip-text">微信咨询</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +87,10 @@ body {
   gap: 15px;
 }
 
+.contact-btn-wrapper {
+  position: relative;
+}
+
 .contact-btn {
   width: 56px;
   height: 56px;
@@ -72,6 +101,8 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
   
   .el-icon {
     font-size: 24px;
@@ -88,6 +119,115 @@ body {
   }
 }
 
+.contact-tooltip {
+  position: absolute;
+  right: 70px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1;
+  border: 1px solid #e4e7ed;
+  white-space: nowrap;
+  
+  // 箭头指向按钮
+  &::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid white;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    right: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 9px solid #e4e7ed;
+    z-index: -1;
+  }
+}
+
+.chat-tooltip {
+  min-width: 180px;
+  white-space: normal;
+  
+  .tooltip-content {
+    align-items: center;
+  }
+}
+
+.contact-btn-wrapper:hover .contact-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  .tooltip-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .el-icon {
+      color: #409EFF;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    
+    span {
+      color: #303133;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  
+  .tooltip-text {
+    color: #606266;
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  .qr-code-image {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 8px;
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
+    padding: 8px;
+    background: white;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .fixed-contact-buttons {
     right: 20px;
@@ -100,6 +240,18 @@ body {
     
     .el-icon {
       font-size: 22px;
+    }
+  }
+  
+  .contact-tooltip {
+    right: 60px;
+    padding: 12px;
+    min-width: 160px;
+    font-size: 12px;
+    
+    .qr-code-image {
+      width: 120px;
+      height: 120px;
     }
   }
 }
