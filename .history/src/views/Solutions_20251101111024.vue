@@ -530,20 +530,11 @@ export default {
   
   .solution-content .solution-detail .solution-banner {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
     padding: 20px;
     
     .banner-content h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-    
-    .banner-content p {
-      font-size: 14px;
-    }
-    
-    .banner-image img {
-      height: 160px;
+      font-size: 24px;
     }
   }
   
@@ -556,17 +547,17 @@ export default {
 
 /* 新增：方案卡样式与通用状态样式 */
 .solution-content {
-  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
   .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
-  .scheme-cover { width: 100%; height: 120px; background: #f6f8fa; }
+  .scheme-cover { width: 100%; height: 160px; background: #f6f8fa; }
   .scheme-cover img { width: 100%; height: 100%; object-fit: cover; }
-  .scheme-body { padding: 14px; }
-  .scheme-title { font-size: 16px; margin: 0 0 5px; color: $text-color-primary; }
-  .scheme-sub { margin: 0 0 6px; color: $text-color-secondary; font-size: 12px; }
-  .scheme-desc { color: $text-color-regular; font-size: 13px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .scheme-tags { margin-top: 8px; display: flex; gap: 5px; }
-  .scheme-actions { padding: 10px 14px 14px; display: flex; justify-content: flex-end; }
-  .scheme-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+  .scheme-body { padding: 16px; }
+  .scheme-title { font-size: 18px; margin: 0 0 6px; color: $text-color-primary; }
+  .scheme-sub { margin: 0 0 8px; color: $text-color-secondary; font-size: 13px; }
+  .scheme-desc { color: $text-color-regular; font-size: 14px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .scheme-tags { margin-top: 10px; display: flex; gap: 6px; }
+  .scheme-actions { padding: 12px 16px 16px; display: flex; justify-content: flex-end; }
+  .scheme-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0,0,0,.08); }
 }
 
 .loading, .error { padding: 20px 0; color: $text-color-regular; }

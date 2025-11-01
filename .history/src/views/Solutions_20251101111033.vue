@@ -530,20 +530,11 @@ export default {
   
   .solution-content .solution-detail .solution-banner {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
     padding: 20px;
     
     .banner-content h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-    
-    .banner-content p {
-      font-size: 14px;
-    }
-    
-    .banner-image img {
-      height: 160px;
+      font-size: 24px;
     }
   }
   
