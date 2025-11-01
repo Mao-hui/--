@@ -511,8 +511,8 @@ export default {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 28px;
+    gap: 30px;
+    margin-top: 50px;
   }
   
   .back-button {
@@ -550,26 +550,26 @@ export default {
   
   .solution-item {
     position: relative;
-    border-radius: 8px;
+    border-radius: 16px;
     overflow: hidden;
-    height: 160px;
+    height: 350px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
       
       .solution-image {
         img {
-          transform: scale(1.03);
+          transform: scale(1.1);
         }
         
         .solution-overlay {
           background: linear-gradient(135deg, rgba(64, 158, 255, 0.85) 0%, rgba(37, 122, 189, 0.85) 100%);
           
           h3 {
-            transform: scale(1.02);
+            transform: scale(1.05);
           }
         }
       }
@@ -600,11 +600,11 @@ export default {
         
         h3 {
           color: white;
-          font-size: 18px;
+          font-size: 32px;
           font-weight: 600;
           text-align: center;
-          padding: 0 10px;
-          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          padding: 0 20px;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
           transition: transform 0.3s ease;
         }
       }
@@ -617,17 +617,17 @@ export default {
   
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
   }
   
   .feature-card {
-    padding: 28px 24px;
+    padding: 40px 30px;
     text-align: center;
     position: relative;
     background: white;
-    border-radius: 10px;
+    border-radius: 12px;
     transition: all 0.3s ease;
     border: 1px solid rgba(64, 158, 255, 0.1);
     
@@ -666,19 +666,18 @@ export default {
     }
     
     .feature-icon {
-      margin-bottom: 18px;
+      margin-bottom: 25px;
       transition: transform 0.3s ease;
       
       .el-icon {
         color: $primary-color;
         transition: color 0.3s ease;
-        font-size: 42px;
       }
     }
     
     h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
+      font-size: 22px;
+      margin-bottom: 18px;
       color: $text-color-primary;
       font-weight: 600;
       transition: color 0.3s ease;
@@ -686,8 +685,8 @@ export default {
     
     p {
       color: $text-color-regular;
-      line-height: 1.7;
-      font-size: 14px;
+      line-height: 1.8;
+      font-size: 15px;
       margin: 0;
     }
   }
@@ -699,15 +698,15 @@ export default {
   .news-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 32px;
+    gap: 20px;
+    margin-top: 40px;
   }
 
   .news-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 22px;
+    padding: 24px 28px;
     cursor: pointer;
     transition: all 0.3s ease;
     border-left: 4px solid transparent;
@@ -750,20 +749,20 @@ export default {
 
   .news-content {
     flex: 1;
-    padding-right: 20px;
+    padding-right: 24px;
   }
 
   .news-title {
-    font-size: 17px;
+    font-size: 20px;
     color: $text-color-primary;
-    margin: 0 0 8px 0;
-    line-height: 1.5;
+    margin: 0 0 10px 0;
+    line-height: 1.6;
     font-weight: 600;
     transition: color 0.3s ease;
   }
 
   .news-date {
-    font-size: 13px;
+    font-size: 14px;
     color: $text-color-secondary;
     display: flex;
     align-items: center;
@@ -775,9 +774,9 @@ export default {
   }
 
   .news-thumb {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
     overflow: hidden;
     flex-shrink: 0;
     background: #f2f3f5;
@@ -796,8 +795,8 @@ export default {
   .news-empty {
     text-align: center;
     color: $text-color-regular;
-    padding: 32px 0;
-    font-size: 15px;
+    padding: 40px 0;
+    font-size: 16px;
   }
 }
 
@@ -841,35 +840,22 @@ export default {
     }
     
     .capability-card {
-      padding: 28px 20px;
-      
-      .capability-icon .el-icon {
-        font-size: 40px;
-      }
-      
-      h3 {
-        font-size: 18px;
-        margin-bottom: 12px;
-      }
-      
-      p {
-        font-size: 13px;
-      }
+      padding: 35px 25px;
     }
   }
   
   .solutions-banner {
     .solutions-banner-content {
       grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 20px;
+      margin-top: 30px;
     }
     
     .solution-item {
-      height: 140px;
+      height: 250px;
       
       .solution-image .solution-overlay h3 {
-        font-size: 16px;
+        font-size: 24px;
       }
     }
     
@@ -889,20 +875,7 @@ export default {
     }
     
     .feature-card {
-      padding: 24px 18px;
-      
-      .feature-icon .el-icon {
-        font-size: 36px;
-      }
-      
-      h3 {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-      
-      p {
-        font-size: 13px;
-      }
+      padding: 30px 20px;
     }
   }
   
@@ -914,16 +887,12 @@ export default {
       
       .news-thumb {
         width: 100%;
-        height: 160px;
-        margin-top: 12px;
+        height: 180px;
+        margin-top: 15px;
       }
       
       .news-content {
         padding-right: 0;
-      }
-      
-      .news-title {
-        font-size: 16px;
       }
     }
   }

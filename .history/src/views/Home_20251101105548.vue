@@ -861,15 +861,15 @@ export default {
   .solutions-banner {
     .solutions-banner-content {
       grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 16px;
+      margin-top: 24px;
     }
     
     .solution-item {
-      height: 140px;
+      height: 180px;
       
       .solution-image .solution-overlay h3 {
-        font-size: 16px;
+        font-size: 18px;
       }
     }
     

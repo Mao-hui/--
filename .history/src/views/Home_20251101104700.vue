@@ -429,90 +429,140 @@ export default {
     transition: transform 0.5s ease;
   }
 }
-
-.capabilities {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
   
-  .capabilities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    margin-top: 40px;
-  }
-  
-  .capability-card {
-    padding: 32px 28px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(64, 158, 255, 0.1);
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    display: flex;
+    align-items: center;
     
     &::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(64, 158, 255, 0.05), transparent);
-      transition: left 0.5s ease;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://via.placeholder.com/1920x600/4A90E2/FFFFFF?text=工业4.0+智能制造') center/cover;
+      opacity: 0.4;
     }
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
     
-    &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(64, 158, 255, 0.2);
-      border-color: rgba(64, 158, 255, 0.3);
+    .hero-text {
+      color: white;
+      text-align: left;
+      max-width: 600px;
       
-      &::before {
-        left: 100%;
+      .hero-subtitle {
+        font-size: 18px;
+        margin-bottom: 10px;
+        opacity: 0.9;
       }
       
-      .capability-icon {
-        transform: scale(1.15) rotate(5deg);
+      h1 {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+      
+      p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+      
+      .hero-tags {
+        margin-bottom: 30px;
         
-        .el-icon {
-          color: $primary-color;
+        .hero-tag {
+          display: inline-block;
+          padding: 8px 16px;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 20px;
+          margin-right: 10px;
+          font-size: 14px;
+          color: white;
+        }
+        
+        .tag-separator {
+          margin: 0 10px;
+          opacity: 0.6;
+        }
+      }
+      
+      .hero-indicators {
+        display: flex;
+        gap: 10px;
+        
+        .indicator {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          
+          &.active {
+            background: white;
+          }
         }
       }
     }
+  }
+}
+
+.capabilities {
+  background: $background-color-light;
+  
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+  }
+  
+  .capability-card {
+    padding: 40px 30px;
+    text-align: center;
     
     .capability-icon {
-      margin-bottom: 18px;
-      transition: transform 0.3s ease;
+      margin-bottom: 20px;
       
       .el-icon {
         color: $primary-color;
-        transition: color 0.3s ease;
-        font-size: 48px;
       }
     }
     
     h3 {
-      font-size: 20px;
-      margin-bottom: 14px;
+      font-size: 24px;
+      margin-bottom: 20px;
       color: $text-color-primary;
-      font-weight: 600;
-      transition: color 0.3s ease;
     }
     
     p {
       color: $text-color-regular;
-      line-height: 1.7;
-      font-size: 14px;
-      margin: 0;
+      line-height: 1.8;
+      font-size: 16px;
     }
   }
 }
 
 .solutions-banner {
-  background: white;
-  
   .solutions-banner-content {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 28px;
+    gap: 20px;
+    margin-top: 40px;
   }
   
   .back-button {
@@ -550,42 +600,19 @@ export default {
   
   .solution-item {
     position: relative;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    height: 160px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      
-      .solution-image {
-        img {
-          transform: scale(1.03);
-        }
-        
-        .solution-overlay {
-          background: linear-gradient(135deg, rgba(64, 158, 255, 0.85) 0%, rgba(37, 122, 189, 0.85) 100%);
-          
-          h3 {
-            transform: scale(1.02);
-          }
-        }
-      }
-    }
+    height: 300px;
     
     .solution-image {
       position: relative;
       width: 100%;
       height: 100%;
-      overflow: hidden;
       
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
       .solution-overlay {
@@ -594,18 +621,13 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+        background: rgba(0, 0, 0, 0.5);
         @include flex-center;
-        transition: background 0.4s ease;
         
         h3 {
           color: white;
-          font-size: 18px;
-          font-weight: 600;
-          text-align: center;
-          padding: 0 10px;
-          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-          transition: transform 0.3s ease;
+          font-size: 28px;
+          font-weight: bold;
         }
       }
     }
@@ -613,205 +635,107 @@ export default {
 }
 
 .why-choose {
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  background: $background-color-light;
   
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
   }
   
   .feature-card {
-    padding: 28px 24px;
+    padding: 30px 20px;
     text-align: center;
-    position: relative;
-    background: white;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(64, 158, 255, 0.1);
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, $primary-color, #66B1FF);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-    
-    &:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 35px rgba(64, 158, 255, 0.15);
-      
-      &::after {
-        transform: scaleX(1);
-      }
-      
-      .feature-icon {
-        transform: translateY(-5px) scale(1.1);
-        
-        .el-icon {
-          color: $primary-color;
-        }
-      }
-      
-      h3 {
-        color: $primary-color;
-      }
-    }
     
     .feature-icon {
-      margin-bottom: 18px;
-      transition: transform 0.3s ease;
+      margin-bottom: 20px;
       
       .el-icon {
         color: $primary-color;
-        transition: color 0.3s ease;
-        font-size: 42px;
       }
     }
     
     h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
+      font-size: 20px;
+      margin-bottom: 15px;
       color: $text-color-primary;
-      font-weight: 600;
-      transition: color 0.3s ease;
     }
     
     p {
       color: $text-color-regular;
-      line-height: 1.7;
+      line-height: 1.6;
       font-size: 14px;
-      margin: 0;
     }
   }
 }
 
 .news {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  
   .news-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: 32px;
+    margin-top: 24px;
   }
 
   .news-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 22px;
+    padding: 18px 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-left: 4px solid transparent;
-    position: relative;
-    overflow: hidden;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, $primary-color, #66B1FF);
-      transform: scaleY(0);
-      transform-origin: top;
-      transition: transform 0.3s ease;
-    }
+    transition: background 0.2s ease;
 
     &:hover {
-      transform: translateX(8px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border-left-color: $primary-color;
-      
-      &::before {
-        transform: scaleY(1);
-      }
-      
-      .news-title {
-        color: $primary-color;
-      }
-      
-      .news-thumb {
-        img {
-          transform: scale(1.1);
-        }
-      }
+      background: #f8f9fb;
     }
   }
 
   .news-content {
     flex: 1;
-    padding-right: 20px;
+    padding-right: 16px;
   }
 
   .news-title {
-    font-size: 17px;
+    font-size: 18px;
     color: $text-color-primary;
     margin: 0 0 8px 0;
     line-height: 1.5;
-    font-weight: 600;
-    transition: color 0.3s ease;
   }
 
   .news-date {
-    font-size: 13px;
+    font-size: 12px;
     color: $text-color-secondary;
-    display: flex;
-    align-items: center;
-    
-    &::before {
-      content: '📅';
-      margin-right: 6px;
-    }
   }
 
   .news-thumb {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
     background: #f2f3f5;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
     }
   }
 
   .news-empty {
     text-align: center;
     color: $text-color-regular;
-    padding: 32px 0;
-    font-size: 15px;
+    padding: 24px 0;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    height: 320px;
+    height: 240px;
     
     :deep(.el-carousel__container) {
-      height: 320px !important;
-    }
-    
-    :deep(.el-carousel__arrow) {
-      width: 40px;
-      height: 40px;
+      height: 240px !important;
     }
     
     .hero-content .hero-text {
@@ -829,103 +753,10 @@ export default {
     }
   }
   
-  .section-title {
-    font-size: 28px;
-  }
-  
-  .capabilities {
-    .capabilities-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    
-    .capability-card {
-      padding: 28px 20px;
-      
-      .capability-icon .el-icon {
-        font-size: 40px;
-      }
-      
-      h3 {
-        font-size: 18px;
-        margin-bottom: 12px;
-      }
-      
-      p {
-        font-size: 13px;
-      }
-    }
-  }
-  
-  .solutions-banner {
-    .solutions-banner-content {
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .solution-item {
-      height: 140px;
-      
-      .solution-image .solution-overlay h3 {
-        font-size: 16px;
-      }
-    }
-    
-    .back-button {
-      top: -15px;
-      right: 15px;
-      width: 36px;
-      height: 36px;
-    }
-  }
-  
-  .why-choose {
-    .features-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    
-    .feature-card {
-      padding: 24px 18px;
-      
-      .feature-icon .el-icon {
-        font-size: 36px;
-      }
-      
-      h3 {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-      
-      p {
-        font-size: 13px;
-      }
-    }
-  }
-  
-  .news {
-    .news-item {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px;
-      
-      .news-thumb {
-        width: 100%;
-        height: 160px;
-        margin-top: 12px;
-      }
-      
-      .news-content {
-        padding-right: 0;
-      }
-      
-      .news-title {
-        font-size: 16px;
-      }
-    }
+  .capabilities .capabilities-grid,
+  .solutions-banner .solutions-banner-content,
+  .why-choose .features-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

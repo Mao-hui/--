@@ -600,11 +600,11 @@ export default {
         
         h3 {
           color: white;
-          font-size: 18px;
+          font-size: 22px;
           font-weight: 600;
           text-align: center;
-          padding: 0 10px;
-          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          padding: 0 12px;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
           transition: transform 0.3s ease;
         }
       }
@@ -861,15 +861,15 @@ export default {
   .solutions-banner {
     .solutions-banner-content {
       grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 16px;
+      margin-top: 24px;
     }
     
     .solution-item {
-      height: 140px;
+      height: 180px;
       
       .solution-image .solution-overlay h3 {
-        font-size: 16px;
+        font-size: 18px;
       }
     }
     
