@@ -313,18 +313,8 @@ export default {
     }
 
     const viewSubtypeDetail = (sub) => {
-      // 跳转到解决方案页面，并传递大类ID参数
-      if (sub && sub.bigIndustryId) {
-        router.push({
-          path: '/solutions',
-          query: {
-            bigIndustryId: sub.bigIndustryId
-          }
-        })
-      } else {
-        // 如果没有大类ID，直接跳转到解决方案页面
-        router.push('/solutions')
-      }
+      // 可在此跳转到解决方案详情页；先保留占位
+      console.log('查看子类型', sub)
     }
 
     onMounted(async () => {

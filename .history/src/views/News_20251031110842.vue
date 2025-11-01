@@ -264,7 +264,7 @@ export default {
 .news-content {
   padding: 60px 0;
   background: $background-color-light;
-  min-height: 400px;
+  min-height: 200px;
 }
 
 .news-banner {

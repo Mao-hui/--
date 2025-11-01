@@ -261,20 +261,7 @@ export default {
           })
           bigCategories.value = Array.from(bigMap.values())
           bigToSchemes.value = bucket
-          
-          // 检查路由查询参数，如果有 bigIndustryId，则设置对应的 activeBig
-          const queryBigId = route.query.bigIndustryId
-          if (queryBigId) {
-            const targetKey = `big-${queryBigId}`
-            const targetCategory = bigCategories.value.find(cat => cat.key === targetKey)
-            if (targetCategory) {
-              activeBig.value = targetKey
-            } else if (bigCategories.value.length) {
-              activeBig.value = bigCategories.value[0].key
-            }
-          } else if (bigCategories.value.length) {
-            activeBig.value = bigCategories.value[0].key
-          }
+          if (bigCategories.value.length) activeBig.value = bigCategories.value[0].key
         } else {
           error.value = (res && (res.msg || res.message)) || '加载失败'
         }
