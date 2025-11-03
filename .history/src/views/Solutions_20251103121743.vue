@@ -343,7 +343,6 @@ export default {
       setActiveBig,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail
     }
   }

@@ -91,7 +91,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="currentJob && currentJob.position" width="800px">
-      <div class="job-detail" v-loading="detailLoading">
+      <div class="job-detail">
         <div class="job-meta">
           <span>人数：{{ currentJob && currentJob.count }}</span>
           <span>学历：{{ currentJob && currentJob.education }}</span>
@@ -125,7 +125,6 @@ export default {
     const error = ref('')
     const dialogVisible = ref(false)
     const currentJob = ref(null)
-    const detailLoading = ref(false)
     
     const loadHires = async () => {
       loading.value = true
@@ -152,41 +151,9 @@ export default {
       }
     }
     
-    const viewJobDetail = async (job) => {
-      if (!job || !job.id) {
-        ElMessage.error('招聘信息不完整')
-        return
-      }
-      
+    const viewJobDetail = (job) => {
+      currentJob.value = job
       dialogVisible.value = true
-      detailLoading.value = true
-      currentJob.value = null
-      
-      try {
-        const res = await apiGetHireDetail({ hireId: job.id })
-        if (res && res.code === 200 && res.data) {
-          const data = res.data
-          currentJob.value = {
-            id: data.hireId || job.id,
-            position: data.name || job.position || '职位',
-            count: data.count || job.count || '',
-            education: data.educational || job.education || '',
-            location: data.workPlace || job.location || '',
-            date: (data.releaseTime || data.updateTime || job.date || '').slice(0, 10),
-            content: data.content || job.content || '暂无描述'
-          }
-        } else {
-          // 如果接口失败，使用列表中的已有数据
-          currentJob.value = job
-          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
-        }
-      } catch (e) {
-        // 出错时使用列表中的已有数据
-        currentJob.value = job
-        ElMessage.warning('加载详情失败，显示基本信息')
-      } finally {
-        detailLoading.value = false
-      }
     }
     
     onMounted(() => {
@@ -199,7 +166,6 @@ export default {
       error,
       dialogVisible,
       currentJob,
-      detailLoading,
       viewJobDetail
     }
   }

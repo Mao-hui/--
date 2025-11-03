@@ -91,7 +91,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="currentJob && currentJob.position" width="800px">
-      <div class="job-detail" v-loading="detailLoading">
+      <div class="job-detail">
         <div class="job-meta">
           <span>人数：{{ currentJob && currentJob.count }}</span>
           <span>学历：{{ currentJob && currentJob.education }}</span>
@@ -199,7 +199,6 @@ export default {
       error,
       dialogVisible,
       currentJob,
-      detailLoading,
       viewJobDetail
     }
   }

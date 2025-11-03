@@ -104,7 +104,7 @@ export function apiGetHireDetail(data = {}) {
 // 获取产品中心详情
 export function apiGetProductDetail(data = {}) {
   return request({
-    url: '/api/homePage/getProductDetai',
+    url: '/api/homePage/getProductDetail',
     method: 'post',
     data
   })

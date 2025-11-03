@@ -199,7 +199,6 @@ export default {
       error,
       dialogVisible,
       currentJob,
-      detailLoading,
       viewJobDetail
     }
   }

@@ -214,7 +214,7 @@ export default {
         }
       }
       
-      :deep(h1), :deep(h2), :deep(h3), :deep(h4) {
+      :deep(h1, :deep(h2), :deep(h3), :deep(h4) {
         margin: 20px 0 15px;
         color: $text-color-primary;
       }

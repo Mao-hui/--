@@ -69,7 +69,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.schemeName" width="900px">
-      <div v-loading="detailLoading" class="rich-content" v-html="detailItem && detailItem.description"></div>
+      <div class="rich-content" v-html="detailItem && detailItem.description"></div>
     </el-dialog>
     
     <Footer />
@@ -343,7 +343,6 @@ export default {
       setActiveBig,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail
     }
   }

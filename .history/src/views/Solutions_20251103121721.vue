@@ -69,7 +69,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.schemeName" width="900px">
-      <div v-loading="detailLoading" class="rich-content" v-html="detailItem && detailItem.description"></div>
+      <div class="rich-content" v-html="detailItem && detailItem.description"></div>
     </el-dialog>
     
     <Footer />
@@ -96,7 +96,6 @@ export default {
     const error = ref('')
     const dialogVisible = ref(false)
     const detailItem = ref(null)
-    const detailLoading = ref(false)
     const bigCategories = ref([])
     const activeBig = ref('')
     const bigToSchemes = ref({})
@@ -286,43 +285,7 @@ export default {
         loading.value = false
       }
     }
-    const openDetail = async (item) => {
-      if (!item || !item.id) {
-        ElMessage.error('方案信息不完整')
-        return
-      }
-      
-      dialogVisible.value = true
-      detailLoading.value = true
-      detailItem.value = null
-      
-      try {
-        const res = await apiGetSchemeDetail({ schemeId: item.id })
-        if (res && res.code === 200 && res.data) {
-          const data = res.data
-          detailItem.value = {
-            schemeName: data.schemeName || item.schemeName || '方案详情',
-            description: data.description || data.content || item.description || '暂无描述'
-          }
-        } else {
-          // 如果接口失败，使用列表中的已有数据
-          detailItem.value = {
-            schemeName: item.schemeName || '方案详情',
-            description: item.description || item.brief || '暂无描述'
-          }
-          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
-        }
-      } catch (e) {
-        // 出错时使用列表中的已有数据
-        detailItem.value = {
-          schemeName: item.schemeName || '方案详情',
-          description: item.description || item.brief || '暂无描述'
-        }
-        ElMessage.warning('加载详情失败，显示基本信息')
-      } finally {
-        detailLoading.value = false
-      }
-    }
+    const openDetail = (item) => { detailItem.value = item; dialogVisible.value = true }
     const currentBig = computed(() => bigCategories.value.find(b => b.key === activeBig.value))
     const currentSchemes = computed(() => bigToSchemes.value[activeBig.value] || [])
     
@@ -343,7 +306,6 @@ export default {
       setActiveBig,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail
     }
   }

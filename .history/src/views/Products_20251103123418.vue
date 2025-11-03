@@ -90,22 +90,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="800px">
-      <div class="product-detail" v-loading="detailLoading">
-        <div class="product-meta" v-if="currentProduct">
-          <div class="meta-item" v-if="currentProduct.tags && currentProduct.tags.length">
-            <span class="meta-label">分类：</span>
-            <el-tag 
-              v-for="tag in currentProduct.tags" 
-              :key="tag" 
-              size="small"
-              style="margin-right: 8px;"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-        <div class="rich-content" v-html="currentProduct && currentProduct.content"></div>
-      </div>
+      <div class="rich-content" v-html="currentProduct && currentProduct.rawDescription"></div>
     </el-dialog>
 
     <Footer />
@@ -257,7 +242,6 @@ export default {
       getCurrentProducts,
       dialogVisible,
       currentProduct,
-      detailLoading,
       openDetail
     }
   }
@@ -415,64 +399,6 @@ export default {
 .loading, .error {
   padding: 20px 0;
   color: $text-color-regular;
-}
-
-.product-detail {
-  .product-meta {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid $border-color-lighter;
-    
-    .meta-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      
-      .meta-label {
-        color: $text-color-regular;
-        font-weight: 500;
-        margin-right: 8px;
-        min-width: 60px;
-      }
-    }
-  }
-  
-  .rich-content {
-    font-size: 15px;
-    line-height: 1.8;
-    color: $text-color-primary;
-    
-    :deep(img) {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 20px 0;
-      display: block;
-    }
-    
-    :deep(p) {
-      margin-bottom: 16px;
-      text-align: justify;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    :deep(h1), :deep(h2), :deep(h3), :deep(h4) {
-      margin: 20px 0 15px;
-      color: $text-color-primary;
-    }
-    
-    :deep(ul), :deep(ol) {
-      margin: 16px 0;
-      padding-left: 24px;
-    }
-    
-    :deep(li) {
-      margin-bottom: 8px;
-    }
-  }
 }
 
 @media (max-width: 768px) {

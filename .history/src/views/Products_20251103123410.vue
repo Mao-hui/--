@@ -90,22 +90,7 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="800px">
-      <div class="product-detail" v-loading="detailLoading">
-        <div class="product-meta" v-if="currentProduct">
-          <div class="meta-item" v-if="currentProduct.tags && currentProduct.tags.length">
-            <span class="meta-label">分类：</span>
-            <el-tag 
-              v-for="tag in currentProduct.tags" 
-              :key="tag" 
-              size="small"
-              style="margin-right: 8px;"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-        <div class="rich-content" v-html="currentProduct && currentProduct.content"></div>
-      </div>
+      <div class="rich-content" v-html="currentProduct && currentProduct.rawDescription"></div>
     </el-dialog>
 
     <Footer />
@@ -202,44 +187,9 @@ export default {
       return products.value[activeCategory.value] || []
     }
     
-    const openDetail = async (product) => {
-      if (!product || !product.id) {
-        ElMessage.error('产品信息不完整')
-        return
-      }
-      
+    const openDetail = (product) => {
+      currentProduct.value = product
       dialogVisible.value = true
-      detailLoading.value = true
-      currentProduct.value = null
-      
-      try {
-        const res = await apiGetProductDetail({ productId: product.id })
-        if (res && res.code === 200 && res.data) {
-          const data = res.data
-          currentProduct.value = {
-            id: data.productId || product.id,
-            name: data.productName || product.name || '产品详情',
-            tags: product.tags || [],
-            content: data.description || data.content || product.description || '暂无描述'
-          }
-        } else {
-          // 如果接口失败，使用列表中的已有数据
-          currentProduct.value = {
-            ...product,
-            content: product.description || product.rawDescription || '暂无描述'
-          }
-          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
-        }
-      } catch (e) {
-        // 出错时使用列表中的已有数据
-        currentProduct.value = {
-          ...product,
-          content: product.description || product.rawDescription || '暂无描述'
-        }
-        ElMessage.warning('加载详情失败，显示基本信息')
-      } finally {
-        detailLoading.value = false
-      }
     }
     
     onMounted(() => {
@@ -257,7 +207,6 @@ export default {
       getCurrentProducts,
       dialogVisible,
       currentProduct,
-      detailLoading,
       openDetail
     }
   }
@@ -415,64 +364,6 @@ export default {
 .loading, .error {
   padding: 20px 0;
   color: $text-color-regular;
-}
-
-.product-detail {
-  .product-meta {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid $border-color-lighter;
-    
-    .meta-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      
-      .meta-label {
-        color: $text-color-regular;
-        font-weight: 500;
-        margin-right: 8px;
-        min-width: 60px;
-      }
-    }
-  }
-  
-  .rich-content {
-    font-size: 15px;
-    line-height: 1.8;
-    color: $text-color-primary;
-    
-    :deep(img) {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 20px 0;
-      display: block;
-    }
-    
-    :deep(p) {
-      margin-bottom: 16px;
-      text-align: justify;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    :deep(h1), :deep(h2), :deep(h3), :deep(h4) {
-      margin: 20px 0 15px;
-      color: $text-color-primary;
-    }
-    
-    :deep(ul), :deep(ol) {
-      margin: 16px 0;
-      padding-left: 24px;
-    }
-    
-    :deep(li) {
-      margin-bottom: 8px;
-    }
-  }
 }
 
 @media (max-width: 768px) {

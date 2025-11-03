@@ -19,13 +19,26 @@
           </div>
           
           <!-- 文章内容 -->
-          <div class="article-body" v-loading="loading">
-            <div class="article-image" v-if="article.image">
+          <div class="article-body">
+            <div class="article-image">
               <img :src="article.image" :alt="article.title" />
             </div>
             
             <div class="article-text">
-              <div class="rich-content" v-html="article.content"></div>
+              <p v-for="(paragraph, index) in article.paragraphs" :key="index">
+                {{ paragraph }}
+              </p>
+            </div>
+            
+            <!-- 相关图片 -->
+            <div class="article-images">
+              <img 
+                v-for="(img, index) in article.relatedImages" 
+                :key="index"
+                :src="img" 
+                :alt="`相关图片${index + 1}`"
+                class="related-image"
+              />
             </div>
           </div>
           
@@ -192,32 +205,30 @@ export default {
   .article-text {
     margin-bottom: 40px;
     
-    .rich-content {
+    p {
       font-size: 16px;
       line-height: 1.8;
       color: $text-color-primary;
+      margin-bottom: 20px;
       text-align: justify;
       
-      :deep(img) {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin: 20px 0;
-        display: block;
+      &:last-child {
+        margin-bottom: 0;
       }
-      
-      :deep(p) {
-        margin-bottom: 20px;
-        
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-      
-      :deep(h1), :deep(h2), :deep(h3), :deep(h4) {
-        margin: 20px 0 15px;
-        color: $text-color-primary;
-      }
+    }
+  }
+  
+  .article-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    
+    .related-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
     }
   }
 }
