@@ -765,5 +765,26 @@ export default {
     }
   }
   
+  .news {
+    .news-item {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+      
+      .news-thumb {
+        width: 100%;
+        height: 160px;
+        margin-top: 12px;
+      }
+      
+      .news-content {
+        padding-right: 0;
+      }
+      
+      .news-title {
+        font-size: 16px;
+      }
+    }
+  }
 }
 </style>

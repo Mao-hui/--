@@ -111,6 +111,31 @@
       </div>
     </section>
     
+    <!-- 新闻中心 -->
+    <section class="news section">
+      <div class="container">
+        <h2 class="section-title">新闻中心</h2>
+        <div v-if="newsLoading && newsList.length === 0" class="news-empty">正在加载新闻...</div>
+        <div v-else-if="!newsLoading && newsList.length === 0" class="news-empty">暂无新闻数据</div>
+        <div v-else class="news-list">
+          <div 
+            v-for="item in newsList" 
+            :key="item.id" 
+            class="news-item card"
+            @click="goNewsDetail(item)"
+          >
+            <div class="news-content">
+              <h3 class="news-title">{{ item.title }}</h3>
+              <div class="news-date">{{ item.date }}</div>
+            </div>
+            <div class="news-thumb">
+              <img :src="item.image" alt="news" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <Footer />
   </div>
 </template>
@@ -120,7 +145,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme, apiGetScheme } from '@/api'
+import { apiGetBanner, apiGetDevelopment, apiGetBannerUa, apiGetBannerScheme, apiGetNewsList, apiGetScheme } from '@/api'
 
 export default {
   name: 'Home',
@@ -152,6 +177,9 @@ export default {
     const features = ref([])
 
     const banners = ref([])
+
+    const newsList = ref([])
+    const newsLoading = ref(false)
 
     const stripHtml = (html) => {
       if (!html) return ''
@@ -240,6 +268,41 @@ export default {
       } catch (e) {}
     }
 
+    const formatDate = (val) => {
+      if (!val) return ''
+      const d = new Date(val)
+      const y = d.getFullYear()
+      const m = String(d.getMonth() + 1).padStart(2, '0')
+      const day = String(d.getDate()).padStart(2, '0')
+      return `${y}-${m}-${day}`
+    }
+
+    const loadNews = async () => {
+      try {
+        newsLoading.value = true
+        const res = await apiGetNewsList({ pageSize: '2', pageNum: '1' })
+        if (res && res.code === 200) {
+          const rows = Array.isArray(res.rows) ? res.rows : []
+          newsList.value = rows.slice(0, 2).map(item => ({
+            id: item.tweetId || item.id,
+            title: item.title,
+            date: formatDate(item.releaseTime || item.createTime),
+            image: item.logoUrl || banners.value[0]?.url || 'https://via.placeholder.com/120x120/EEE/999?text=News',
+            content: item.content
+          }))
+        }
+      } catch (e) {
+        newsList.value = []
+      } finally {
+        newsLoading.value = false
+      }
+    }
+
+    const goNewsDetail = (item) => {
+      // 跳转到新闻列表页面
+      router.push('/news')
+    }
+
     const showSolutionSubtypes = (solution) => {
       currentSolution.value = solution
       currentSolutionSubtypes.value = solution?.subtypes || []
@@ -276,7 +339,8 @@ export default {
         loadBanner(),
         loadDevelopment(),
         loadAdvantages(),
-        loadSolutions()
+        loadSolutions(),
+        loadNews()
       ])
     })
     
@@ -291,6 +355,9 @@ export default {
       features,
       heroStyle,
       banners,
+      newsList,
+      newsLoading,
+      goNewsDetail,
       showSolutionSubtypes,
       backToMainCategories,
       viewSubtypeDetail,
@@ -452,9 +519,6 @@ export default {
       line-height: 1.7;
       font-size: 14px;
       margin: 0;
-      text-align: left;
-      word-wrap: break-word;
-      word-break: break-all;
     }
   }
 }
@@ -652,6 +716,116 @@ export default {
   }
 }
 
+.news {
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  padding-top: 80px;
+  padding-bottom: 80px;
+  
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .news-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, $primary-color, #66B1FF);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-left-color: $primary-color;
+      
+      &::before {
+        transform: scaleY(1);
+      }
+      
+      .news-title {
+        color: $primary-color;
+      }
+      
+      .news-thumb {
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .news-content {
+    flex: 1;
+    padding-right: 20px;
+  }
+
+  .news-title {
+    font-size: 17px;
+    color: $text-color-primary;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .news-date {
+    font-size: 13px;
+    color: $text-color-secondary;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '📅';
+      margin-right: 6px;
+    }
+  }
+
+  .news-thumb {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f2f3f5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  .news-empty {
+    text-align: center;
+    color: $text-color-regular;
+    padding: 32px 0;
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 1400px) {
   .hero {
     height: 500px;
@@ -765,5 +939,26 @@ export default {
     }
   }
   
+  .news {
+    .news-item {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+      
+      .news-thumb {
+        width: 100%;
+        height: 160px;
+        margin-top: 12px;
+      }
+      
+      .news-content {
+        padding-right: 0;
+      }
+      
+      .news-title {
+        font-size: 16px;
+      }
+    }
+  }
 }
 </style>
