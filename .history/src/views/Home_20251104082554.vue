@@ -327,10 +327,6 @@ export default {
       }
     }
 
-    const goToProducts = () => {
-      router.push('/products')
-    }
-
     onMounted(async () => {
       await Promise.all([
         loadBanner(),
@@ -357,8 +353,7 @@ export default {
       goNewsDetail,
       showSolutionSubtypes,
       backToMainCategories,
-      viewSubtypeDetail,
-      goToProducts
+      viewSubtypeDetail
     }
   }
 }
@@ -452,7 +447,6 @@ export default {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(64, 158, 255, 0.1);
-    cursor: pointer;
     
     &::before {
       content: '';
