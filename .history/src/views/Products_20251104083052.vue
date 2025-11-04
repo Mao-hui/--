@@ -22,9 +22,6 @@
               >
                 <el-icon><component :is="'Box'" /></el-icon>
                 <span>全部产品</span>
-                <span class="item-count" v-if="products.all && products.all.length">
-                  {{ products.all.length }}
-                </span>
               </div>
               <div
                 class="menu-group"
@@ -32,18 +29,15 @@
                 :key="group.key"
               >
                 <div class="group-title">{{ group.name }}</div>
-              <div
-                v-for="child in group.children"
-                :key="child.key"
-                :class="['menu-item', { active: activeCategory === child.key }]"
-                @click="setActiveCategory(child.key)"
-              >
-                <el-icon><component :is="child.icon || 'Collection'" /></el-icon>
-                <span>{{ child.name }}</span>
-                <span class="item-count" v-if="products[child.key] && products[child.key].length">
-                  {{ products[child.key].length }}
-                </span>
-              </div>
+                <div
+                  v-for="child in group.children"
+                  :key="child.key"
+                  :class="['menu-item', { active: activeCategory === child.key }]"
+                  @click="setActiveCategory(child.key)"
+                >
+                  <el-icon><component :is="child.icon || 'Collection'" /></el-icon>
+                  <span>{{ child.name }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -210,13 +204,7 @@ export default {
     }
     
     const setActiveCategory = (categoryKey) => {
-      if (activeCategory.value === categoryKey) return
       activeCategory.value = categoryKey
-      // 滚动到顶部
-      const mainContent = document.querySelector('.products-main')
-      if (mainContent) {
-        mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
     }
     
     const getCurrentCategory = () => {
@@ -326,7 +314,7 @@ export default {
 
 .products-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 250px 1fr;
   gap: 40px;
 }
 
@@ -381,20 +369,6 @@ export default {
       span {
         font-size: 16px;
         font-weight: 500;
-        flex: 1;
-      }
-      
-      .item-count {
-        font-size: 12px;
-        padding: 2px 8px;
-        min-width: 20px;
-        text-align: center;
-        margin-left: auto;
-        color: $text-color-secondary;
-      }
-      
-      &.active .item-count {
-        color: rgba(255, 255, 255, 0.9);
       }
     }
   }
@@ -402,43 +376,16 @@ export default {
 
 .products-main {
   .category-content {
-    .category-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    h2 {
+      font-size: 32px;
+      color: $text-color-primary;
       margin-bottom: 30px;
-      
-      h2 {
-        font-size: 32px;
-        color: $text-color-primary;
-        margin: 0;
-      }
-      
-      .product-count {
-        font-size: 14px;
-        color: $text-color-secondary;
-        padding: 6px 12px;
-        background: $background-color-light;
-        border-radius: 16px;
-      }
     }
     
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
-      animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     
     .product-card {
@@ -447,12 +394,10 @@ export default {
       flex-direction: column;
       transition: all 0.3s ease;
       border: 1px solid $border-color-lighter;
-      cursor: pointer;
       
       &:hover {
         transform: translateY(-4px);
         box-shadow: 0 8px 24px rgba(0,0,0,.08);
-        border-color: rgba($primary-color, 0.3);
       }
       
       .product-header {
@@ -485,30 +430,9 @@ export default {
   }
 }
 
-.loading {
+.loading, .error {
   padding: 20px 0;
-  
-  :deep(.el-skeleton) {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    
-    .el-skeleton__item {
-      padding: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-  }
-}
-
-.error {
-  padding: 20px 0;
-  color: $danger-color;
-  text-align: center;
-  background: rgba($danger-color, 0.1);
-  border-radius: 8px;
-  margin: 20px 0;
+  color: $text-color-regular;
 }
 
 .product-detail {

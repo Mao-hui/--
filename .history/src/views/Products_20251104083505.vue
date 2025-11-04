@@ -386,15 +386,16 @@ export default {
       
       .item-count {
         font-size: 12px;
+        background: rgba(255, 255, 255, 0.3);
         padding: 2px 8px;
+        border-radius: 10px;
         min-width: 20px;
         text-align: center;
         margin-left: auto;
-        color: $text-color-secondary;
       }
       
       &.active .item-count {
-        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.4);
       }
     }
   }

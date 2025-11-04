@@ -53,9 +53,9 @@
             <div class="category-content">
               <div class="category-header">
                 <h2>{{ getCurrentCategory().name }}</h2>
-                <div class="product-count" v-if="!loading && !error">
+                <!-- <div class="product-count" v-if="!loading && !error">
                   共 {{ getCurrentProducts().length }} 个产品
-                </div>
+                </div> -->
               </div>
               <div v-if="loading" class="loading">
                 <el-skeleton animated :count="6">
@@ -386,15 +386,16 @@ export default {
       
       .item-count {
         font-size: 12px;
+        background: rgba(255, 255, 255, 0.3);
         padding: 2px 8px;
+        border-radius: 10px;
         min-width: 20px;
         text-align: center;
         margin-left: auto;
-        color: $text-color-secondary;
       }
       
       &.active .item-count {
-        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.4);
       }
     }
   }
