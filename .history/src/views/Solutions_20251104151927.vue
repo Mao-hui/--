@@ -22,6 +22,7 @@
             :class="['nav-item', { active: activeBig === cat.key }]"
             @click="setActiveBig(cat.key)"
           >
+            <el-icon><component :is="'Collection'" /></el-icon>
             <span>{{ cat.name }}</span>
           </div>
         </div>
@@ -32,13 +33,14 @@
             <div class="solution-banner" v-if="currentBig">
               <div class="banner-content">
                 <h2>{{ currentBig.name }}</h2>
+                <p>为 {{ currentBig.name }} 提供覆盖业务全链路的数智化方案</p>
               </div>
               <div class="banner-image" v-if="currentBig.url">
                 <img :src="currentBig.url" :alt="currentBig.name" />
               </div>
             </div>
             <div class="section">
-              <h3 style="margin-bottom: 20px;">精选方案</h3>
+              <h3>精选方案</h3>
               <div v-if="loading" class="loading">加载中...</div>
               <div v-else>
                 <div v-if="error" class="error">{{ error }}</div>
@@ -444,6 +446,8 @@ export default {
   &::-webkit-scrollbar { display: none; }
   
   .nav-item {
+    @include flex-center;
+    gap: 8px;
     padding: 12px 18px;
     cursor: pointer;
     border-radius: 22px;
@@ -459,6 +463,7 @@ export default {
       content: '';
       position: absolute; left: 16px; right: 16px; bottom: 6px; height: 2px; background: $primary-color; border-radius: 2px;
     }
+    .el-icon { font-size: 18px; }
   }
 }
 
@@ -479,7 +484,13 @@ export default {
         h2 {
           font-size: 28px;
           color: $text-color-primary;
-          margin: 0;
+          margin-bottom: 14px;
+        }
+        
+        p {
+          font-size: 15px;
+          color: $text-color-regular;
+          line-height: 1.6;
         }
       }
       
@@ -488,6 +499,7 @@ export default {
           width: 100%;
           height: 200px;
           object-fit: cover;
+          border-radius: 10px;
           box-shadow: 0 8px 20px rgba(0,0,0,.1);
         }
       }
@@ -633,7 +645,11 @@ export default {
     
     .banner-content h2 {
       font-size: 22px;
-      margin: 0;
+      margin-bottom: 10px;
+    }
+    
+    .banner-content p {
+      font-size: 14px;
     }
     
     .banner-image img {

@@ -23,7 +23,11 @@
                 :class="['menu-item', { active: activeCategory === 'all' }]"
                 @click="setActiveCategory('all')"
               >
+                <el-icon><component :is="'Box'" /></el-icon>
                 <span>全部产品</span>
+                <span class="item-count" v-if="products.all && products.all.length">
+                  {{ products.all.length }}
+                </span>
               </div>
               <div
                 class="menu-group"
@@ -37,7 +41,11 @@
                 :class="['menu-item', { active: activeCategory === child.key }]"
                 @click="setActiveCategory(child.key)"
               >
+                <el-icon><component :is="child.icon || 'Collection'" /></el-icon>
                 <span>{{ child.name }}</span>
+                <span class="item-count" v-if="products[child.key] && products[child.key].length">
+                  {{ products[child.key].length }}
+                </span>
               </div>
               </div>
             </div>
@@ -48,6 +56,9 @@
             <div class="category-content">
               <div class="category-header">
                 <h2>{{ getCurrentCategory().name }}</h2>
+                <div class="product-count" v-if="!loading && !error">
+                  共 {{ getCurrentProducts().length }} 个产品
+                </div>
               </div>
               <div v-if="loading" class="loading">
                 <el-skeleton animated :count="6">
@@ -73,6 +84,11 @@
                     class="product-card card"
                   >
                     <div class="product-header">
+                      <div class="product-icon">
+                        <el-icon :size="40">
+                          <component :is="product.icon" />
+                        </el-icon>
+                      </div>
                       <h3 class="product-title">{{ product.name }}</h3>
                     </div>
                     <p class="product-desc">{{ product.description }}</p>
@@ -389,6 +405,8 @@ export default {
       }
     }
     .menu-item {
+      @include flex-center;
+      gap: 10px;
       padding: 15px 20px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -404,9 +422,27 @@ export default {
         color: white;
       }
       
+      .el-icon {
+        font-size: 18px;
+      }
+      
       span {
         font-size: 16px;
         font-weight: 500;
+        flex: 1;
+      }
+      
+      .item-count {
+        font-size: 12px;
+        padding: 2px 8px;
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        color: $text-color-secondary;
+      }
+      
+      &.active .item-count {
+        color: rgba(255, 255, 255, 0.9);
       }
     }
   }
@@ -415,6 +451,9 @@ export default {
 .products-main {
   .category-content {
     .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 30px;
       
       h2 {
@@ -423,6 +462,13 @@ export default {
         margin: 0;
       }
       
+      .product-count {
+        font-size: 14px;
+        color: $text-color-secondary;
+        padding: 6px 12px;
+        background: $background-color-light;
+        border-radius: 16px;
+      }
     }
     
     .products-grid {
@@ -458,16 +504,17 @@ export default {
       }
       
       .product-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 12px;
       }
-      
-      .product-title { 
-        font-size: 18px; 
-        color: $text-color-primary; 
-        font-weight: 600; 
-        margin: 0;
-        text-align: left;
+      .product-icon { 
+        width: 44px; height: 44px; border-radius: 12px; background: rgba($primary-color, .08); @include flex-center;
+        .el-icon { color: $primary-color; }
       }
+      
+      .product-title { font-size: 18px; color: $text-color-primary; font-weight: 600; }
       
       .product-desc { color: $text-color-regular; line-height: 1.7; margin-bottom: 14px; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
       

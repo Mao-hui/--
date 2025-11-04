@@ -389,6 +389,8 @@ export default {
       }
     }
     .menu-item {
+      @include flex-center;
+      gap: 10px;
       padding: 15px 20px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -415,6 +417,9 @@ export default {
 .products-main {
   .category-content {
     .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 30px;
       
       h2 {
@@ -423,6 +428,13 @@ export default {
         margin: 0;
       }
       
+      .product-count {
+        font-size: 14px;
+        color: $text-color-secondary;
+        padding: 6px 12px;
+        background: $background-color-light;
+        border-radius: 16px;
+      }
     }
     
     .products-grid {

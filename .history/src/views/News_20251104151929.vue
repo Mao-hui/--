@@ -843,6 +843,7 @@ export default {
     .news-image {
       width: 100%;
       height: 220px;
+      border-radius: 12px 12px 0 0;
     }
     
     .news-content {

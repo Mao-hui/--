@@ -507,7 +507,7 @@ export default {
   
   .solution-item {
     position: relative;
-    // border-radius: 8px;
+    border-radius: 8px;
     overflow: hidden;
     height: 160px;
     cursor: pointer;

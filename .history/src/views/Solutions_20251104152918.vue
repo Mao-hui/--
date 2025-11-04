@@ -38,7 +38,7 @@
               </div>
             </div>
             <div class="section">
-              <h3 style="margin-bottom: 20px;">精选方案</h3>
+              <h3>精选方案</h3>
               <div v-if="loading" class="loading">加载中...</div>
               <div v-else>
                 <div v-if="error" class="error">{{ error }}</div>
@@ -633,7 +633,11 @@ export default {
     
     .banner-content h2 {
       font-size: 22px;
-      margin: 0;
+      margin-bottom: 10px;
+    }
+    
+    .banner-content p {
+      font-size: 14px;
     }
     
     .banner-image img {

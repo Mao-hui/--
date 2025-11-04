@@ -389,6 +389,8 @@ export default {
       }
     }
     .menu-item {
+      @include flex-center;
+      gap: 10px;
       padding: 15px 20px;
       cursor: pointer;
       transition: all 0.3s ease;

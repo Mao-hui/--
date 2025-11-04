@@ -389,6 +389,8 @@ export default {
       }
     }
     .menu-item {
+      @include flex-center;
+      gap: 10px;
       padding: 15px 20px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -415,6 +417,9 @@ export default {
 .products-main {
   .category-content {
     .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 30px;
       
       h2 {
