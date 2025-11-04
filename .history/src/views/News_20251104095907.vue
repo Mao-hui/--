@@ -89,9 +89,9 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.title" width="900px">
-      <div class="news-detail" v-loading="detailLoading">
+      <div class="news-detail">
         <img v-if="detailItem && detailItem.image" class="detail-cover" :src="detailItem.image" :alt="detailItem.title" />
-        <div class="detail-meta" v-if="detailItem && detailItem.date">{{ detailItem.date }}</div>
+        <div class="detail-meta">{{ detailItem && detailItem.date }}</div>
         <div class="rich-content" v-html="detailItem && detailItem.content"></div>
       </div>
     </el-dialog>
@@ -221,59 +221,7 @@ export default {
       selectedArticle.value = articleId
       router.push(`/news/${articleId}`)
     }
-    
-    const openDetail = async (article) => {
-      if (!article || !article.id) {
-        ElMessage.error('新闻信息不完整')
-        return
-      }
-      
-      dialogVisible.value = true
-      detailLoading.value = true
-      detailItem.value = null
-      
-      try {
-        // 调用详情接口获取完整内容
-        const res = await apiGetNewsDetail({ tweetId: article.id })
-        if (res && res.code === 200 && res.data) {
-          const data = res.data
-          // 处理详情内容中的图片大小
-          let processedContent = data.content || data.description || article.content || ''
-          processedContent = processHtmlImages(processedContent)
-          
-          detailItem.value = {
-            id: data.tweetId || data.id || article.id,
-            title: data.title || article.title || '新闻详情',
-            date: data.releaseTime || data.createTime || article.date || '',
-            image: data.logoUrl || data.imageUrl || article.image || '',
-            content: processedContent
-          }
-        } else {
-          // 如果接口失败，使用列表中的已有数据
-          let processedContent = article.content || ''
-          processedContent = processHtmlImages(processedContent)
-          
-          detailItem.value = {
-            ...article,
-            content: processedContent
-          }
-          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
-        }
-      } catch (e) {
-        // 出错时使用列表中的已有数据
-        let processedContent = article.content || ''
-        processedContent = processHtmlImages(processedContent)
-        
-        detailItem.value = {
-          ...article,
-          content: processedContent
-        }
-        ElMessage.warning('加载详情失败，显示基本信息')
-      } finally {
-        detailLoading.value = false
-      }
-    }
-    
+    const openDetail = (article) => { detailItem.value = article; dialogVisible.value = true }
     const handleOpen = (article) => {
       openDetail(article)
       selectedArticle.value = article.id
@@ -309,7 +257,6 @@ export default {
       error,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail,
       previewItem,
       handleOpen,

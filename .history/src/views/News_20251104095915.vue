@@ -89,9 +89,9 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.title" width="900px">
-      <div class="news-detail" v-loading="detailLoading">
+      <div class="news-detail">
         <img v-if="detailItem && detailItem.image" class="detail-cover" :src="detailItem.image" :alt="detailItem.title" />
-        <div class="detail-meta" v-if="detailItem && detailItem.date">{{ detailItem.date }}</div>
+        <div class="detail-meta">{{ detailItem && detailItem.date }}</div>
         <div class="rich-content" v-html="detailItem && detailItem.content"></div>
       </div>
     </el-dialog>
@@ -309,7 +309,6 @@ export default {
       error,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail,
       previewItem,
       handleOpen,

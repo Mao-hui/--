@@ -89,9 +89,9 @@
     </div>
     
     <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.title" width="900px">
-      <div class="news-detail" v-loading="detailLoading">
+      <div class="news-detail">
         <img v-if="detailItem && detailItem.image" class="detail-cover" :src="detailItem.image" :alt="detailItem.title" />
-        <div class="detail-meta" v-if="detailItem && detailItem.date">{{ detailItem.date }}</div>
+        <div class="detail-meta">{{ detailItem && detailItem.date }}</div>
         <div class="rich-content" v-html="detailItem && detailItem.content"></div>
       </div>
     </el-dialog>
@@ -103,10 +103,9 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetNewsList, apiGetNewsDetail } from '@/api'
+import { apiGetNewsList } from '@/api'
 import newsImage from '@/assets/image/news.png'
 
 export default {
@@ -127,7 +126,6 @@ export default {
     const error = ref('')
     const dialogVisible = ref(false)
     const detailItem = ref(null)
-    const detailLoading = ref(false)
     const previewItem = ref(null)
     const searchKeyword = ref('')
     const monthFilter = ref('')
@@ -145,41 +143,6 @@ export default {
     const stripHtml = (html) => {
       if (!html) return ''
       return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
-    }
-    
-    // 处理HTML中的图片大小
-    const processHtmlImages = (html) => {
-      if (!html || typeof html !== 'string') {
-        return html
-      }
-      
-      // 使用正则表达式匹配img标签，添加max-width样式
-      return html.replace(/<img([^>]*)>/gi, (match, attrs) => {
-        // 检查是否已有style属性
-        const styleMatch = attrs.match(/style\s*=\s*["']([^"']*)["']/i)
-        let style = ''
-        
-        if (styleMatch) {
-          // 如果已有style属性，提取并添加max-width
-          style = styleMatch[1]
-          // 移除已有的width和max-width相关样式
-          style = style.replace(/max-width\s*:\s*[^;]+;?/gi, '')
-          style = style.replace(/width\s*:\s*[^;]+;?/gi, '')
-          // 添加max-width
-          style = style.trim()
-          if (style && !style.endsWith(';')) {
-            style += ';'
-          }
-          style += 'max-width:100%;height:auto;'
-          // 替换原有的style属性
-          attrs = attrs.replace(/style\s*=\s*["'][^"']*["']/i, `style="${style}"`)
-        } else {
-          // 如果没有style属性，添加一个
-          attrs += ' style="max-width:100%;height:auto;"'
-        }
-        
-        return `<img${attrs}>`
-      })
     }
     
     const totalNewsComputed = computed(() => totalNews.value)
@@ -221,59 +184,7 @@ export default {
       selectedArticle.value = articleId
       router.push(`/news/${articleId}`)
     }
-    
-    const openDetail = async (article) => {
-      if (!article || !article.id) {
-        ElMessage.error('新闻信息不完整')
-        return
-      }
-      
-      dialogVisible.value = true
-      detailLoading.value = true
-      detailItem.value = null
-      
-      try {
-        // 调用详情接口获取完整内容
-        const res = await apiGetNewsDetail({ tweetId: article.id })
-        if (res && res.code === 200 && res.data) {
-          const data = res.data
-          // 处理详情内容中的图片大小
-          let processedContent = data.content || data.description || article.content || ''
-          processedContent = processHtmlImages(processedContent)
-          
-          detailItem.value = {
-            id: data.tweetId || data.id || article.id,
-            title: data.title || article.title || '新闻详情',
-            date: data.releaseTime || data.createTime || article.date || '',
-            image: data.logoUrl || data.imageUrl || article.image || '',
-            content: processedContent
-          }
-        } else {
-          // 如果接口失败，使用列表中的已有数据
-          let processedContent = article.content || ''
-          processedContent = processHtmlImages(processedContent)
-          
-          detailItem.value = {
-            ...article,
-            content: processedContent
-          }
-          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
-        }
-      } catch (e) {
-        // 出错时使用列表中的已有数据
-        let processedContent = article.content || ''
-        processedContent = processHtmlImages(processedContent)
-        
-        detailItem.value = {
-          ...article,
-          content: processedContent
-        }
-        ElMessage.warning('加载详情失败，显示基本信息')
-      } finally {
-        detailLoading.value = false
-      }
-    }
-    
+    const openDetail = (article) => { detailItem.value = article; dialogVisible.value = true }
     const handleOpen = (article) => {
       openDetail(article)
       selectedArticle.value = article.id
@@ -309,7 +220,6 @@ export default {
       error,
       dialogVisible,
       detailItem,
-      detailLoading,
       openDetail,
       previewItem,
       handleOpen,
