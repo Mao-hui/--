@@ -39,8 +39,12 @@ const routes = [
   }
 ]
 
+// 根据 publicPath 设置 base
+// 如果 publicPath 是 './'，则 base 应该为 '/'
+const base = process.env.BASE_URL === './' ? '/' : (process.env.BASE_URL || '/')
+
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(base),
   routes
 })
 

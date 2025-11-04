@@ -129,9 +129,48 @@ npm run lint
 - CDN加速
 
 ### 部署配置
-- 支持多种部署方式
-- 环境变量配置
-- 构建产物优化
+1. **构建项目**：
+```bash
+npm run build
+```
+
+2. **部署到服务器**：
+   - 将 `dist` 目录中的文件上传到服务器
+   - 确保服务器配置了正确的路由重定向
+
+3. **服务器配置（重要）**：
+   由于使用了 Vue Router 的 history 模式，需要配置服务器将所有路由请求重定向到 `index.html`。
+
+   **Nginx 配置示例**：
+   ```nginx
+   server {
+       listen 80;
+       server_name your-domain.com;
+       root /path/to/dist;
+       index index.html;
+
+       location / {
+           try_files $uri $uri/ /index.html;
+       }
+   }
+   ```
+
+   **Apache 配置示例**（.htaccess）：
+   ```apache
+   <IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteBase /
+     RewriteRule ^index\.html$ - [L]
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteCond %{REQUEST_FILENAME} !-d
+     RewriteRule . /index.html [L]
+   </IfModule>
+   ```
+
+4. **注意事项**：
+   - 不要直接打开 `dist/index.html` 文件（file://协议），history 模式需要服务器支持
+   - 必须通过 HTTP 服务器访问打包后的文件
+   - 如果需要在本地测试，可以使用 `npx serve dist` 或 `python -m http.server` 启动本地服务器
 
 ## 浏览器支持
 
