@@ -8,7 +8,7 @@
       <el-carousel 
         v-if="banners.length > 0" 
         :interval="3000" 
-        height="500px" 
+        height="600px" 
         arrow="always" 
         indicator-position="outside"
         trigger="click"

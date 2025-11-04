@@ -8,16 +8,16 @@
       <el-carousel 
         v-if="banners.length > 0" 
         :interval="3000" 
-        height="500px" 
+        height="360px" 
         arrow="always" 
         indicator-position="outside"
         trigger="click"
       >
         <el-carousel-item v-for="item in banners" :key="item.id">
-          <img :src="item.url" alt="banner" class="hero-slide" />
-          <!-- <el-image
+          <!-- <img :src="item.url" alt="banner" class="hero-slide" /> -->
+          <el-image
             :src="item.url"
-            fit="fill" class="hero-slide"></el-image> -->
+            fit="contain" class="hero-slide"></el-image>
         </el-carousel-item>
       </el-carousel>
     </section>
@@ -374,11 +374,10 @@ export default {
 }
 
 .hero {
-  height: 600px;
+  height: 480px;
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-height: 60vh;
   
   :deep(.el-carousel) {
     width: 100%;
@@ -442,14 +441,12 @@ export default {
 
 .capabilities {
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  padding-top: 80px;
-  padding-bottom: 80px;
   
   .capabilities-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 28px;
-    margin-top: 50px;
+    gap: 24px;
+    margin-top: 40px;
   }
   
   .capability-card {
@@ -519,8 +516,6 @@ export default {
 
 .solutions-banner {
   background: white;
-  padding-top: 80px;
-  padding-bottom: 80px;
   
   .solutions-banner-content {
     position: relative;
@@ -629,14 +624,12 @@ export default {
 
 .why-choose {
   background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-  padding-top: 80px;
-  padding-bottom: 80px;
   
   .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
-    margin-top: 50px;
+    gap: 24px;
+    margin-top: 40px;
   }
   
   .feature-card {
@@ -712,14 +705,12 @@ export default {
 
 .news {
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  padding-top: 80px;
-  padding-bottom: 80px;
   
   .news-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 40px;
+    gap: 16px;
+    margin-top: 32px;
   }
 
   .news-item {
@@ -820,20 +811,12 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .hero {
-    height: 500px;
-    max-height: 50vh;
-  }
-}
-
 @media (max-width: 768px) {
   .hero {
-    height: 280px;
-    max-height: 40vh;
+    height: 320px;
     
     :deep(.el-carousel__container) {
-      height: 280px !important;
+      height: 320px !important;
     }
     
     :deep(.el-carousel__arrow) {

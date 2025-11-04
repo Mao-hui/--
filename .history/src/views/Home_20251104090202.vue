@@ -8,7 +8,7 @@
       <el-carousel 
         v-if="banners.length > 0" 
         :interval="3000" 
-        height="500px" 
+        height="600px" 
         arrow="always" 
         indicator-position="outside"
         trigger="click"
@@ -712,14 +712,12 @@ export default {
 
 .news {
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  padding-top: 80px;
-  padding-bottom: 80px;
   
   .news-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 40px;
+    gap: 16px;
+    margin-top: 32px;
   }
 
   .news-item {
