@@ -107,13 +107,6 @@ $background-color-light: #FAFAFA;
 }
 
 // 响应式
-@media (max-width: 1400px) {
-  .container {
-    max-width: 100%;
-    padding: 0 30px;
-  }
-}
-
 @media (max-width: 768px) {
   .container {
     padding: 0 15px;
