@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
 import Solutions from '../views/Solutions.vue'
@@ -39,13 +39,17 @@ const routes = [
   }
 ]
 
-// 根据 publicPath 设置 base
-// 如果 publicPath 是 './'，则 base 应该为 '/'
-const base = process.env.BASE_URL === './' ? '/' : (process.env.BASE_URL || '/')
-
+// 使用 hash 模式，无需配置 base
+// hash 模式的优点：不需要服务器配置，刷新页面不会出现 404
+// 缺点：URL 中会有 # 符号，对 SEO 不友好（但对于单页应用影响较小）
 const router = createRouter({
-  history: createWebHistory(base),
+  history: createWebHashHistory(),
   routes
+})
+
+// 添加路由错误处理
+router.onError((error) => {
+  console.error('路由错误:', error)
 })
 
 export default router

@@ -42,6 +42,12 @@ service.interceptors.response.use(
     return response.data
   },
   (error) => {
+    // 对于 404 错误，不显示错误提示（通常是可选的 API，如 banner）
+    // 让调用方自己决定是否需要显示错误
+    if (error.response && error.response.status === 404) {
+      return Promise.reject(error)
+    }
+
     let message = '网络异常，请稍后重试'
 
     if (error.response) {
@@ -51,7 +57,6 @@ service.interceptors.response.use(
         400: '请求参数错误',
         401: '未授权或登录过期',
         403: '无权限访问',
-        404: '资源不存在',
         500: '服务器错误'
       }
       message = (data && (data.message || data.msg)) || statusMap[status] || message
@@ -59,6 +64,7 @@ service.interceptors.response.use(
       message = '请求超时，请检查网络'
     }
 
+    // 对于非 404 错误才显示提示
     ElMessage.error(message)
     return Promise.reject(error)
   }

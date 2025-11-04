@@ -74,6 +74,10 @@ src/
 - 招聘信息
 - 二维码关注
 
+## ⚠️ 重要提示
+
+本项目使用 **Hash 路由模式**，无需配置服务器路由重定向即可正常部署。详情请查看 `DEPLOYMENT.md` 文件。
+
 ## 安装和运行
 
 ### 环境要求
@@ -129,45 +133,97 @@ npm run lint
 - CDN加速
 
 ### 部署配置
+
+本项目使用 **Hash 路由模式**，部署非常简单，无需配置服务器路由重定向。
+
 1. **构建项目**：
 ```bash
 npm run build
 ```
 
 2. **部署到服务器**：
-   - 将 `dist` 目录中的文件上传到服务器
-   - 确保服务器配置了正确的路由重定向
+   - 将 `dist` 目录中的所有文件上传到服务器
+   - 上传到子目录（如 `/official/`）或根目录都可以
+   - **无需任何服务器路由配置**，直接提供静态文件服务即可
 
-3. **服务器配置（重要）**：
-   由于使用了 Vue Router 的 history 模式，需要配置服务器将所有路由请求重定向到 `index.html`。
+3. **服务器配置（可选，仅用于静态文件服务）**：
 
-   **Nginx 配置示例**：
+   使用 Hash 模式时，服务器只需要提供基本的静态文件服务，**不需要路由重定向配置**。
+
+   **Nginx/OpenResty 配置示例（子目录部署）**：
    ```nginx
    server {
        listen 80;
-       server_name your-domain.com;
-       root /path/to/dist;
-       index index.html;
-
-       location / {
-           try_files $uri $uri/ /index.html;
+       server_name 119.45.45.25;
+       root /var/www/html;
+       
+       # 静态文件服务（无需 try_files 配置）
+       location /official/ {
+           alias /var/www/html/official/;
+           index index.html;
+       }
+       
+       # API 代理（如果需要）
+       location /api/ {
+           proxy_pass http://119.45.45.25;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
        }
    }
    ```
 
-   **Apache 配置示例**（.htaccess）：
+4. **访问地址格式**：
+   - 首页：`http://域名/official/#/`
+   - 产品页：`http://域名/official/#/products`
+   - 新闻页：`http://域名/official/#/news`
+
+   **注意**：URL 中会有 `#` 符号，这是 Hash 模式的特点。
+
+5. **详细部署说明**：
+   更多部署详情和常见问题，请查看 `DEPLOYMENT.md` 文件。
+
+   **Apache 配置示例（子目录部署）**：
    ```apache
-   <IfModule mod_rewrite.c>
-     RewriteEngine On
-     RewriteBase /
-     RewriteRule ^index\.html$ - [L]
-     RewriteCond %{REQUEST_FILENAME} !-f
-     RewriteCond %{REQUEST_FILENAME} !-d
-     RewriteRule . /index.html [L]
-   </IfModule>
+   # 使用 hash 模式时，Apache 也只需要基本的目录配置
+   # 无需 RewriteRule 路由重定向
+   <Directory "/var/www/html/official">
+       Options Indexes FollowSymLinks
+       AllowOverride None
+       Require all granted
+   </Directory>
    ```
 
-4. **注意事项**：
+6. **故障排查**：
+   - **页面空白**：
+     * 打开浏览器开发者工具（F12），查看 Console 和 Network 标签
+     * 检查是否有 JavaScript 错误
+     * 检查静态资源（CSS、JS）是否加载成功
+     * 确认 URL 中包含 `#` 符号（hash 模式的特征）
+   - **刷新404**：
+     * 使用 hash 模式时不应该出现刷新404问题
+     * 如果仍然出现，请检查是否误用了 history 模式
+   
+   - **资源加载失败**：
+     * 检查 `publicPath` 配置是否正确
+     * 确认所有静态文件都已上传到服务器
+     * 检查服务器是否允许访问 `.js`、`.css` 等文件类型
+   
+   - **⚠️ 刷新后404错误（重要）**：
+     * **这是服务器配置问题，必须配置才能解决！**
+     * **OpenResty/Nginx 服务器**：
+       - 必须在 Nginx 配置文件中添加：`location /official/ { try_files $uri $uri/ /official/index.html; }`
+       - 配置文件位置：`/etc/nginx/conf.d/default.conf` 或 `/etc/nginx/nginx.conf`
+       - 配置后执行：`nginx -t` 测试，然后 `nginx -s reload` 重载
+       - 详细配置请参考 `nginx.conf.example` 文件
+     * **Apache 服务器**：
+       - 确认 `/official/` 目录下有 `.htaccess` 文件
+       - 文件内容参考上面的 Apache 配置示例
+     * **关键点**：`try_files $uri $uri/ /official/index.html;` 这行配置是必需的
+     * 如果无法修改服务器配置，请联系服务器管理员
+     * 详细说明请查看 `DEPLOYMENT.md` 文件
+
+6. **注意事项**：
    - 不要直接打开 `dist/index.html` 文件（file://协议），history 模式需要服务器支持
    - 必须通过 HTTP 服务器访问打包后的文件
    - 如果需要在本地测试，可以使用 `npx serve dist` 或 `python -m http.server` 启动本地服务器
