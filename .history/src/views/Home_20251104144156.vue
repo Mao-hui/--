@@ -374,7 +374,7 @@ export default {
 }
 
 .hero {
-  height: 400px;
+  height: 600px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -411,25 +411,19 @@ export default {
   }
   
   :deep(.el-carousel__indicators) {
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    
     .el-carousel__indicator {
-      margin: 0 4px;
-      
       .el-carousel__button {
-        width: 24px;
-        height: 4px;
-        border-radius: 2px;
-        background-color: rgba(64, 158, 255, 0.6);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
         transition: all 0.3s ease;
-        border: none;
       }
       
       &.is-active .el-carousel__button {
         background-color: white;
-        width: 32px;
+        width: 30px;
+        border-radius: 5px;
       }
     }
   }

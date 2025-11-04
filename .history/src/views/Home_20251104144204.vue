@@ -374,7 +374,7 @@ export default {
 }
 
 .hero {
-  height: 400px;
+  height: 600px;
   position: relative;
   overflow: hidden;
   width: 100%;
