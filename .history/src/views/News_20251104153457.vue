@@ -63,7 +63,7 @@
                 <h3 class="news-title">{{ article.title }}</h3>
                 <p class="news-excerpt" v-if="article.excerpt">{{ article.excerpt }}</p>
                 <div :class="['news-action', { 'no-excerpt': !article.excerpt }]">
-                  <el-button type="primary" size="small" class="detail-btn" @click.stop="handleOpen(article)">
+                  <el-button type="primary" class="detail-btn" @click.stop="handleOpen(article)">
                     查看详情
                   </el-button>
                 </div>
@@ -392,7 +392,7 @@ export default {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    // border-radius: 12px;
+    border-radius: 12px;
     box-shadow: 0 12px 26px rgba(0,0,0,.1);
   }
 }
@@ -459,7 +459,6 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     margin-bottom: 30px;
-    align-items: start;
   }
   
   .news-card {
@@ -468,11 +467,10 @@ export default {
     display: flex;
     flex-direction: column;
     background: white;
-    // border-radius: 12px;
+    border-radius: 12px;
     border: 1px solid $border-color-lighter;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     cursor: pointer;
-    align-items: stretch;
     
     &:hover {
       transform: translateY(-6px);
@@ -487,7 +485,7 @@ export default {
     
     .news-image {
       width: 100%;
-      height: 120px;
+      height: 160px;
       overflow: hidden;
       position: relative;
       flex-shrink: 0;
@@ -506,15 +504,15 @@ export default {
     }
     
     .news-content {
-      padding: 12px 12px 0;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      min-height: 0;
+      flex: 1;
       
       .news-date {
         color: $text-color-secondary;
         font-size: 12px;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         line-height: 1;
       }
       
@@ -522,7 +520,7 @@ export default {
         font-size: 16px;
         color: $text-color-primary;
         margin: 0;
-        line-height: 1.3;
+        line-height: 1.4;
         font-weight: 600;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -530,37 +528,35 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         transition: color 0.3s ease;
+        min-height: 44px;
       }
       
       .news-excerpt {
         color: $text-color-regular;
         font-size: 13px;
-        line-height: 1.4;
+        line-height: 1.5;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin: 6px 0 8px;
-        flex: 0 0 auto;
+        margin: 8px 0 12px;
+        flex: 1;
       }
       
       .news-action {
+        margin-top: auto;
         display: flex;
         justify-content: center;
-        flex-shrink: 0;
-        flex: 0 0 auto;
-        padding: 12px 0;
-        margin-top: 0;
         
-        // 当标题后面没有摘要时，按钮间距较小
+        // 当没有摘要时，按钮间距较小
         &.no-excerpt {
-          padding-top: 8px;
+          margin-top: 4px;
         }
         
-        // 当标题后面有摘要时，按钮间距由摘要的下边距提供（正常间距）
+        // 当有摘要时，按钮间距由摘要的下边距提供（正常间距）
         .news-excerpt + & {
-          padding-top: 0;
+          margin-top: 0;
         }
         
         .detail-btn {
@@ -571,10 +567,8 @@ export default {
           border-radius: 6px;
           font-weight: 500;
           font-size: 14px;
-          padding: 12px;
+          padding: 10px;
           transition: all 0.3s ease;
-          margin: 0;
-          flex: 0 0 auto;
           
           &:hover {
             background: #606266;
@@ -693,6 +687,7 @@ export default {
       width: 100%;
       height: 240px;
       object-fit: cover;
+      border-radius: 10px;
       margin-bottom: 20px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
@@ -768,6 +763,7 @@ export default {
     width: 100%;
     height: 300px;
     object-fit: cover;
+    border-radius: 12px;
     margin-bottom: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
@@ -852,25 +848,18 @@ export default {
   
   .news-card {
     flex-direction: column;
+    border-radius: 12px;
     
     .news-image {
       width: 100%;
-      height: 180px;
+      height: 220px;
     }
     
     .news-content {
-      padding: 14px 14px 0;
+      padding: 20px;
       
       h3 {
         font-size: 18px;
-      }
-      
-      .news-action {
-        padding: 12px 0;
-        
-        &.no-excerpt {
-          padding-top: 8px;
-        }
       }
     }
   }

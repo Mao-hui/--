@@ -866,10 +866,10 @@ export default {
       }
       
       .news-action {
-        padding: 12px 0;
+        padding: 12px 0 14px;
         
         &.no-excerpt {
-          padding-top: 8px;
+          padding-top: 2px;
         }
       }
     }

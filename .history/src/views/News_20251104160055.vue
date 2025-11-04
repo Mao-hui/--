@@ -63,7 +63,7 @@
                 <h3 class="news-title">{{ article.title }}</h3>
                 <p class="news-excerpt" v-if="article.excerpt">{{ article.excerpt }}</p>
                 <div :class="['news-action', { 'no-excerpt': !article.excerpt }]">
-                  <el-button type="primary" size="small" class="detail-btn" @click.stop="handleOpen(article)">
+                  <el-button type="primary" class="detail-btn" @click.stop="handleOpen(article)">
                     查看详情
                   </el-button>
                 </div>
@@ -472,6 +472,7 @@ export default {
     border: 1px solid $border-color-lighter;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     cursor: pointer;
+    height: fit-content;
     align-items: stretch;
     
     &:hover {
@@ -506,9 +507,11 @@ export default {
     }
     
     .news-content {
-      padding: 12px 12px 0;
+      padding: 12px;
+      padding-bottom: 12px;
       display: flex;
       flex-direction: column;
+      flex: 0 0 auto;
       min-height: 0;
       
       .news-date {
@@ -530,6 +533,7 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         transition: color 0.3s ease;
+        min-height: 38px;
       }
       
       .news-excerpt {
@@ -549,18 +553,15 @@ export default {
         display: flex;
         justify-content: center;
         flex-shrink: 0;
-        flex: 0 0 auto;
-        padding: 12px 0;
-        margin-top: 0;
         
         // 当标题后面没有摘要时，按钮间距较小
         &.no-excerpt {
-          padding-top: 8px;
+          margin-top: 2px;
         }
         
         // 当标题后面有摘要时，按钮间距由摘要的下边距提供（正常间距）
         .news-excerpt + & {
-          padding-top: 0;
+          margin-top: 0;
         }
         
         .detail-btn {
@@ -571,10 +572,9 @@ export default {
           border-radius: 6px;
           font-weight: 500;
           font-size: 14px;
-          padding: 12px;
+          padding: 8px;
           transition: all 0.3s ease;
           margin: 0;
-          flex: 0 0 auto;
           
           &:hover {
             background: #606266;
@@ -859,18 +859,10 @@ export default {
     }
     
     .news-content {
-      padding: 14px 14px 0;
+      padding: 14px;
       
       h3 {
         font-size: 18px;
-      }
-      
-      .news-action {
-        padding: 12px 0;
-        
-        &.no-excerpt {
-          padding-top: 8px;
-        }
       }
     }
   }

@@ -550,12 +550,12 @@ export default {
         justify-content: center;
         flex-shrink: 0;
         flex: 0 0 auto;
-        padding: 12px 0;
+        padding: 12px 0 12px;
         margin-top: 0;
         
         // 当标题后面没有摘要时，按钮间距较小
         &.no-excerpt {
-          padding-top: 8px;
+          padding-top: 2px;
         }
         
         // 当标题后面有摘要时，按钮间距由摘要的下边距提供（正常间距）
@@ -571,7 +571,7 @@ export default {
           border-radius: 6px;
           font-weight: 500;
           font-size: 14px;
-          padding: 12px;
+          padding: 8px;
           transition: all 0.3s ease;
           margin: 0;
           flex: 0 0 auto;
@@ -859,18 +859,10 @@ export default {
     }
     
     .news-content {
-      padding: 14px 14px 0;
+      padding: 14px;
       
       h3 {
         font-size: 18px;
-      }
-      
-      .news-action {
-        padding: 12px 0;
-        
-        &.no-excerpt {
-          padding-top: 8px;
-        }
       }
     }
   }
