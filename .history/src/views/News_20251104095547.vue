@@ -6,8 +6,8 @@
     <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
         <div class="banner-overlay">
-          <!-- <h1 class="banner-title">新闻中心</h1>
-          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
+          <h1 class="banner-title">新闻中心</h1>
+          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p>
         </div>
       </div>
     </div>
@@ -701,24 +701,6 @@ export default {
       margin-top: 24px;
       margin-bottom: 16px;
       font-weight: 600;
-    }
-  }
-}
-
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
-    
-    .banner-content {
-      padding: 0 30px;
-    }
-    
-    .banner-title {
-      font-size: 42px;
-    }
-    
-    .banner-subtitle {
-      font-size: 18px;
     }
   }
 }

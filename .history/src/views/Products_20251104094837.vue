@@ -318,7 +318,7 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;

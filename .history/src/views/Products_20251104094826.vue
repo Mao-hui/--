@@ -145,7 +145,6 @@ import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetProduct, apiGetProductDetail } from '@/api'
-import prod1Image from '@/assets/image/prod1.png'
 
 export default {
   name: 'Products',
@@ -162,6 +161,7 @@ export default {
     const dialogVisible = ref(false)
     const currentProduct = ref(null)
     const detailLoading = ref(false)
+    const banners = ref([])
     
     const stripHtml = (html) => {
       if (!html) return ''
@@ -170,8 +170,11 @@ export default {
     
     const bannerStyle = computed(() => {
       // 使用本地图片
+      const localImage = require('@/assets/image/prod1.png')
+      const defaultGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+      
       return {
-        backgroundImage: `url('${prod1Image}')`,
+        backgroundImage: `url('${localImage}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -286,8 +289,11 @@ export default {
       }
     }
     
-    onMounted(() => {
-      loadProducts()
+    onMounted(async () => {
+      await Promise.all([
+        loadBanner(),
+        loadProducts()
+      ])
     })
     
     return {
@@ -296,6 +302,7 @@ export default {
       products,
       loading,
       error,
+      banners,
       bannerStyle,
       setActiveCategory,
       getCurrentCategory,
@@ -318,7 +325,7 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;

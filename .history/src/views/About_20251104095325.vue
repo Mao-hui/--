@@ -601,20 +601,6 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
-    
-    .banner-content {
-      padding: 0 30px;
-    }
-    
-    .banner-title {
-      font-size: 42px;
-    }
-  }
-}
-
 @media (max-width: 768px) {
   .banner-section {
     height: 350px;
@@ -625,6 +611,12 @@ export default {
     
     .banner-title {
       font-size: 32px;
+    }
+  }
+    
+    .banner-overlay h2 {
+      font-size: 28px;
+      letter-spacing: 1px;
     }
   }
   

@@ -140,12 +140,11 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetProduct, apiGetProductDetail } from '@/api'
-import prod1Image from '@/assets/image/prod1.png'
 
 export default {
   name: 'Products',
@@ -167,16 +166,6 @@ export default {
       if (!html) return ''
       return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
     }
-    
-    const bannerStyle = computed(() => {
-      // 使用本地图片
-      return {
-        backgroundImage: `url('${prod1Image}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    })
     
     const loadProducts = async () => {
       loading.value = true
@@ -296,7 +285,6 @@ export default {
       products,
       loading,
       error,
-      bannerStyle,
       setActiveCategory,
       getCurrentCategory,
       getCurrentProducts,
@@ -315,54 +303,21 @@ export default {
   padding-top: 70px;
 }
 
-.banner-section {
-  position: relative;
-  overflow: hidden;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  }
-  
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  
-  .banner-overlay {
-    padding: 0 20px;
-    text-align: center;
-  }
-  
-  .banner-title {
+  h1 {
     font-size: 48px;
     font-weight: bold;
-    color: white;
     margin-bottom: 20px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    line-height: 1.2;
   }
   
-  .banner-subtitle {
+  p {
     font-size: 20px;
-    color: white;
-    opacity: 0.95;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    line-height: 1.5;
+    opacity: 0.9;
   }
 }
 
@@ -617,24 +572,6 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 450px;
-    
-    .banner-content {
-      padding: 0 30px;
-    }
-    
-    .banner-title {
-      font-size: 42px;
-    }
-    
-    .banner-subtitle {
-      font-size: 18px;
-    }
-  }
-}
-
 @media (max-width: 768px) {
   .products-layout {
     grid-template-columns: 1fr;
@@ -653,19 +590,14 @@ export default {
     }
   }
   
-  .banner-section {
-    height: 350px;
+  .page-header {
+    padding: 60px 0;
     
-    .banner-content {
-      padding: 0 20px;
-    }
-    
-    .banner-title {
+    h1 {
       font-size: 32px;
-      margin-bottom: 15px;
     }
     
-    .banner-subtitle {
+    p {
       font-size: 16px;
     }
   }

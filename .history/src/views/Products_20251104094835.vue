@@ -170,8 +170,11 @@ export default {
     
     const bannerStyle = computed(() => {
       // 使用本地图片
+      const localImage = require('@/assets/image/prod1.png')
+      const defaultGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+      
       return {
-        backgroundImage: `url('${prod1Image}')`,
+        backgroundImage: `url('${localImage}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -318,7 +321,7 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;

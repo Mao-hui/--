@@ -593,38 +593,15 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
-    
-    .banner-content {
-      padding: 0 30px;
-    }
-    
-    .banner-title {
-      font-size: 42px;
-    }
-    
-    .banner-subtitle {
-      font-size: 18px;
-    }
-  }
-}
-
 @media (max-width: 768px) {
-  .banner-section {
-    height: 350px;
+  .page-header {
+    padding: 60px 0;
     
-    .banner-content {
-      padding: 0 20px;
-    }
-    
-    .banner-title {
+    h1 {
       font-size: 32px;
-      margin-bottom: 15px;
     }
     
-    .banner-subtitle {
+    p {
       font-size: 16px;
     }
   }

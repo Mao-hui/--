@@ -219,52 +219,69 @@ export default {
   padding-top: 70px;
 }
 
-.banner-section {
-  position: relative;
-  overflow: hidden;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  }
-  
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  
-  .banner-overlay {
-    padding: 0 20px;
-    text-align: center;
-  }
-  
-  .banner-title {
+  h1 {
     font-size: 48px;
     font-weight: bold;
-    color: white;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 20px;
+    opacity: 0.9;
   }
 }
 
 .about-content {
   padding: 60px 0;
   background: $background-color-light;
+}
+
+.company-banner {
+  position: relative;
+  margin-bottom: 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
+  
+  img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  &:hover img {
+    transform: scale(1.05);
+  }
+  
+  .banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+    @include flex-center;
+    
+    h2 {
+      color: white;
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
+    }
+  }
 }
 
 .company-intro {
@@ -601,30 +618,29 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
+@media (max-width: 768px) {
+  .page-header {
+    padding: 60px 0;
     
-    .banner-content {
-      padding: 0 30px;
+    h1 {
+      font-size: 32px;
     }
     
-    .banner-title {
-      font-size: 42px;
+    p {
+      font-size: 16px;
     }
   }
-}
-
-@media (max-width: 768px) {
-  .banner-section {
-    height: 350px;
+  
+  .company-banner {
+    margin-bottom: 40px;
     
-    .banner-content {
-      padding: 0 20px;
+    img {
+      height: 200px;
     }
     
-    .banner-title {
-      font-size: 32px;
+    .banner-overlay h2 {
+      font-size: 28px;
+      letter-spacing: 1px;
     }
   }
   

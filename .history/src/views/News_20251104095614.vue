@@ -6,8 +6,8 @@
     <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
         <div class="banner-overlay">
-          <!-- <h1 class="banner-title">新闻中心</h1>
-          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
+          <h1 class="banner-title">新闻中心</h1>
+          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p>
         </div>
       </div>
     </div>

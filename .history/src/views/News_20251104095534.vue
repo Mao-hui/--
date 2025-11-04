@@ -6,8 +6,8 @@
     <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
         <div class="banner-overlay">
-          <!-- <h1 class="banner-title">新闻中心</h1>
-          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
+          <h1 class="banner-title">新闻中心</h1>
+          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p>
         </div>
       </div>
     </div>
@@ -106,7 +106,6 @@ import { useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsList } from '@/api'
-import newsImage from '@/assets/image/news.png'
 
 export default {
   name: 'News',
@@ -129,17 +128,6 @@ export default {
     const previewItem = ref(null)
     const searchKeyword = ref('')
     const monthFilter = ref('')
-    
-    const bannerStyle = computed(() => {
-      // 使用本地图片
-      return {
-        backgroundImage: `url('${newsImage}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    })
-    
     const stripHtml = (html) => {
       if (!html) return ''
       return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
@@ -225,8 +213,7 @@ export default {
       handleOpen,
       searchKeyword,
       monthFilter,
-      displayedList,
-      bannerStyle
+      displayedList
     }
   }
 }
@@ -238,13 +225,13 @@ export default {
   padding-top: 70px;
 }
 
-.banner-section {
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 100px 0;
+  text-align: center;
   position: relative;
   overflow: hidden;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   
   &::before {
     content: '';
@@ -253,39 +240,27 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+  
+  .container {
+    position: relative;
     z-index: 1;
   }
   
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  
-  .banner-overlay {
-    padding: 0 20px;
-    text-align: center;
-  }
-  
-  .banner-title {
+  h1 {
     font-size: 48px;
     font-weight: bold;
-    color: white;
     margin-bottom: 20px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
   }
   
-  .banner-subtitle {
+  p {
     font-size: 20px;
-    color: white;
     opacity: 0.95;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    line-height: 1.5;
+    font-weight: 300;
   }
 }
 
@@ -705,24 +680,6 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
-    
-    .banner-content {
-      padding: 0 30px;
-    }
-    
-    .banner-title {
-      font-size: 42px;
-    }
-    
-    .banner-subtitle {
-      font-size: 18px;
-    }
-  }
-}
-
 @media (max-width: 768px) {
   .news-section {
     padding: 20px;
@@ -766,19 +723,15 @@ export default {
     }
   }
   
-  .banner-section {
-    height: 350px;
+  .page-header {
+    padding: 60px 0;
     
-    .banner-content {
-      padding: 0 20px;
-    }
-    
-    .banner-title {
+    h1 {
       font-size: 32px;
-      margin-bottom: 15px;
+      letter-spacing: 1px;
     }
     
-    .banner-subtitle {
+    p {
       font-size: 16px;
     }
   }

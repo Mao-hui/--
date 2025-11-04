@@ -601,30 +601,29 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
-  .banner-section {
-    height: 380px;
+@media (max-width: 768px) {
+  .page-header {
+    padding: 60px 0;
     
-    .banner-content {
-      padding: 0 30px;
+    h1 {
+      font-size: 32px;
     }
     
-    .banner-title {
-      font-size: 42px;
+    p {
+      font-size: 16px;
     }
   }
-}
-
-@media (max-width: 768px) {
-  .banner-section {
-    height: 350px;
+  
+  .company-banner {
+    margin-bottom: 40px;
     
-    .banner-content {
-      padding: 0 20px;
+    img {
+      height: 200px;
     }
     
-    .banner-title {
-      font-size: 32px;
+    .banner-overlay h2 {
+      font-size: 28px;
+      letter-spacing: 1px;
     }
   }
   
