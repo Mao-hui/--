@@ -18,7 +18,10 @@
         <div class="company-intro section">
           <div class="intro-content">
             <div class="intro-text">
-              <h3>企业简介</h3>
+              <h2>向量介绍</h2>
+              <div class="intro-image">
+                <img src="https://via.placeholder.com/400x300/7ED321/FFFFFF?text=公司团队" alt="公司团队" />
+              </div>
               <div class="intro-description">
                 <p>蚌埠向量科技有限公司创立于安徽蚌埠，我们不仅是一家软件公司，更是一位致力于用技术为客户精准定位价值方向、赋能业务增长的长期合作伙伴。公司研发人员占比80%，全部具有本科以上学历，公司常年服务ABB、奔驰、比亚迪等汽车制造相关企业，同时也为其他企业提供定制化软件服务。</p>
                 
@@ -104,7 +107,7 @@ import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetHire, apiGetHireDetail } from '@/api'
-import aboutImage from '@/assets/image/about4.png'
+import aboutImage from '@/assets/image/about1.png'
 
 export default {
   name: 'About',

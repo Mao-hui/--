@@ -21,7 +21,7 @@
         
         <!-- 新闻列表 + 预览分栏布局 -->
         <div class="news-section news-layout">
-          <!-- <h2>新闻中心</h2> -->
+          <h2>新闻中心</h2>
           <!-- 工具条：搜索 + 月份筛选 -->
           <div class="news-toolbar">
             <el-input v-model="searchKeyword" placeholder="搜索新闻标题/内容" clearable prefix-icon="Search" class="tb-item" />
