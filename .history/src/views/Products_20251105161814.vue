@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
@@ -261,18 +261,6 @@ export default {
         detailLoading.value = false
       }
     }
-    
-    // 监听路由变化，当productId变化时自动打开详情
-    watch(() => route.query.productId, (newProductId) => {
-      if (newProductId && products.value.all && products.value.all.length > 0) {
-        const foundProduct = products.value.all.find(p => String(p.id) === String(newProductId))
-        if (foundProduct) {
-          setTimeout(() => {
-            openDetail(foundProduct)
-          }, 100)
-        }
-      }
-    })
     
     onMounted(() => {
       loadProducts()

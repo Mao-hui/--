@@ -49,8 +49,7 @@
                         <h3>{{ getSelectedCategoryName() }}</h3>
                         <span class="link-text" @click="goToPage(item.path)">查看全部</span>
                       </div>
-                      <!-- 产品中心：显示产品列表 -->
-                      <div v-if="item.path === '/products'" class="right-list">
+                      <div class="right-list">
                         <div 
                           v-for="detail in getDropdownDetails(selectedCategory, item.path)"
                           :key="detail.id"
@@ -59,26 +58,6 @@
                         >
                           <div class="detail-name">{{ detail.name }}</div>
                           <div class="detail-desc">{{ detail.description }}</div>
-                        </div>
-                      </div>
-                      <!-- 解决方案：按小行业分组显示 -->
-                      <div v-else-if="item.path === '/solutions'" class="right-list-solutions">
-                        <div 
-                          v-for="smallGroup in getDropdownDetails(selectedCategory, item.path)"
-                          :key="smallGroup.smallIndustryName"
-                          class="small-industry-group"
-                        >
-                          <div class="small-industry-name">{{ smallGroup.smallIndustryName }}</div>
-                          <div class="schemes-list">
-                            <div
-                              v-for="scheme in smallGroup.schemes"
-                              :key="scheme.id"
-                              class="scheme-item"
-                              @click="goToDetail(item.path, scheme)"
-                            >
-                              {{ scheme.name }}
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -685,63 +664,6 @@ export default {
                   overflow: hidden;
                   opacity: 0.8;
                   transition: opacity 0.3s ease;
-                }
-              }
-            }
-            
-            // 解决方案的样式（按小行业分组）
-            .right-list-solutions {
-              display: flex;
-              flex-direction: column;
-              gap: 20px;
-              
-              .small-industry-group {
-                margin-bottom: 16px;
-                
-                .small-industry-name {
-                  font-size: 15px;
-                  font-weight: 600;
-                  color: rgba(255, 255, 255, 0.9);
-                  margin-bottom: 12px;
-                  padding-bottom: 8px;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                }
-                
-                .schemes-list {
-                  display: flex;
-                  flex-direction: column;
-                  gap: 8px;
-                  
-                  .scheme-item {
-                    padding: 10px 12px;
-                    background: transparent;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 14px;
-                    position: relative;
-                    
-                    &::after {
-                      content: '';
-                      position: absolute;
-                      left: 0;
-                      bottom: 0;
-                      width: 0;
-                      height: 1px;
-                      background: white;
-                      transition: width 0.3s ease;
-                    }
-                    
-                    &:hover {
-                      background: rgba(255, 255, 255, 0.05);
-                      color: white;
-                      
-                      &::after {
-                        width: 100%;
-                      }
-                    }
-                  }
                 }
               }
             }
