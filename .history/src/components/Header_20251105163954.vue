@@ -406,8 +406,8 @@ export default {
         font-size: 15px;
         font-weight: 500;
         padding: 0 24px;
-        height: 30px;
-        line-height: 30px;
+        height: 70px;
+        line-height: 70px;
         cursor: pointer;
         border-bottom: 2px solid transparent;
         white-space: nowrap;
@@ -654,71 +654,51 @@ export default {
             .right-list {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 14px;
+              gap: 12px;
               
               .detail-item {
-                padding: 14px 16px;
-                background: rgba(255, 255, 255, 0.03);
-                border-radius: 8px;
+                padding: 12px;
+                background: transparent;
+                border-radius: 6px;
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border: 1px solid rgba(255, 255, 255, 0.05);
+                border: none;
                 position: relative;
                 overflow: hidden;
                 
-                &::before {
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  top: 0;
-                  bottom: 0;
-                  width: 2px;
-                  background: white;
-                  transform: scaleY(0);
-                  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-                
                 &:hover {
-                  background: rgba(255, 255, 255, 0.08);
-                  border-color: rgba(255, 255, 255, 0.15);
-                  transform: translateY(-2px);
-                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                  background: rgba(255, 255, 255, 0.05);
                   
                   .detail-name {
-                    color: white;
+                    color: rgba(255, 255, 255, 1);
                   }
                   
                   .detail-desc {
                     opacity: 1;
-                    color: rgba(255, 255, 255, 0.85);
-                  }
-                  
-                  &::before {
-                    transform: scaleY(1);
                   }
                 }
                 
                 .detail-name {
                   font-size: 14px;
-                  font-weight: 600;
-                  color: rgba(255, 255, 255, 0.95);
-                  margin-bottom: 8px;
-                  transition: all 0.3s ease;
+                  font-weight: 500;
+                  color: white;
+                  margin-bottom: 6px;
+                  transition: color 0.3s ease;
                   letter-spacing: 0.3px;
-                  line-height: 1.5;
+                  line-height: 1.4;
                 }
                 
                 .detail-desc {
                   font-size: 12px;
-                  color: rgba(255, 255, 255, 0.65);
-                  line-height: 1.6;
+                  color: rgba(255, 255, 255, 0.7);
+                  line-height: 1.5;
                   display: -webkit-box;
                   -webkit-line-clamp: 2;
                   line-clamp: 2;
                   -webkit-box-orient: vertical;
                   overflow: hidden;
-                  opacity: 0.85;
-                  transition: all 0.3s ease;
+                  opacity: 0.8;
+                  transition: opacity 0.3s ease;
                 }
               }
             }
@@ -727,36 +707,34 @@ export default {
             .right-list-solutions {
               display: flex;
               flex-direction: column;
-              gap: 16px;
+              gap: 12px;
               
               .small-industry-group {
                 margin-bottom: 0;
                 
                 .small-industry-name {
-                  font-size: 16px;
+                  font-size: 15px;
                   font-weight: 600;
-                  color: rgba(255, 255, 255, 0.95);
-                  margin-bottom: 10px;
-                  padding-bottom: 8px;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-                  letter-spacing: 0.4px;
+                  color: rgba(255, 255, 255, 0.9);
+                  margin-bottom: 8px;
+                  padding-bottom: 6px;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 }
                 
                 .schemes-list {
                   display: flex;
                   flex-direction: column;
-                  gap: 6px;
+                  gap: 4px;
                   
                   .scheme-item {
-                    padding: 10px 14px;
-                    background: rgba(255, 255, 255, 0.03);
-                    border-radius: 6px;
+                    padding: 6px 12px;
+                    background: transparent;
+                    border-radius: 4px;
                     cursor: pointer;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    color: rgba(255, 255, 255, 0.85);
+                    transition: all 0.3s ease;
+                    color: rgba(255, 255, 255, 0.8);
                     font-size: 14px;
                     position: relative;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
                     
                     &::after {
                       content: '';
@@ -764,18 +742,14 @@ export default {
                       left: 0;
                       bottom: 0;
                       width: 0;
-                      height: 2px;
+                      height: 1px;
                       background: white;
-                      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                      border-radius: 0 2px 2px 0;
+                      transition: width 0.3s ease;
                     }
                     
                     &:hover {
-                      background: rgba(255, 255, 255, 0.08);
+                      background: rgba(255, 255, 255, 0.05);
                       color: white;
-                      border-color: rgba(255, 255, 255, 0.15);
-                      transform: translateX(4px);
-                      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
                       
                       &::after {
                         width: 100%;

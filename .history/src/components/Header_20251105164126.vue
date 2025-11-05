@@ -406,8 +406,8 @@ export default {
         font-size: 15px;
         font-weight: 500;
         padding: 0 24px;
-        height: 30px;
-        line-height: 30px;
+        height: 70px;
+        line-height: 70px;
         cursor: pointer;
         border-bottom: 2px solid transparent;
         white-space: nowrap;
