@@ -414,6 +414,42 @@ export default {
   min-height: 600px;
 }
 
+.solutions-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 70px;
+  z-index: 5;
+  backdrop-filter: saturate(150%) blur(8px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar { display: none; }
+  
+  .nav-item {
+    padding: 12px 18px;
+    cursor: pointer;
+    border-radius: 22px;
+    transition: all 0.25s ease;
+    color: $text-color-regular;
+    font-weight: 600;
+    position: relative;
+    border: 1px solid transparent;
+    
+    &:hover { color: $primary-color; background: $background-color-light; }
+    &.active { color: $primary-color; background: rgba($primary-color, .08); border-color: rgba($primary-color, .2); }
+    &.active::after {
+      content: '';
+      position: absolute; left: 16px; right: 16px; bottom: 6px; height: 2px; background: $primary-color; border-radius: 2px;
+    }
+  }
+}
+
 .solution-content {
   .solution-detail {
     .solution-banner {
@@ -566,6 +602,15 @@ export default {
     
     .banner-subtitle {
       font-size: 16px;
+    }
+  }
+  
+  .solutions-nav {
+    flex-direction: column;
+    gap: 10px;
+    
+    .nav-item {
+      justify-content: center;
     }
   }
   

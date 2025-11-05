@@ -569,6 +569,15 @@ export default {
     }
   }
   
+  .solutions-nav {
+    flex-direction: column;
+    gap: 10px;
+    
+    .nav-item {
+      justify-content: center;
+    }
+  }
+  
   .solution-content .solution-detail .solution-banner {
     grid-template-columns: 1fr;
     gap: 16px;
