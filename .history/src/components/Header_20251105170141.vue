@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { apiGetProduct, apiGetScheme } from '@/api'
@@ -226,20 +226,7 @@ export default {
       }
     }
     
-    // 使用 ref 来存储定时器，确保在组件卸载时也能清理
-    let hideTimer = null
-    
-    const clearHideTimer = () => {
-      if (hideTimer) {
-        clearTimeout(hideTimer)
-        hideTimer = null
-      }
-    }
-    
     const handleMouseEnter = (item) => {
-      // 清除隐藏定时器，确保下拉菜单能立即显示
-      clearHideTimer()
-      
       if (item.hasDropdown) {
         showDropdown.value = item.path
         // 自动选择第一个分类
@@ -256,32 +243,22 @@ export default {
     
     const handleMouseLeave = (item) => {
       // 延迟隐藏，以便用户能移动到下拉菜单
-      clearHideTimer() // 先清除之前的定时器
-      hideTimer = setTimeout(() => {
+      setTimeout(() => {
         if (showDropdown.value === item.path) {
           showDropdown.value = ''
           selectedCategory.value = ''
         }
-        hideTimer = null
-      }, 250)
+      }, 200)
     }
     
     const handleDropdownEnter = () => {
-      // 清除隐藏定时器，保持下拉菜单显示
-      clearHideTimer()
+      // 鼠标进入下拉菜单时不清空
     }
     
     const handleDropdownLeave = () => {
-      // 清除定时器并立即隐藏
-      clearHideTimer()
       showDropdown.value = ''
       selectedCategory.value = ''
     }
-    
-    // 组件卸载时清理定时器
-    onBeforeUnmount(() => {
-      clearHideTimer()
-    })
     
     const getDropdownCategories = (path) => {
       if (path === '/products') {
