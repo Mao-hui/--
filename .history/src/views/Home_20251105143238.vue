@@ -459,7 +459,6 @@ export default {
         height: 100%;
         object-fit: contain;
         display: block;
-        transition: opacity 0.3s ease;
       }
       
       .el-icon {
@@ -644,10 +643,6 @@ export default {
       .feature-icon {
         transform: translateY(-5px) scale(1.1);
         
-        .feature-image {
-          opacity: 0.9;
-        }
-        
         .el-icon {
           color: $primary-color;
         }
@@ -674,7 +669,6 @@ export default {
         height: 100%;
         object-fit: contain;
         display: block;
-        transition: opacity 0.3s ease;
       }
       
       .el-icon {

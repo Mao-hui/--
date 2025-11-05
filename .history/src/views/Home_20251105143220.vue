@@ -434,10 +434,6 @@ export default {
       .capability-icon {
         transform: scale(1.15) rotate(5deg);
         
-        .capability-image {
-          opacity: 0.9;
-        }
-        
         .el-icon {
           color: $primary-color;
         }
@@ -459,7 +455,6 @@ export default {
         height: 100%;
         object-fit: contain;
         display: block;
-        transition: opacity 0.3s ease;
       }
       
       .el-icon {
@@ -644,10 +639,6 @@ export default {
       .feature-icon {
         transform: translateY(-5px) scale(1.1);
         
-        .feature-image {
-          opacity: 0.9;
-        }
-        
         .el-icon {
           color: $primary-color;
         }
@@ -661,21 +652,6 @@ export default {
     .feature-icon {
       margin-bottom: 18px;
       transition: transform 0.3s ease;
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      
-      .feature-image {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-        transition: opacity 0.3s ease;
-      }
       
       .el-icon {
         color: $primary-color;

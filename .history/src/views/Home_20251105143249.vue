@@ -674,7 +674,6 @@ export default {
         height: 100%;
         object-fit: contain;
         display: block;
-        transition: opacity 0.3s ease;
       }
       
       .el-icon {
