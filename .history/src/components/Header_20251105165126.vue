@@ -416,11 +416,11 @@ export default {
         color: $text-color-primary;
         position: relative;
         
-        // hover时显示主题色
+        // hover时显示白色文字和白色下划线（参照图片样式）
         &:hover {
-          color: $primary-color;
+          color: white;
           background: transparent;
-          border-bottom-color: $primary-color;
+          border-bottom-color: white;
         }
         
         // 当前激活的页面路由（但如果有下拉菜单显示，则优先显示下拉菜单的项）
@@ -430,10 +430,10 @@ export default {
           background: transparent;
         }
         
-        // 显示下拉菜单时显示主题色
+        // 显示下拉菜单时显示白色文字和白色下划线（参照图片样式）
         &.dropdown-active {
-          color: $primary-color;
-          border-bottom-color: $primary-color;
+          color: white;
+          border-bottom-color: white;
           background: transparent;
         }
         
@@ -797,7 +797,7 @@ export default {
             gap: 12px;
             
             p {
-              color: rgba(48, 49, 51, 0.5);
+              color: rgba(255, 255, 255, 0.5);
               font-size: 14px;
             }
           }

@@ -416,11 +416,11 @@ export default {
         color: $text-color-primary;
         position: relative;
         
-        // hover时显示主题色
+        // hover时显示白色文字和白色下划线（参照图片样式）
         &:hover {
-          color: $primary-color;
+          color: white;
           background: transparent;
-          border-bottom-color: $primary-color;
+          border-bottom-color: white;
         }
         
         // 当前激活的页面路由（但如果有下拉菜单显示，则优先显示下拉菜单的项）
@@ -430,10 +430,10 @@ export default {
           background: transparent;
         }
         
-        // 显示下拉菜单时显示主题色
+        // 显示下拉菜单时显示白色文字和白色下划线（参照图片样式）
         &.dropdown-active {
-          color: $primary-color;
-          border-bottom-color: $primary-color;
+          color: white;
+          border-bottom-color: white;
           background: transparent;
         }
         
@@ -659,11 +659,11 @@ export default {
               
               .detail-item {
                 padding: 14px 16px;
-                background: rgba(245, 247, 250, 0.5);
+                background: rgba(255, 255, 255, 0.03);
                 border-radius: 8px;
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border: 1px solid rgba(0, 0, 0, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.05);
                 position: relative;
                 overflow: hidden;
                 
@@ -674,24 +674,24 @@ export default {
                   top: 0;
                   bottom: 0;
                   width: 2px;
-                  background: $primary-color;
+                  background: white;
                   transform: scaleY(0);
                   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
                 
                 &:hover {
-                  background: rgba(64, 158, 255, 0.08);
-                  border-color: rgba(64, 158, 255, 0.2);
+                  background: rgba(255, 255, 255, 0.08);
+                  border-color: rgba(255, 255, 255, 0.15);
                   transform: translateY(-2px);
-                  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.15);
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
                   
                   .detail-name {
-                    color: $primary-color;
+                    color: white;
                   }
                   
                   .detail-desc {
                     opacity: 1;
-                    color: rgba(48, 49, 51, 0.8);
+                    color: rgba(255, 255, 255, 0.85);
                   }
                   
                   &::before {
@@ -702,7 +702,7 @@ export default {
                 .detail-name {
                   font-size: 14px;
                   font-weight: 600;
-                  color: $text-color-primary;
+                  color: rgba(255, 255, 255, 0.95);
                   margin-bottom: 8px;
                   transition: all 0.3s ease;
                   letter-spacing: 0.3px;
@@ -711,7 +711,7 @@ export default {
                 
                 .detail-desc {
                   font-size: 12px;
-                  color: rgba(48, 49, 51, 0.65);
+                  color: rgba(255, 255, 255, 0.65);
                   line-height: 1.6;
                   display: -webkit-box;
                   -webkit-line-clamp: 2;
@@ -736,10 +736,10 @@ export default {
                 .small-industry-name {
                   font-size: 16px;
                   font-weight: 600;
-                  color: $text-color-primary;
+                  color: rgba(255, 255, 255, 0.95);
                   margin-bottom: 10px;
                   padding-bottom: 8px;
-                  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
                   letter-spacing: 0.4px;
                 }
                 
@@ -750,14 +750,14 @@ export default {
                   
                   .scheme-item {
                     padding: 10px 14px;
-                    background: rgba(245, 247, 250, 0.5);
+                    background: rgba(255, 255, 255, 0.03);
                     border-radius: 6px;
                     cursor: pointer;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    color: rgba(48, 49, 51, 0.85);
+                    color: rgba(255, 255, 255, 0.85);
                     font-size: 14px;
                     position: relative;
-                    border: 1px solid rgba(0, 0, 0, 0.06);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
                     
                     &::after {
                       content: '';
@@ -766,17 +766,17 @@ export default {
                       bottom: 0;
                       width: 0;
                       height: 2px;
-                      background: $primary-color;
+                      background: white;
                       transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                       border-radius: 0 2px 2px 0;
                     }
                     
                     &:hover {
-                      background: rgba(64, 158, 255, 0.08);
-                      color: $primary-color;
-                      border-color: rgba(64, 158, 255, 0.2);
+                      background: rgba(255, 255, 255, 0.08);
+                      color: white;
+                      border-color: rgba(255, 255, 255, 0.15);
                       transform: translateX(4px);
-                      box-shadow: 0 2px 8px rgba(64, 158, 255, 0.15);
+                      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
                       
                       &::after {
                         width: 100%;
@@ -797,7 +797,7 @@ export default {
             gap: 12px;
             
             p {
-              color: rgba(48, 49, 51, 0.5);
+              color: rgba(255, 255, 255, 0.5);
               font-size: 14px;
             }
           }
