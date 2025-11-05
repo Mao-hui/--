@@ -284,10 +284,10 @@ export default {
     }
     
     const handleSelect = (path) => {
-      router.push(path)
-      // 关闭下拉菜单
-      showDropdown.value = ''
-      selectedCategory.value = ''
+      const item = menuItems.value.find(m => m.path === path)
+      if (!item || !item.hasDropdown) {
+        router.push(path)
+      }
     }
     
     const contactUs = () => {
@@ -379,11 +379,11 @@ export default {
         color: $text-color-primary;
         position: relative;
         
-        // hover时显示白色文字和白色下划线（参照图片样式）
+        // hover时显示蓝色下划线
         &:hover {
-          color: white;
+          color: $primary-color;
           background: transparent;
-          border-bottom-color: white;
+          border-bottom-color: $primary-color;
         }
         
         // 当前激活的页面路由（但如果有下拉菜单显示，则优先显示下拉菜单的项）
@@ -393,13 +393,14 @@ export default {
           background: transparent;
         }
         
-        // 显示下拉菜单时显示白色文字和白色下划线（参照图片样式）
+        // 显示下拉菜单时也显示蓝色下划线（优先级最高）
         &.dropdown-active {
-          color: white;
-          border-bottom-color: white;
+          color: $primary-color;
+          border-bottom-color: $primary-color;
           background: transparent;
         }
         
+        // 当有下拉菜单显示时，其他项（包括active）都不显示蓝色下划线
       }
       
       // 当有下拉菜单显示时，隐藏其他项的蓝色下划线
@@ -415,37 +416,37 @@ export default {
         }
       }
       
-      // 下拉菜单样式（参照图片：深色半透明背景）
+      .nav-item {
+      }
+      
+      // 下拉菜单样式（优化版）
       .dropdown-menu {
         position: absolute;
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        width: 1200px;
-        max-height: 360px;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 0 0 8px 8px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+        width: 900px;
+        max-height: 520px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
         z-index: 1001;
-        margin-top: 0;
+        margin-top: 12px;
         overflow: hidden;
         animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: none;
+        border: 1px solid rgba(0, 0, 0, 0.06);
         
         .dropdown-content {
           display: flex;
           height: 100%;
-          max-height: 360px;
+          max-height: 520px;
         }
         
         .dropdown-left {
-          width: 280px;
-          background: transparent;
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 12px 0;
+          width: 260px;
+          background: linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+          border-right: 1px solid rgba(0, 0, 0, 0.06);
+          padding: 24px 0;
           overflow-y: auto;
           overflow-x: hidden;
           
@@ -458,11 +459,11 @@ export default {
           }
           
           &::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 3px;
             
             &:hover {
-              background: rgba(255, 255, 255, 0.3);
+              background: rgba(0, 0, 0, 0.25);
             }
           }
           
@@ -470,20 +471,20 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 14px 24px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(255, 255, 255, 0.8);
+            color: $text-color-regular;
             position: relative;
-            margin: 1px 8px;
-            border-radius: 6px;
+            margin: 2px 8px;
+            border-radius: 8px;
             
             &::before {
               content: '';
               position: absolute;
               left: 0;
-              top: 0;
-              bottom: 0;
+              top: 50%;
+              transform: translateY(-50%);
               width: 3px;
               height: 0;
               background: $primary-color;
@@ -492,25 +493,32 @@ export default {
             }
             
             &:hover {
-              background: rgba(255, 255, 255, 0.05);
-              color: rgba(255, 255, 255, 0.95);
+              background: rgba(64, 158, 255, 0.08);
+              color: $primary-color;
+              transform: translateX(2px);
+              
+              &::before {
+                height: 60%;
+              }
             }
             
             &.active {
-              color: $primary-color;
+              background: linear-gradient(90deg, $primary-color 0%, rgba(64, 158, 255, 0.95) 100%);
+              color: white;
+              box-shadow: 0 4px 12px rgba(64, 158, 255, 0.25);
+              transform: translateX(0);
               
               &::before {
                 height: 100%;
-                background: $primary-color;
+                background: rgba(255, 255, 255, 0.3);
               }
             }
             
             .category-name {
-              font-size: 14px;
+              font-size: 15px;
               font-weight: 500;
-              letter-spacing: 0.2px;
-              transition: color 0.25s ease;
-              line-height: 1.4;
+              letter-spacing: 0.3px;
+              transition: font-weight 0.25s ease;
             }
             
             &.active .category-name {
@@ -519,12 +527,11 @@ export default {
             
             .arrow-icon {
               font-size: 14px;
-              color: rgba(255, 255, 255, 0.6);
+              color: rgba(255, 255, 255, 0.9);
               transition: transform 0.25s ease;
             }
             
             &.active .arrow-icon {
-              color: $primary-color;
               transform: translateX(2px);
             }
           }
@@ -532,9 +539,9 @@ export default {
         
         .dropdown-right {
           flex: 1;
-          padding: 20px 32px;
+          padding: 28px 32px;
           overflow-y: auto;
-          background: transparent;
+          background: white;
           
           &::-webkit-scrollbar {
             width: 6px;
@@ -545,11 +552,11 @@ export default {
           }
           
           &::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 3px;
             
             &:hover {
-              background: rgba(255, 255, 255, 0.3);
+              background: rgba(0, 0, 0, 0.25);
             }
           }
           
@@ -558,21 +565,25 @@ export default {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              margin-bottom: 16px;
-              padding-bottom: 12px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              margin-bottom: 24px;
+              padding-bottom: 18px;
+              border-bottom: 2px solid rgba(64, 158, 255, 0.1);
               
               h3 {
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: 700;
-                color: white;
+                color: $text-color-primary;
                 margin: 0;
                 letter-spacing: 0.5px;
+                background: linear-gradient(135deg, $primary-color 0%, #66B1FF 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
               }
               
               .link-text {
                 font-size: 14px;
-                color: white;
+                color: $primary-color;
                 cursor: pointer;
                 transition: all 0.3s ease;
                 padding: 6px 12px;
@@ -583,19 +594,19 @@ export default {
                 gap: 4px;
                 
                 &:hover {
-                  color: rgba(255, 255, 255, 0.8);
-                  background: rgba(255, 255, 255, 0.1);
+                  color: #66B1FF;
+                  background: rgba(64, 158, 255, 0.08);
+                  transform: translateX(2px);
                 }
                 
                 &::after {
-                  content: '↗';
+                  content: '→';
                   font-size: 12px;
-                  margin-left: 4px;
                   transition: transform 0.3s ease;
                 }
                 
                 &:hover::after {
-                  transform: translate(2px, -2px);
+                  transform: translateX(3px);
                 }
               }
             }
@@ -603,51 +614,71 @@ export default {
             .right-list {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 12px;
+              gap: 20px;
               
               .detail-item {
-                padding: 12px;
-                background: transparent;
-                border-radius: 6px;
+                padding: 20px;
+                background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+                border-radius: 10px;
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border: none;
+                border: 1.5px solid rgba(0, 0, 0, 0.06);
                 position: relative;
                 overflow: hidden;
                 
+                &::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: linear-gradient(90deg, $primary-color 0%, #66B1FF 100%);
+                  transform: scaleX(0);
+                  transform-origin: left;
+                  transition: transform 0.3s ease;
+                }
+                
                 &:hover {
-                  background: rgba(255, 255, 255, 0.05);
+                  background: white;
+                  transform: translateY(-4px);
+                  box-shadow: 0 8px 24px rgba(64, 158, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+                  border-color: rgba(64, 158, 255, 0.4);
                   
-                  .detail-name {
-                    color: rgba(255, 255, 255, 1);
+                  &::before {
+                    transform: scaleX(1);
                   }
                   
-                  .detail-desc {
-                    opacity: 1;
+                  .detail-name {
+                    color: $primary-color;
                   }
                 }
                 
                 .detail-name {
-                  font-size: 14px;
-                  font-weight: 500;
-                  color: white;
-                  margin-bottom: 6px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: $text-color-primary;
+                  margin-bottom: 10px;
                   transition: color 0.3s ease;
                   letter-spacing: 0.3px;
                   line-height: 1.4;
                 }
                 
                 .detail-desc {
-                  font-size: 12px;
-                  color: rgba(255, 255, 255, 0.7);
-                  line-height: 1.5;
+                  font-size: 13px;
+                  color: $text-color-regular;
+                  line-height: 1.6;
                   display: -webkit-box;
                   -webkit-line-clamp: 2;
                   line-clamp: 2;
                   -webkit-box-orient: vertical;
                   overflow: hidden;
-                  opacity: 0.8;
+                  opacity: 0.85;
                   transition: opacity 0.3s ease;
+                }
+                
+                &:hover .detail-desc {
+                  opacity: 1;
                 }
               }
             }
@@ -662,8 +693,9 @@ export default {
             gap: 12px;
             
             p {
-              color: rgba(255, 255, 255, 0.5);
+              color: $text-color-secondary;
               font-size: 14px;
+              opacity: 0.7;
             }
           }
         }

@@ -426,14 +426,13 @@ export default {
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border-radius: 0 0 8px 8px;
+        border-radius: 8px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
         z-index: 1001;
-        margin-top: 0;
+        margin-top: 12px;
         overflow: hidden;
         animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: none;
         
         .dropdown-content {
           display: flex;
@@ -470,7 +469,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 8px 24px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(255, 255, 255, 0.8);

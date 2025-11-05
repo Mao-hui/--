@@ -69,6 +69,7 @@
           </div>
         </div>
       </div>
+    </div>
     
     <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="800px">
       <div class="product-detail" v-loading="detailLoading">
@@ -95,7 +96,6 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
@@ -109,7 +109,6 @@ export default {
     Footer
   },
   setup() {
-    const route = useRoute()
     const activeCategory = ref('all')
     const loading = ref(false)
     const error = ref('')
@@ -169,12 +168,6 @@ export default {
           })
           products.value.all = allList
           categoryGroups.value = Array.from(bigMap.values())
-          
-          // 从URL参数中读取category并设置激活分类
-          const queryCategory = route.query.category
-          if (queryCategory && products.value[queryCategory]) {
-            activeCategory.value = queryCategory
-          }
         } else {
           error.value = (res && (res.msg || res.message)) || '加载失败'
         }
@@ -332,6 +325,62 @@ export default {
   padding: 60px 0;
   background: $background-color-light;
   min-height: 600px;
+}
+
+.products-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+}
+
+.products-sidebar {
+  background: white;
+  border-radius: 8px;
+  padding: 30px 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+  
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: $text-color-primary;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid $border-color-lighter;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-menu {
+    .menu-group {
+      .group-title {
+        font-size: 14px;
+        color: $text-color-secondary;
+        padding: 10px 20px 5px;
+      }
+    }
+    .menu-item {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: $text-color-regular;
+      
+      &:hover {
+        background: $background-color-light;
+        color: $primary-color;
+      }
+      
+      &.active {
+        background: $primary-color;
+        color: white;
+      }
+      
+      span {
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
 }
 
 .products-main {
@@ -510,6 +559,22 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .products-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .products-sidebar {
+    .sidebar-menu {
+      display: flex;
+      overflow-x: auto;
+      
+      .menu-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+    }
+  }
   
   .banner-section {
     height: 350px;

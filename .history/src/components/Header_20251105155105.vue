@@ -470,7 +470,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 8px 24px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(255, 255, 255, 0.8);

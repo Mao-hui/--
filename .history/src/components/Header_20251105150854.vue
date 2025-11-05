@@ -7,14 +7,11 @@
           <span class="logo-title">向量科技</span>
         </div>
         <nav class="nav">
-          <div :class="['nav-menu', { 'has-dropdown': showDropdown }]">
+          <div class="nav-menu">
             <div 
               v-for="item in menuItems" 
               :key="item.path"
-              :class="['nav-item', { 
-                active: activeIndex === item.path,
-                'dropdown-active': showDropdown === item.path
-              }]"
+              :class="['nav-item', { active: activeIndex === item.path }]"
               @mouseenter="handleMouseEnter(item)"
               @mouseleave="handleMouseLeave(item)"
               @click="handleSelect(item.path)"
@@ -284,10 +281,10 @@ export default {
     }
     
     const handleSelect = (path) => {
-      router.push(path)
-      // 关闭下拉菜单
-      showDropdown.value = ''
-      selectedCategory.value = ''
+      const item = menuItems.value.find(m => m.path === path)
+      if (!item || !item.hasDropdown) {
+        router.push(path)
+      }
     }
     
     const contactUs = () => {
@@ -379,178 +376,100 @@ export default {
         color: $text-color-primary;
         position: relative;
         
-        // hover时显示白色文字和白色下划线（参照图片样式）
         &:hover {
-          color: white;
+          color: $primary-color;
           background: transparent;
-          border-bottom-color: white;
         }
         
-        // 当前激活的页面路由（但如果有下拉菜单显示，则优先显示下拉菜单的项）
-        &.active:not(.dropdown-active) {
+        &.active {
           color: $primary-color;
           border-bottom-color: $primary-color;
           background: transparent;
         }
-        
-        // 显示下拉菜单时显示白色文字和白色下划线（参照图片样式）
-        &.dropdown-active {
-          color: white;
-          border-bottom-color: white;
-          background: transparent;
-        }
-        
       }
       
-      // 当有下拉菜单显示时，隐藏其他项的蓝色下划线
-      .nav-menu.has-dropdown {
-        .nav-item {
-          &:not(.dropdown-active):not(:hover) {
-            border-bottom-color: transparent !important;
-          }
-          
-          &.active:not(.dropdown-active) {
-            border-bottom-color: transparent !important;
-          }
-        }
-      }
-      
-      // 下拉菜单样式（参照图片：深色半透明背景）
+      // 下拉菜单样式（与产品中心样式一致）
       .dropdown-menu {
         position: absolute;
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        width: 1200px;
-        max-height: 360px;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 0 0 8px 8px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+        width: 800px;
+        max-height: 500px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
         z-index: 1001;
-        margin-top: 0;
+        margin-top: 8px;
         overflow: hidden;
-        animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: none;
+        animation: fadeInDown 0.3s ease;
         
         .dropdown-content {
           display: flex;
           height: 100%;
-          max-height: 360px;
+          max-height: 500px;
         }
         
         .dropdown-left {
-          width: 280px;
-          background: transparent;
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 12px 0;
+          width: 240px;
+          background: white;
+          border-right: 1px solid $border-color-lighter;
+          padding: 30px 0;
           overflow-y: auto;
-          overflow-x: hidden;
           
           &::-webkit-scrollbar {
-            width: 5px;
-          }
-          
-          &::-webkit-scrollbar-track {
-            background: transparent;
+            width: 4px;
           }
           
           &::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-            
-            &:hover {
-              background: rgba(255, 255, 255, 0.3);
-            }
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
           }
           
           .category-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 15px 20px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(255, 255, 255, 0.8);
-            position: relative;
-            margin: 1px 8px;
-            border-radius: 6px;
-            
-            &::before {
-              content: '';
-              position: absolute;
-              left: 0;
-              top: 0;
-              bottom: 0;
-              width: 3px;
-              height: 0;
-              background: $primary-color;
-              border-radius: 0 2px 2px 0;
-              transition: height 0.25s ease;
-            }
+            transition: all 0.3s ease;
+            color: $text-color-regular;
             
             &:hover {
-              background: rgba(255, 255, 255, 0.05);
-              color: rgba(255, 255, 255, 0.95);
+              background: $background-color-light;
+              color: $primary-color;
             }
             
             &.active {
-              color: $primary-color;
-              
-              &::before {
-                height: 100%;
-                background: $primary-color;
-              }
+              background: $primary-color;
+              color: white;
             }
             
             .category-name {
-              font-size: 14px;
+              font-size: 16px;
               font-weight: 500;
-              letter-spacing: 0.2px;
-              transition: color 0.25s ease;
-              line-height: 1.4;
-            }
-            
-            &.active .category-name {
-              font-weight: 600;
             }
             
             .arrow-icon {
-              font-size: 14px;
-              color: rgba(255, 255, 255, 0.6);
-              transition: transform 0.25s ease;
-            }
-            
-            &.active .arrow-icon {
-              color: $primary-color;
-              transform: translateX(2px);
+              font-size: 12px;
+              color: white;
             }
           }
         }
         
         .dropdown-right {
           flex: 1;
-          padding: 20px 32px;
+          padding: 24px;
           overflow-y: auto;
-          background: transparent;
+          background: white;
           
           &::-webkit-scrollbar {
             width: 6px;
           }
           
-          &::-webkit-scrollbar-track {
-            background: transparent;
-          }
-          
           &::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 3px;
-            
-            &:hover {
-              background: rgba(255, 255, 255, 0.3);
-            }
           }
           
           .right-content {
@@ -558,44 +477,25 @@ export default {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              margin-bottom: 16px;
-              padding-bottom: 12px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              margin-bottom: 20px;
+              padding-bottom: 16px;
+              border-bottom: 1px solid $border-color-lighter;
               
               h3 {
                 font-size: 18px;
-                font-weight: 700;
-                color: white;
+                font-weight: 600;
+                color: $text-color-primary;
                 margin: 0;
-                letter-spacing: 0.5px;
               }
               
               .link-text {
                 font-size: 14px;
-                color: white;
+                color: $primary-color;
                 cursor: pointer;
-                transition: all 0.3s ease;
-                padding: 6px 12px;
-                border-radius: 6px;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 4px;
+                transition: color 0.3s ease;
                 
                 &:hover {
-                  color: rgba(255, 255, 255, 0.8);
-                  background: rgba(255, 255, 255, 0.1);
-                }
-                
-                &::after {
-                  content: '↗';
-                  font-size: 12px;
-                  margin-left: 4px;
-                  transition: transform 0.3s ease;
-                }
-                
-                &:hover::after {
-                  transform: translate(2px, -2px);
+                  color: #66B1FF;
                 }
               }
             }
@@ -603,51 +503,39 @@ export default {
             .right-list {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 12px;
+              gap: 16px;
               
               .detail-item {
-                padding: 12px;
-                background: transparent;
+                padding: 16px;
+                background: $background-color-light;
                 border-radius: 6px;
                 cursor: pointer;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border: none;
-                position: relative;
-                overflow: hidden;
+                transition: all 0.3s ease;
+                border: 1px solid $border-color-lighter;
                 
                 &:hover {
-                  background: rgba(255, 255, 255, 0.05);
-                  
-                  .detail-name {
-                    color: rgba(255, 255, 255, 1);
-                  }
-                  
-                  .detail-desc {
-                    opacity: 1;
-                  }
+                  background: white;
+                  transform: translateY(-2px);
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                  border-color: rgba($primary-color, 0.3);
                 }
                 
                 .detail-name {
-                  font-size: 14px;
-                  font-weight: 500;
-                  color: white;
-                  margin-bottom: 6px;
-                  transition: color 0.3s ease;
-                  letter-spacing: 0.3px;
-                  line-height: 1.4;
+                  font-size: 15px;
+                  font-weight: 600;
+                  color: $text-color-primary;
+                  margin-bottom: 8px;
                 }
                 
                 .detail-desc {
-                  font-size: 12px;
-                  color: rgba(255, 255, 255, 0.7);
+                  font-size: 13px;
+                  color: $text-color-regular;
                   line-height: 1.5;
                   display: -webkit-box;
                   -webkit-line-clamp: 2;
                   line-clamp: 2;
                   -webkit-box-orient: vertical;
                   overflow: hidden;
-                  opacity: 0.8;
-                  transition: opacity 0.3s ease;
                 }
               }
             }
@@ -655,14 +543,12 @@ export default {
           
           .right-empty {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 200px;
-            gap: 12px;
             
             p {
-              color: rgba(255, 255, 255, 0.5);
+              color: $text-color-secondary;
               font-size: 14px;
             }
           }

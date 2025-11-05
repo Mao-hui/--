@@ -69,6 +69,7 @@
           </div>
         </div>
       </div>
+    </div>
     
     <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="800px">
       <div class="product-detail" v-loading="detailLoading">
@@ -95,7 +96,6 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
@@ -109,7 +109,6 @@ export default {
     Footer
   },
   setup() {
-    const route = useRoute()
     const activeCategory = ref('all')
     const loading = ref(false)
     const error = ref('')
@@ -169,12 +168,6 @@ export default {
           })
           products.value.all = allList
           categoryGroups.value = Array.from(bigMap.values())
-          
-          // 从URL参数中读取category并设置激活分类
-          const queryCategory = route.query.category
-          if (queryCategory && products.value[queryCategory]) {
-            activeCategory.value = queryCategory
-          }
         } else {
           error.value = (res && (res.msg || res.message)) || '加载失败'
         }
@@ -510,6 +503,22 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .products-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .products-sidebar {
+    .sidebar-menu {
+      display: flex;
+      overflow-x: auto;
+      
+      .menu-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+    }
+  }
   
   .banner-section {
     height: 350px;

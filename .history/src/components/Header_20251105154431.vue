@@ -426,14 +426,13 @@ export default {
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border-radius: 0 0 8px 8px;
+        border-radius: 8px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
         z-index: 1001;
-        margin-top: 0;
+        margin-top: 12px;
         overflow: hidden;
         animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: none;
         
         .dropdown-content {
           display: flex;
@@ -445,7 +444,7 @@ export default {
           width: 280px;
           background: transparent;
           border-right: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 12px 0;
+          padding: 16px 0;
           overflow-y: auto;
           overflow-x: hidden;
           
@@ -470,13 +469,13 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 14px 24px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(255, 255, 255, 0.8);
             position: relative;
-            margin: 1px 8px;
-            border-radius: 6px;
+            margin: 2px 8px;
+            border-radius: 8px;
             
             &::before {
               content: '';
@@ -506,11 +505,10 @@ export default {
             }
             
             .category-name {
-              font-size: 14px;
+              font-size: 15px;
               font-weight: 500;
-              letter-spacing: 0.2px;
+              letter-spacing: 0.3px;
               transition: color 0.25s ease;
-              line-height: 1.4;
             }
             
             &.active .category-name {
@@ -628,19 +626,19 @@ export default {
                 }
                 
                 .detail-name {
-                  font-size: 14px;
+                  font-size: 15px;
                   font-weight: 500;
                   color: white;
-                  margin-bottom: 6px;
+                  margin-bottom: 8px;
                   transition: color 0.3s ease;
                   letter-spacing: 0.3px;
                   line-height: 1.4;
                 }
                 
                 .detail-desc {
-                  font-size: 12px;
+                  font-size: 13px;
                   color: rgba(255, 255, 255, 0.7);
-                  line-height: 1.5;
+                  line-height: 1.6;
                   display: -webkit-box;
                   -webkit-line-clamp: 2;
                   line-clamp: 2;

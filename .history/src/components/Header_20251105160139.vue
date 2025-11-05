@@ -422,7 +422,7 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         width: 1200px;
-        max-height: 360px;
+        max-height: 400px;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
