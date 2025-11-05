@@ -422,7 +422,7 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         width: 1200px;
-        max-height: 400px;
+        max-height: 360px;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -438,14 +438,14 @@ export default {
         .dropdown-content {
           display: flex;
           height: 100%;
-          max-height: 400px;
+          max-height: 360px;
         }
         
         .dropdown-left {
           width: 280px;
           background: transparent;
           border-right: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 16px 0;
+          padding: 12px 0;
           overflow-y: auto;
           overflow-x: hidden;
           

@@ -438,7 +438,7 @@ export default {
         .dropdown-content {
           display: flex;
           height: 100%;
-          max-height: 400px;
+          max-height: 360px;
         }
         
         .dropdown-left {
