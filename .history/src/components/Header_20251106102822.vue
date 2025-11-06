@@ -251,28 +251,42 @@ export default {
     }
     
     const handleMouseEnter = (item) => {
-      // 清除隐藏定时器，确保菜单能显示
-      clearHideTimer()
+      // 清除所有定时器，避免冲突
+      clearAllTimers()
       
       // 记录当前悬停的项
       currentHoverItem = item
       
       if (item.hasDropdown) {
-        // 立即显示菜单，不添加延迟，确保响应及时
-        showDropdown.value = item.path
-        
-        // 自动选择第一个分类
-        const categories = getDropdownCategories(item.path)
-        if (categories.length > 0) {
-          // 如果当前选中的分类不在当前菜单的分类列表中，则选择第一个
-          const currentCategory = categories.find(c => c.key === selectedCategory.value)
-          if (!currentCategory) {
-            selectedCategory.value = categories[0].key
+        // 如果当前显示的是同一个菜单，立即显示（无需延迟）
+        if (showDropdown.value === item.path) {
+          // 自动选择第一个分类
+          const categories = getDropdownCategories(item.path)
+          if (categories.length > 0) {
+            const currentCategory = categories.find(c => c.key === selectedCategory.value)
+            if (!currentCategory) {
+              selectedCategory.value = categories[0].key
+            }
           }
+          return
         }
         
-        // 清除显示定时器（如果有的话）
-        clearShowTimer()
+        // 如果是切换到不同的菜单，添加短暂延迟，避免快速移动时闪烁
+        showTimer = setTimeout(() => {
+          // 检查是否仍然是当前悬停的项（防止快速移动时显示错误的菜单）
+          if (currentHoverItem === item && currentHoverItem.hasDropdown) {
+            showDropdown.value = item.path
+            // 自动选择第一个分类
+            const categories = getDropdownCategories(item.path)
+            if (categories.length > 0) {
+              const currentCategory = categories.find(c => c.key === selectedCategory.value)
+              if (!currentCategory) {
+                selectedCategory.value = categories[0].key
+              }
+            }
+          }
+          showTimer = null
+        }, 50) // 50ms 延迟，避免快速移动时的闪烁
       } else {
         // 如果没有下拉菜单，立即清除显示状态
         if (showDropdown.value) {
@@ -283,45 +297,30 @@ export default {
     }
     
     const handleMouseLeave = (item) => {
+      // 清除显示定时器
+      clearShowTimer()
+      
       // 如果当前悬停的项不是这个项，说明已经移到了其他项，不需要隐藏
       if (currentHoverItem !== item) {
         return
       }
       
-      // 清除显示定时器
-      clearShowTimer()
-      
       // 延迟隐藏，以便用户能移动到下拉菜单
       clearHideTimer()
       hideTimer = setTimeout(() => {
         // 再次检查，确保用户没有移动到下拉菜单
-        // 只有在没有其他悬停项且当前菜单仍显示时才隐藏
-        if (showDropdown.value === item.path) {
-          // 检查是否鼠标已经移入下拉菜单（通过检查 currentHoverItem 是否仍为当前项）
-          // 如果 currentHoverItem 已改变，说明移到了其他导航项，不隐藏
-          if (currentHoverItem === item || !currentHoverItem) {
-            showDropdown.value = ''
-            selectedCategory.value = ''
-          }
+        if (showDropdown.value === item.path && currentHoverItem === item) {
+          showDropdown.value = ''
+          selectedCategory.value = ''
         }
         hideTimer = null
-      }, 150) // 150ms 延迟，给用户足够时间移动到下拉菜单
+      }, 200) // 200ms 延迟，给用户足够时间移动到下拉菜单
     }
     
     const handleDropdownEnter = () => {
       // 清除隐藏定时器，保持下拉菜单显示
       clearHideTimer()
-      // 清除显示定时器
-      clearShowTimer()
-      // 保持 currentHoverItem，确保下拉菜单继续显示
-      // 如果 currentHoverItem 被清空，则恢复它
-      if (!currentHoverItem && showDropdown.value) {
-        // 根据当前显示的菜单路径找到对应的菜单项
-        const menuItem = menuItems.value.find(item => item.path === showDropdown.value)
-        if (menuItem) {
-          currentHoverItem = menuItem
-        }
-      }
+      // 不清除 currentHoverItem，保持下拉菜单显示
     }
     
     const handleDropdownLeave = () => {
@@ -334,8 +333,7 @@ export default {
     
     // 组件卸载时清理定时器
     onBeforeUnmount(() => {
-      clearAllTimers()
-      currentHoverItem = null
+      clearHideTimer()
     })
     
     const getDropdownCategories = (path) => {

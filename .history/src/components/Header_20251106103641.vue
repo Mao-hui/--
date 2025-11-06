@@ -311,17 +311,7 @@ export default {
     const handleDropdownEnter = () => {
       // 清除隐藏定时器，保持下拉菜单显示
       clearHideTimer()
-      // 清除显示定时器
-      clearShowTimer()
-      // 保持 currentHoverItem，确保下拉菜单继续显示
-      // 如果 currentHoverItem 被清空，则恢复它
-      if (!currentHoverItem && showDropdown.value) {
-        // 根据当前显示的菜单路径找到对应的菜单项
-        const menuItem = menuItems.value.find(item => item.path === showDropdown.value)
-        if (menuItem) {
-          currentHoverItem = menuItem
-        }
-      }
+      // 不清除 currentHoverItem，保持下拉菜单显示
     }
     
     const handleDropdownLeave = () => {

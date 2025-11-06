@@ -283,45 +283,30 @@ export default {
     }
     
     const handleMouseLeave = (item) => {
+      // 清除显示定时器
+      clearShowTimer()
+      
       // 如果当前悬停的项不是这个项，说明已经移到了其他项，不需要隐藏
       if (currentHoverItem !== item) {
         return
       }
       
-      // 清除显示定时器
-      clearShowTimer()
-      
       // 延迟隐藏，以便用户能移动到下拉菜单
       clearHideTimer()
       hideTimer = setTimeout(() => {
         // 再次检查，确保用户没有移动到下拉菜单
-        // 只有在没有其他悬停项且当前菜单仍显示时才隐藏
-        if (showDropdown.value === item.path) {
-          // 检查是否鼠标已经移入下拉菜单（通过检查 currentHoverItem 是否仍为当前项）
-          // 如果 currentHoverItem 已改变，说明移到了其他导航项，不隐藏
-          if (currentHoverItem === item || !currentHoverItem) {
-            showDropdown.value = ''
-            selectedCategory.value = ''
-          }
+        if (showDropdown.value === item.path && currentHoverItem === item) {
+          showDropdown.value = ''
+          selectedCategory.value = ''
         }
         hideTimer = null
-      }, 150) // 150ms 延迟，给用户足够时间移动到下拉菜单
+      }, 200) // 200ms 延迟，给用户足够时间移动到下拉菜单
     }
     
     const handleDropdownEnter = () => {
       // 清除隐藏定时器，保持下拉菜单显示
       clearHideTimer()
-      // 清除显示定时器
-      clearShowTimer()
-      // 保持 currentHoverItem，确保下拉菜单继续显示
-      // 如果 currentHoverItem 被清空，则恢复它
-      if (!currentHoverItem && showDropdown.value) {
-        // 根据当前显示的菜单路径找到对应的菜单项
-        const menuItem = menuItems.value.find(item => item.path === showDropdown.value)
-        if (menuItem) {
-          currentHoverItem = menuItem
-        }
-      }
+      // 不清除 currentHoverItem，保持下拉菜单显示
     }
     
     const handleDropdownLeave = () => {
