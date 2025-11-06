@@ -19,6 +19,14 @@
         </div>
         
         <div class="footer-section">
+          <h3>产品中心</h3>
+          <ul>
+            <li><router-link to="/solutions">解决方案</router-link></li>
+            <li><router-link to="/products">产品</router-link></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
           <h3>新闻中心</h3>
           <ul>
             <li><router-link to="/news">新闻</router-link></li>
@@ -111,9 +119,6 @@ export default {
       .el-icon {
         color: $primary-color;
         flex-shrink: 0;
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
       }
       
       span {
@@ -124,14 +129,16 @@ export default {
     // 联系方式标题和图标对齐
     &:first-child {
       h3 {
-        padding-left: 0;
-        margin-left: 0;
-      }
-      
-      .contact-item {
-        padding-left: 0;
-        margin-left: 0;
+        display: flex;
         align-items: center;
+        gap: 10px;
+        
+        &::before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+        }
       }
     }
     

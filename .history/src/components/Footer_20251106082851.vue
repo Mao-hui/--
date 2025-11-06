@@ -19,6 +19,14 @@
         </div>
         
         <div class="footer-section">
+          <h3>产品中心</h3>
+          <ul>
+            <li><router-link to="/solutions">解决方案</router-link></li>
+            <li><router-link to="/products">产品</router-link></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
           <h3>新闻中心</h3>
           <ul>
             <li><router-link to="/news">新闻</router-link></li>
@@ -131,7 +139,6 @@ export default {
       .contact-item {
         padding-left: 0;
         margin-left: 0;
-        align-items: center;
       }
     }
     

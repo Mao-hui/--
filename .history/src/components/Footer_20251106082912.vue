@@ -124,14 +124,21 @@ export default {
     // 联系方式标题和图标对齐
     &:first-child {
       h3 {
+        display: flex;
+        align-items: center;
         padding-left: 0;
         margin-left: 0;
+        margin-bottom: 20px;
       }
       
       .contact-item {
         padding-left: 0;
         margin-left: 0;
         align-items: center;
+        
+        .el-icon {
+          margin-left: 0;
+        }
       }
     }
     
