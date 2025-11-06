@@ -664,21 +664,16 @@ export default {
 /* 新增：方案卡样式与通用状态样式 */
 .solution-content {
   .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-  .scheme-cover { width: 100%; height: 120px; background: #f6f8fa; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-  .scheme-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
+  .scheme-cover { width: 100%; height: 120px; background: #f6f8fa; }
+  .scheme-cover img { width: 100%; height: 100%; object-fit: cover; }
   .scheme-body { padding: 14px; }
-  .scheme-title { font-size: 16px; margin: 0 0 5px; color: $text-color-primary; transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-title { font-size: 16px; margin: 0 0 5px; color: $text-color-primary; }
   .scheme-sub { margin: 0 0 6px; color: $text-color-secondary; font-size: 12px; }
   .scheme-desc { color: $text-color-regular; font-size: 13px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .scheme-tags { margin-top: 8px; display: flex; gap: 5px; }
   .scheme-actions { padding: 10px 14px 14px; display: flex; justify-content: flex-end; }
-  .scheme-card:hover { 
-    transform: translateY(-3px); 
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-    .scheme-cover img { transform: scale(1.05); }
-    .scheme-title { color: $primary-color; }
-  }
+  .scheme-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
 }
 
 .loading, .error { padding: 20px 0; color: $text-color-regular; }

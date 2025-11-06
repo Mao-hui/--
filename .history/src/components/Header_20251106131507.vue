@@ -261,14 +261,9 @@ export default {
       clearHideTimer()
       
       // 记录当前悬停的项
-      currentHoverItem.value = item
+      currentHoverItem = item
       
       if (item.hasDropdown) {
-        // 如果是同一个菜单，不重新加载
-        if (showDropdown.value === item.path) {
-          return
-        }
-        
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         
@@ -284,83 +279,91 @@ export default {
             selectedCategory.value = categories[0].key
           }
         }
+        
+        // 清除显示定时器（如果有的话）
+        clearShowTimer()
       } else {
         // 如果没有下拉菜单，立即清除显示状态
         if (showDropdown.value) {
           showDropdown.value = ''
           selectedCategory.value = ''
-          isInDropdown.value = false
+          isInDropdown = false
         }
       }
     }
     
     const handleMouseLeave = (item) => {
       // 如果当前悬停的项不是这个项，说明已经移到了其他项，不需要隐藏
-      if (currentHoverItem.value !== item) {
+      if (currentHoverItem !== item) {
         return
       }
       
+      // 清除显示定时器
+      clearShowTimer()
+      
       // 如果鼠标已经在下拉菜单内，不隐藏
-      if (isInDropdown.value && showDropdown.value === item.path) {
+      if (isInDropdown && showDropdown.value === item.path) {
         return
       }
       
       // 延迟隐藏，以便用户能移动到下拉菜单
       clearHideTimer()
-      hideTimer.value = setTimeout(() => {
+      hideTimer = setTimeout(() => {
         // 再次检查，确保用户没有移动到下拉菜单或其他导航项
         if (showDropdown.value === item.path) {
           // 如果鼠标已经移入下拉菜单，不隐藏
-          if (isInDropdown.value) {
+          if (isInDropdown) {
             return
           }
           // 如果鼠标移到了其他导航项，不隐藏当前菜单（让新项处理）
-          if (currentHoverItem.value && currentHoverItem.value !== item) {
+          if (currentHoverItem && currentHoverItem !== item) {
             return
           }
           // 只有在确定鼠标不在任何相关区域时才隐藏
           showDropdown.value = ''
           selectedCategory.value = ''
-          currentHoverItem.value = null
-          isInDropdown.value = false
+          currentHoverItem = null
+          isInDropdown = false
         }
-        hideTimer.value = null
-      }, DELAY_CONFIG.HIDE_NAV) // 使用配置的延迟时间
+        hideTimer = null
+      }, 200) // 200ms 延迟，给用户足够时间移动到下拉菜单
     }
     
     const handleDropdownEnter = (item) => {
       // 清除隐藏定时器，保持下拉菜单显示
       clearHideTimer()
+      // 清除显示定时器
+      clearShowTimer()
       // 标记鼠标在下拉菜单内
-      isInDropdown.value = true
+      isInDropdown = true
       // 保持 currentHoverItem，确保下拉菜单继续显示
       if (item) {
-        currentHoverItem.value = item
-      } else if (!currentHoverItem.value && showDropdown.value) {
+        currentHoverItem = item
+      } else if (!currentHoverItem && showDropdown.value) {
         // 根据当前显示的菜单路径找到对应的菜单项
         const menuItem = menuItems.value.find(m => m.path === showDropdown.value)
         if (menuItem) {
-          currentHoverItem.value = menuItem
+          currentHoverItem = menuItem
         }
       }
     }
     
     const handleDropdownLeave = () => {
       // 标记鼠标已离开下拉菜单
-      isInDropdown.value = false
+      isInDropdown = false
       
       // 延迟隐藏，给用户时间移回导航项
       clearHideTimer()
-      hideTimer.value = setTimeout(() => {
+      hideTimer = setTimeout(() => {
         // 如果鼠标已经移回导航项或其他区域，隐藏菜单
-        if (!isInDropdown.value && (!currentHoverItem.value || showDropdown.value !== currentHoverItem.value.path)) {
+        if (!isInDropdown && (!currentHoverItem || showDropdown.value !== currentHoverItem.path)) {
           clearAllTimers()
-          currentHoverItem.value = null
+          currentHoverItem = null
           showDropdown.value = ''
           selectedCategory.value = ''
         }
-        hideTimer.value = null
-      }, DELAY_CONFIG.HIDE_DROPDOWN) // 使用配置的延迟时间
+        hideTimer = null
+      }, 150)
     }
     
     // 保存滚动监听器清理函数
@@ -486,36 +489,6 @@ export default {
       }, 150)
     }
     
-    // 处理全局点击事件，点击外部区域时关闭下拉菜单
-    const handleGlobalClick = (event) => {
-      // 如果没有显示下拉菜单，不处理
-      if (!showDropdown.value) return
-      
-      // 检查点击是否在导航区域内
-      const nav = event.target.closest('.nav')
-      const dropdown = event.target.closest('.dropdown-menu')
-      
-      // 如果点击的不是导航或下拉菜单，关闭下拉菜单
-      if (!nav && !dropdown) {
-        clearAllTimers()
-        showDropdown.value = ''
-        selectedCategory.value = ''
-        currentHoverItem.value = null
-        isInDropdown.value = false
-      }
-    }
-    
-    // 处理ESC键关闭下拉菜单
-    const handleEscKey = (event) => {
-      if (event.key === 'Escape' && showDropdown.value) {
-        clearAllTimers()
-        showDropdown.value = ''
-        selectedCategory.value = ''
-        currentHoverItem.value = null
-        isInDropdown.value = false
-      }
-    }
-    
     onMounted(() => {
       loadProducts()
       loadSolutions()
@@ -538,15 +511,9 @@ export default {
       
       window.addEventListener('scroll', throttledScroll, { passive: true })
       
-      // 添加全局点击和键盘事件监听
-      document.addEventListener('click', handleGlobalClick)
-      document.addEventListener('keydown', handleEscKey)
-      
       // 保存清理函数
       scrollCleanup = () => {
         window.removeEventListener('scroll', throttledScroll)
-        document.removeEventListener('click', handleGlobalClick)
-        document.removeEventListener('keydown', handleEscKey)
         if (scrollTimeout) {
           clearTimeout(scrollTimeout)
         }
@@ -556,8 +523,7 @@ export default {
     // 组件卸载时清理定时器和滚动监听器
     onBeforeUnmount(() => {
       clearAllTimers()
-      currentHoverItem.value = null
-      isInDropdown.value = false
+      currentHoverItem = null
       if (scrollCleanup) {
         scrollCleanup()
       }
@@ -647,7 +613,7 @@ export default {
         border-bottom: 2px solid transparent;
         white-space: nowrap;
         flex-shrink: 0;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         color: $text-color-primary;
         position: relative;
         
@@ -656,7 +622,6 @@ export default {
           color: $primary-color;
           background: transparent;
           border-bottom-color: $primary-color;
-          transform: translateY(-1px); // 轻微上移效果
         }
         
         // 当前激活的页面路由（但如果有下拉菜单显示，则优先显示下拉菜单的项）
@@ -712,13 +677,12 @@ export default {
         &::before {
           content: '';
           position: absolute;
-          top: -8px; // 优化连接区域高度，避免误触
+          top: -10px; // 扩展到导航项下方
           left: 0;
           right: 0;
-          height: 8px;
+          height: 10px;
           background: transparent;
           pointer-events: auto; // 确保能捕获鼠标事件
-          z-index: 1000; // 确保在最上层
         }
         
         .dropdown-content {
@@ -761,7 +725,7 @@ export default {
             justify-content: space-between;
             padding: 12px 24px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(48, 49, 51, 0.85);
             position: relative;
             margin: 2px 8px;
@@ -1059,11 +1023,11 @@ export default {
       @keyframes fadeInDown {
         from {
           opacity: 0;
-          transform: translateX(-50%) translateY(-8px);
+          transform: translateY(-10px);
         }
         to {
           opacity: 1;
-          transform: translateX(-50%) translateY(0);
+          transform: translateY(0);
         }
       }
     }

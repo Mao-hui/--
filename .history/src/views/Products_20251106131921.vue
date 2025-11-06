@@ -406,7 +406,7 @@ export default {
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
         background: white;
         color: $text-color-regular;
         border-right: 1px solid $border-color-base;

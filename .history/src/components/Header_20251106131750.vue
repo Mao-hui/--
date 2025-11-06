@@ -264,11 +264,6 @@ export default {
       currentHoverItem.value = item
       
       if (item.hasDropdown) {
-        // 如果是同一个菜单，不重新加载
-        if (showDropdown.value === item.path) {
-          return
-        }
-        
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         

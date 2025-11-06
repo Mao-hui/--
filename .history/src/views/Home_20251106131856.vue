@@ -661,7 +661,7 @@ export default {
     
     .feature-icon {
       margin-bottom: 18px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s ease;
       width: 60px;
       height: 60px;
       margin: 0 auto 18px;

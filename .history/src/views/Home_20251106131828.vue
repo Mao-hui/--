@@ -447,7 +447,7 @@ export default {
     
     .capability-icon {
       margin-bottom: 18px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s ease;
       width: 60px;
       height: 60px;
       margin: 0 auto 18px;
@@ -618,7 +618,7 @@ export default {
     position: relative;
     background: white;
     border-radius: 10px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     border: 1px solid rgba(64, 158, 255, 0.1);
     
     &::after {
@@ -661,7 +661,7 @@ export default {
     
     .feature-icon {
       margin-bottom: 18px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s ease;
       width: 60px;
       height: 60px;
       margin: 0 auto 18px;

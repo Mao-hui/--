@@ -264,11 +264,6 @@ export default {
       currentHoverItem.value = item
       
       if (item.hasDropdown) {
-        // 如果是同一个菜单，不重新加载
-        if (showDropdown.value === item.path) {
-          return
-        }
-        
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         
@@ -486,36 +481,6 @@ export default {
       }, 150)
     }
     
-    // 处理全局点击事件，点击外部区域时关闭下拉菜单
-    const handleGlobalClick = (event) => {
-      // 如果没有显示下拉菜单，不处理
-      if (!showDropdown.value) return
-      
-      // 检查点击是否在导航区域内
-      const nav = event.target.closest('.nav')
-      const dropdown = event.target.closest('.dropdown-menu')
-      
-      // 如果点击的不是导航或下拉菜单，关闭下拉菜单
-      if (!nav && !dropdown) {
-        clearAllTimers()
-        showDropdown.value = ''
-        selectedCategory.value = ''
-        currentHoverItem.value = null
-        isInDropdown.value = false
-      }
-    }
-    
-    // 处理ESC键关闭下拉菜单
-    const handleEscKey = (event) => {
-      if (event.key === 'Escape' && showDropdown.value) {
-        clearAllTimers()
-        showDropdown.value = ''
-        selectedCategory.value = ''
-        currentHoverItem.value = null
-        isInDropdown.value = false
-      }
-    }
-    
     onMounted(() => {
       loadProducts()
       loadSolutions()
@@ -538,15 +503,9 @@ export default {
       
       window.addEventListener('scroll', throttledScroll, { passive: true })
       
-      // 添加全局点击和键盘事件监听
-      document.addEventListener('click', handleGlobalClick)
-      document.addEventListener('keydown', handleEscKey)
-      
       // 保存清理函数
       scrollCleanup = () => {
         window.removeEventListener('scroll', throttledScroll)
-        document.removeEventListener('click', handleGlobalClick)
-        document.removeEventListener('keydown', handleEscKey)
         if (scrollTimeout) {
           clearTimeout(scrollTimeout)
         }
@@ -761,7 +720,7 @@ export default {
             justify-content: space-between;
             padding: 12px 24px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(48, 49, 51, 0.85);
             position: relative;
             margin: 2px 8px;
