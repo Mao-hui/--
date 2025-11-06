@@ -4,13 +4,6 @@
       <router-view />
     </transition>
     
-    <!-- 滚动到顶部按钮 -->
-    <transition name="fade">
-      <div v-if="showBackToTop" class="back-to-top" @click="scrollToTop">
-        <el-icon><ArrowUp /></el-icon>
-      </div>
-    </transition>
-    
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
       <!-- 电话按钮 -->
@@ -293,52 +286,10 @@ body {
   }
 }
 
-/* 滚动到顶部按钮 */
-.back-to-top {
-  position: fixed;
-  right: 30px;
-  bottom: 120px;
-  width: 48px;
-  height: 48px;
-  background: $primary-color;
-  color: white;
-  border-radius: 50%;
-  @include flex-center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
-  transition: all 0.3s ease;
-  z-index: 9998;
-  
-  .el-icon {
-    font-size: 20px;
-  }
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(64, 158, 255, 0.6);
-    background: #66B1FF;
-  }
-  
-  &:active {
-    transform: translateY(-2px) scale(0.95);
-  }
-}
-
 @media (max-width: 768px) {
   .fixed-contact-buttons {
     right: 20px;
     bottom: 20px;
-  }
-  
-  .back-to-top {
-    right: 20px;
-    bottom: 100px;
-    width: 44px;
-    height: 44px;
-    
-    .el-icon {
-      font-size: 18px;
-    }
   }
   
   .contact-btn {

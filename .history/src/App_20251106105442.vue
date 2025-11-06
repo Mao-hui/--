@@ -4,13 +4,6 @@
       <router-view />
     </transition>
     
-    <!-- 滚动到顶部按钮 -->
-    <transition name="fade">
-      <div v-if="showBackToTop" class="back-to-top" @click="scrollToTop">
-        <el-icon><ArrowUp /></el-icon>
-      </div>
-    </transition>
-    
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
       <!-- 电话按钮 -->
@@ -49,55 +42,17 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { ArrowUp } from '@element-plus/icons-vue'
-
 export default {
   name: 'App',
-  components: {
-    ArrowUp
-  },
-  setup() {
-    const showBackToTop = ref(false)
-    let scrollHandler = null
-    
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-      showBackToTop.value = scrollTop > 300
-    }
-    
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-    }
-    
-    onMounted(() => {
-      scrollHandler = () => {
-        window.requestAnimationFrame(handleScroll)
-      }
-      window.addEventListener('scroll', scrollHandler, { passive: true })
-    })
-    
-    onBeforeUnmount(() => {
-      if (scrollHandler) {
-        window.removeEventListener('scroll', scrollHandler)
-      }
-    })
-    
-    return {
-      showBackToTop,
-      scrollToTop,
-      handlePhoneClick() {
-        // window.location.href = 'tel:18255246289'
-      },
-      handleChatClick() {
-        // 可以跳转到微信或其他聊天工具
-        // 或者打开聊天窗口
-        console.log('打开聊天')
-        // 如果需要打开企业微信，可以使用二维码或其他方式
-      }
+  methods: {
+    handlePhoneClick() {
+      // window.location.href = 'tel:18255246289'
+    },
+    handleChatClick() {
+      // 可以跳转到微信或其他聊天工具
+      // 或者打开聊天窗口
+      console.log('打开聊天')
+      // 如果需要打开企业微信，可以使用二维码或其他方式
     }
   }
 }
@@ -121,23 +76,6 @@ export default {
 body {
   line-height: 1.6;
   color: #333;
-  scroll-behavior: smooth;
-}
-
-// 页面路由过渡动画
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
 }
 
 /* 固定联系按钮 */
@@ -293,52 +231,10 @@ body {
   }
 }
 
-/* 滚动到顶部按钮 */
-.back-to-top {
-  position: fixed;
-  right: 30px;
-  bottom: 120px;
-  width: 48px;
-  height: 48px;
-  background: $primary-color;
-  color: white;
-  border-radius: 50%;
-  @include flex-center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
-  transition: all 0.3s ease;
-  z-index: 9998;
-  
-  .el-icon {
-    font-size: 20px;
-  }
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(64, 158, 255, 0.6);
-    background: #66B1FF;
-  }
-  
-  &:active {
-    transform: translateY(-2px) scale(0.95);
-  }
-}
-
 @media (max-width: 768px) {
   .fixed-contact-buttons {
     right: 20px;
     bottom: 20px;
-  }
-  
-  .back-to-top {
-    right: 20px;
-    bottom: 100px;
-    width: 44px;
-    height: 44px;
-    
-    .el-icon {
-      font-size: 18px;
-    }
   }
   
   .contact-btn {

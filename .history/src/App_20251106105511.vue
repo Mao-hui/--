@@ -4,13 +4,6 @@
       <router-view />
     </transition>
     
-    <!-- 滚动到顶部按钮 -->
-    <transition name="fade">
-      <div v-if="showBackToTop" class="back-to-top" @click="scrollToTop">
-        <el-icon><ArrowUp /></el-icon>
-      </div>
-    </transition>
-    
     <!-- 固定联系按钮 -->
     <div class="fixed-contact-buttons">
       <!-- 电话按钮 -->
