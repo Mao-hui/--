@@ -51,7 +51,7 @@
               <el-icon><Calendar /></el-icon>
               <span>{{ monthFilter || '月份' }}</span>
               <el-icon class="arrow-icon"><ArrowDown /></el-icon>
-              <div v-if="showMonthDropdown" class="filter-dropdown month-dropdown" @click.stop>
+              <div v-if="showMonthDropdown" class="filter-dropdown" @click.stop>
                 <el-date-picker
                   v-model="monthFilter"
                   type="month"
@@ -59,7 +59,6 @@
                   value-format="YYYY-MM"
                   @change="showMonthDropdown = false"
                   style="width: 100%;"
-                  :clearable="true"
                 />
               </div>
             </div>
@@ -128,7 +127,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Calendar, ArrowDown } from '@element-plus/icons-vue'
@@ -561,11 +560,6 @@ export default {
         :deep(.el-date-picker) {
           border: none;
           box-shadow: none;
-        }
-        
-        &.month-dropdown {
-          padding: 16px;
-          min-width: 300px;
         }
       }
     }

@@ -22,47 +22,17 @@
         <!-- 新闻列表 + 预览分栏布局 -->
         <div class="news-section news-layout">
           <!-- <h2>新闻中心</h2> -->
-          <!-- 工具条：年份 + 月份筛选 -->
+          <!-- 工具条：搜索 + 月份筛选 -->
           <div class="news-toolbar">
-            <div class="filter-item" @click="showYearDropdown = !showYearDropdown">
-              <el-icon><Calendar /></el-icon>
-              <span>{{ yearFilter || '全部年份' }}</span>
-              <el-icon class="arrow-icon"><ArrowDown /></el-icon>
-              <div v-if="showYearDropdown" class="filter-dropdown" @click.stop>
-                <div 
-                  class="dropdown-item" 
-                  :class="{ active: !yearFilter }"
-                  @click="selectYear('')"
-                >
-                  全部年份
-                </div>
-                <div 
-                  v-for="year in availableYears" 
-                  :key="year"
-                  class="dropdown-item"
-                  :class="{ active: yearFilter === year }"
-                  @click="selectYear(year)"
-                >
-                  {{ year }}
-                </div>
-              </div>
-            </div>
-            <div class="filter-item" :class="{ active: !!monthFilter }" @click="showMonthDropdown = !showMonthDropdown">
-              <el-icon><Calendar /></el-icon>
-              <span>{{ monthFilter || '月份' }}</span>
-              <el-icon class="arrow-icon"><ArrowDown /></el-icon>
-              <div v-if="showMonthDropdown" class="filter-dropdown month-dropdown" @click.stop>
-                <el-date-picker
-                  v-model="monthFilter"
-                  type="month"
-                  placeholder="选择月份"
-                  value-format="YYYY-MM"
-                  @change="showMonthDropdown = false"
-                  style="width: 100%;"
-                  :clearable="true"
-                />
-              </div>
-            </div>
+            <el-input v-model="searchKeyword" placeholder="搜索新闻标题/内容" clearable prefix-icon="Search" class="tb-item" />
+            <el-date-picker
+              v-model="monthFilter"
+              type="month"
+              placeholder="按月份筛选"
+              value-format="YYYY-MM"
+              class="tb-item"
+              clearable
+            />
           </div>
           <div v-if="loading" class="loading">
             <el-skeleton animated :count="6">
@@ -85,15 +55,18 @@
               :key="article.id"
               :class="['news-card', 'card', { active: selectedArticle === article.id }]"
             >
-              <div class="news-date">{{ article.date }}</div>
               <div class="news-image">
                 <img :src="article.image" :alt="article.title" />
               </div>
-              <h3 class="news-title">{{ article.title }}</h3>
-              <div class="news-action">
-                <a href="javascript:void(0)" class="learn-more-link" @click.stop="handleOpen(article)">
-                  了解更多+
-                </a>
+              <div class="news-content">
+                <div class="news-date">{{ article.date }}</div>
+                <h3 class="news-title">{{ article.title }}</h3>
+                <p class="news-excerpt" v-if="article.excerpt">{{ article.excerpt }}</p>
+                <div :class="['news-action', { 'no-excerpt': !article.excerpt }]">
+                  <el-button type="primary" size="small" class="detail-btn" @click.stop="handleOpen(article)">
+                    查看详情
+                  </el-button>
+                </div>
               </div>
             </div>
           </div>
@@ -128,10 +101,9 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Calendar, ArrowDown } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsList, apiGetNewsDetail } from '@/api'
@@ -141,9 +113,7 @@ export default {
   name: 'News',
   components: {
     Header,
-    Footer,
-    Calendar,
-    ArrowDown
+    Footer
   },
   setup() {
     const router = useRouter()
@@ -161,10 +131,6 @@ export default {
     const previewItem = ref(null)
     const searchKeyword = ref('')
     const monthFilter = ref('')
-    const yearFilter = ref('')
-    const showYearDropdown = ref(false)
-    const showMonthDropdown = ref(false)
-    const availableYears = ref([])
     
     const bannerStyle = computed(() => {
       // 使用本地图片
@@ -317,56 +283,18 @@ export default {
       currentPage.value = page
       await fetchNews()
     }
-    const selectYear = (year) => {
-      yearFilter.value = year
-      showYearDropdown.value = false
-    }
-    
-    // 获取所有可用年份
-    const updateAvailableYears = () => {
-      const years = new Set()
-      newsList.value.forEach(item => {
-        if (item.date) {
-          const year = item.date.slice(0, 4)
-          if (year) years.add(year)
-        }
-      })
-      availableYears.value = Array.from(years).sort((a, b) => b.localeCompare(a))
-    }
-    
-    // 点击外部关闭下拉
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.filter-item')) {
-        showYearDropdown.value = false
-        showMonthDropdown.value = false
-      }
-    }
-    
     const displayedList = computed(() => {
+      const kw = (searchKeyword.value || '').trim().toLowerCase()
       const month = (monthFilter.value || '').trim()
-      const year = (yearFilter.value || '').trim()
       return newsList.value.filter(a => {
+        const hitKw = !kw || (a.title && a.title.toLowerCase().includes(kw)) || (a.excerpt && a.excerpt.toLowerCase().includes(kw))
         const hitMonth = !month || (a.date && a.date.slice(0, 7) === month)
-        const hitYear = !year || (a.date && a.date.slice(0, 4) === year)
-        return hitMonth && hitYear
+        return hitKw && hitMonth
       })
     })
     
-    onMounted(async () => {
-      await fetchNews()
-      updateAvailableYears()
-      document.addEventListener('click', handleClickOutside)
-    })
-    
-    onBeforeUnmount(() => {
-      document.removeEventListener('click', handleClickOutside)
-    })
-    
-    // 监听新闻列表变化，更新可用年份
-    watch(() => newsList.value.length, () => {
-      if (newsList.value.length > 0) {
-        updateAvailableYears()
-      }
+    onMounted(() => {
+      fetchNews()
     })
     
     return {
@@ -387,11 +315,6 @@ export default {
       handleOpen,
       searchKeyword,
       monthFilter,
-      yearFilter,
-      showYearDropdown,
-      showMonthDropdown,
-      availableYears,
-      selectYear,
       displayedList,
       bannerStyle
     }
@@ -486,86 +409,24 @@ export default {
   
   .news-toolbar {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     margin-bottom: 30px;
-    padding: 0;
-    background: transparent;
-    border: none;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba($primary-color, 0.03) 0%, rgba($primary-color, 0.01) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba($primary-color, 0.1);
     
-    .filter-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      cursor: pointer;
-      color: $text-color-regular;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      border-bottom: 2px solid transparent;
+    .tb-item {
+      flex: 1;
+      max-width: 300px;
       
-      &:hover {
-        color: $text-color-primary;
-      }
-      
-      &.active {
-        color: $primary-color;
-        border-bottom-color: $primary-color;
-      }
-      
-      .el-icon {
-        font-size: 16px;
-      }
-      
-      .arrow-icon {
-        font-size: 12px;
-        margin-left: 4px;
-        transition: transform 0.3s ease;
-      }
-      
-      &:hover .arrow-icon {
-        transform: translateY(2px);
-      }
-      
-      .filter-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 8px;
-        background: white;
-        border: 1px solid $border-color-base;
+      :deep(.el-input__wrapper) {
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        min-width: 150px;
-        padding: 8px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
         
-        .dropdown-item {
-          padding: 10px 16px;
-          cursor: pointer;
-          color: $text-color-regular;
-          transition: all 0.2s ease;
-          
-          &:hover {
-            background: rgba($primary-color, 0.08);
-            color: $primary-color;
-          }
-          
-          &.active {
-            background: rgba($primary-color, 0.12);
-            color: $primary-color;
-            font-weight: 500;
-          }
-        }
-        
-        :deep(.el-date-picker) {
-          border: none;
-          box-shadow: none;
-        }
-        
-        &.month-dropdown {
-          padding: 16px;
-          min-width: 300px;
+        &:hover {
+          box-shadow: 0 4px 12px rgba($primary-color, 0.15);
         }
       }
     }
@@ -607,11 +468,11 @@ export default {
     display: flex;
     flex-direction: column;
     background: white;
+    // border-radius: 12px;
     border: 1px solid $border-color-lighter;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     align-items: stretch;
-    padding: 0;
     
     &:hover {
       transform: translateY(-6px);
@@ -624,17 +485,9 @@ export default {
       box-shadow: 0 8px 24px rgba($primary-color, 0.2);
     }
     
-    .news-date {
-      padding: 12px 16px 8px;
-      color: $text-color-secondary;
-      font-size: 13px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-    
     .news-image {
       width: 100%;
-      height: 200px;
+      height: 120px;
       overflow: hidden;
       position: relative;
       flex-shrink: 0;
@@ -652,42 +505,89 @@ export default {
       transform: scale(1.05);
     }
     
-    .news-title {
-      padding: 16px 16px 12px;
-      font-size: 16px;
-      color: $text-color-primary;
-      margin: 0;
-      line-height: 1.4;
-      font-weight: 600;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      transition: color 0.3s ease;
-      flex: 1;
-    }
-    
-    &:hover .news-title {
-      color: $primary-color;
-    }
-    
-    .news-action {
-      padding: 0 16px 16px;
-      flex-shrink: 0;
+    .news-content {
+      padding: 12px 12px 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
       
-      .learn-more-link {
-        color: $primary-color;
-        font-size: 14px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-block;
+      .news-date {
+        color: $text-color-secondary;
+        font-size: 12px;
+        margin-bottom: 6px;
+        line-height: 1;
+      }
+      
+      .news-title {
+        font-size: 16px;
+        color: $text-color-primary;
+        margin: 0;
+        line-height: 1.3;
+        font-weight: 600;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: color 0.3s ease;
+      }
+      
+      .news-excerpt {
+        color: $text-color-regular;
+        font-size: 13px;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 6px 0 8px;
+        flex: 0 0 auto;
+      }
+      
+      .news-action {
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+        flex: 0 0 auto;
+        padding: 12px 0;
+        margin-top: 0;
         
-        &:hover {
-          color: darken($primary-color, 10%);
-          transform: translateX(4px);
+        // 当标题后面没有摘要时，按钮间距较小
+        &.no-excerpt {
+          padding-top: 8px;
+        }
+        
+        // 当标题后面有摘要时，按钮间距由摘要的下边距提供（正常间距）
+        .news-excerpt + & {
+          padding-top: 0;
+        }
+        
+        .detail-btn {
+          width: 100%;
+          background: #303133;
+          border-color: #303133;
+          color: white;
+          border-radius: 6px;
+          font-weight: 500;
+          font-size: 14px;
+          padding: 12px;
+          transition: all 0.3s ease;
+          margin: 0;
+          flex: 0 0 auto;
+          
+          &:hover {
+            background: #606266;
+            border-color: #606266;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(48, 49, 51, 0.3);
+          }
         }
       }
+    }
+    
+    &:hover .news-content .news-title {
+      color: $primary-color;
     }
   }
   
@@ -1026,4 +926,3 @@ export default {
   }
 }
 </style>
-
