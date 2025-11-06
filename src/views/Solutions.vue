@@ -14,6 +14,20 @@
     
     <div class="solutions-content">
       <div class="container">
+        <!-- 分类网格 -->
+        <div class="category-grid-wrapper">
+          <div class="category-grid">
+            <div 
+              v-for="category in bigCategories" 
+              :key="category.key"
+              :class="['category-item', { active: activeBig === category.key }]"
+              @click="setActiveBig(category.key)"
+            >
+              {{ category.name }}
+            </div>
+          </div>
+        </div>
+        
         <!-- 内容：当前行业下的方案列表 -->
         <div class="solution-content">
           <div class="solution-detail">
@@ -222,7 +236,16 @@ export default {
       }
     ])
     
-    const setActiveBig = (key) => { activeBig.value = key }
+    const setActiveBig = (key) => {
+      if (activeBig.value === key) return
+      activeBig.value = key
+      // 滚动到顶部
+      const mainContent = document.querySelector('.solution-content')
+      if (mainContent) {
+        mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+    
     const stripHtml = (html) => {
       if (!html) return ''
       return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
@@ -412,6 +435,53 @@ export default {
   padding: 60px 0;
   background: $background-color-light;
   min-height: 600px;
+}
+
+// 分类网格样式（与产品中心一致）
+.category-grid-wrapper {
+  margin-bottom: 40px;
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0;
+    border: 1px solid $border-color-base;
+    border-radius: 0;
+    overflow: hidden;
+    background: white;
+    
+    .category-item {
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+      color: $text-color-regular;
+      border-right: 1px solid $border-color-base;
+      border-bottom: 1px solid $border-color-base;
+      position: relative;
+      line-height: 1.5;
+      white-space: nowrap;
+      
+      // 去除每行最后一列的右边框
+      &:nth-child(8n) {
+        border-right: none;
+      }
+      
+      &:hover:not(.active) {
+        background: rgba(64, 158, 255, 0.08);
+        color: $primary-color;
+      }
+      
+      &.active {
+        background: $primary-color;
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .solution-content {
