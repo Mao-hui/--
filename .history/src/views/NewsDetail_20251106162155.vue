@@ -59,9 +59,7 @@ export default {
   name: 'NewsDetail',
   components: {
     Header,
-    Footer,
-    Phone,
-    Share
+    Footer
   },
   setup() {
     const route = useRoute()

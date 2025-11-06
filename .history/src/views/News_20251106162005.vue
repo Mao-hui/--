@@ -122,10 +122,11 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { Calendar, ArrowDown } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetNewsList } from '@/api'
+import { apiGetNewsList, apiGetNewsDetail } from '@/api'
 import newsImage from '@/assets/image/news.png'
 
 export default {
@@ -146,6 +147,10 @@ export default {
     const totalNews = ref(0)
     const loading = ref(false)
     const error = ref('')
+    const dialogVisible = ref(false)
+    const detailItem = ref(null)
+    const detailLoading = ref(false)
+    const previewItem = ref(null)
     const searchKeyword = ref('')
     const monthFilter = ref('')
     const yearFilter = ref('')
@@ -166,6 +171,41 @@ export default {
     const stripHtml = (html) => {
       if (!html) return ''
       return String(html).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim()
+    }
+    
+    // 处理HTML中的图片大小
+    const processHtmlImages = (html) => {
+      if (!html || typeof html !== 'string') {
+        return html
+      }
+      
+      // 使用正则表达式匹配img标签，添加max-width样式
+      return html.replace(/<img([^>]*)>/gi, (match, attrs) => {
+        // 检查是否已有style属性
+        const styleMatch = attrs.match(/style\s*=\s*["']([^"']*)["']/i)
+        let style = ''
+        
+        if (styleMatch) {
+          // 如果已有style属性，提取并添加max-width
+          style = styleMatch[1]
+          // 移除已有的width和max-width相关样式
+          style = style.replace(/max-width\s*:\s*[^;]+;?/gi, '')
+          style = style.replace(/width\s*:\s*[^;]+;?/gi, '')
+          // 添加max-width
+          style = style.trim()
+          if (style && !style.endsWith(';')) {
+            style += ';'
+          }
+          style += 'max-width:100%;height:auto;'
+          // 替换原有的style属性
+          attrs = attrs.replace(/style\s*=\s*["'][^"']*["']/i, `style="${style}"`)
+        } else {
+          // 如果没有style属性，添加一个
+          attrs += ' style="max-width:100%;height:auto;"'
+        }
+        
+        return `<img${attrs}>`
+      })
     }
     
     const totalNewsComputed = computed(() => totalNews.value)
@@ -206,6 +246,58 @@ export default {
     const selectArticle = (articleId) => {
       selectedArticle.value = articleId
       router.push(`/news/${articleId}`)
+    }
+    
+    const openDetail = async (article) => {
+      if (!article || !article.id) {
+        ElMessage.error('新闻信息不完整')
+        return
+      }
+      
+      dialogVisible.value = true
+      detailLoading.value = true
+      detailItem.value = null
+      
+      try {
+        // 调用详情接口获取完整内容
+        const res = await apiGetNewsDetail({ tweetId: article.id })
+        if (res && res.code === 200 && res.data) {
+          const data = res.data
+          // 处理详情内容中的图片大小
+          let processedContent = data.content || data.description || article.content || ''
+          processedContent = processHtmlImages(processedContent)
+          
+          detailItem.value = {
+            id: data.tweetId || data.id || article.id,
+            title: data.title || article.title || '新闻详情',
+            date: data.releaseTime || data.createTime || article.date || '',
+            image: data.logoUrl || data.imageUrl || article.image || '',
+            content: processedContent
+          }
+        } else {
+          // 如果接口失败，使用列表中的已有数据
+          let processedContent = article.content || ''
+          processedContent = processHtmlImages(processedContent)
+          
+          detailItem.value = {
+            ...article,
+            content: processedContent
+          }
+          ElMessage.warning((res && (res.msg || res.message)) || '获取详情失败，显示基本信息')
+        }
+      } catch (e) {
+        // 出错时使用列表中的已有数据
+        let processedContent = article.content || ''
+        processedContent = processHtmlImages(processedContent)
+        
+        detailItem.value = {
+          ...article,
+          content: processedContent
+        }
+        ElMessage.warning('加载详情失败，显示基本信息')
+      } finally {
+        detailLoading.value = false
+      }
     }
     
     const handleOpen = (article) => {
@@ -279,6 +371,11 @@ export default {
       handlePageChange,
       loading,
       error,
+      dialogVisible,
+      detailItem,
+      detailLoading,
+      openDetail,
+      previewItem,
       handleOpen,
       searchKeyword,
       monthFilter,
@@ -770,6 +867,76 @@ export default {
   background: rgba($danger-color, 0.05);
   border-radius: 8px;
   border: 1px solid rgba($danger-color, 0.2);
+}
+
+/* 详情弹窗样式增强 */
+::v-deep(.el-dialog__body) {
+  .news-detail {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 10px 0;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 3px;
+      
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+    }
+  }
+  
+  .detail-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detail-meta {
+    color: $text-color-secondary;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    background: rgba($primary-color, 0.05);
+    border-radius: 8px;
+    display: inline-block;
+  }
+  
+  .rich-content {
+    line-height: 2;
+    color: $text-color-primary;
+    
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: $text-color-primary;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+  }
 }
 
 @media (max-width: 1400px) {

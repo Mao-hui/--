@@ -122,10 +122,11 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { Calendar, ArrowDown } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetNewsList } from '@/api'
+import { apiGetNewsList, apiGetNewsDetail } from '@/api'
 import newsImage from '@/assets/image/news.png'
 
 export default {
@@ -279,6 +280,11 @@ export default {
       handlePageChange,
       loading,
       error,
+      dialogVisible,
+      detailItem,
+      detailLoading,
+      openDetail,
+      previewItem,
       handleOpen,
       searchKeyword,
       monthFilter,
@@ -770,6 +776,76 @@ export default {
   background: rgba($danger-color, 0.05);
   border-radius: 8px;
   border: 1px solid rgba($danger-color, 0.2);
+}
+
+/* 详情弹窗样式增强 */
+::v-deep(.el-dialog__body) {
+  .news-detail {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 10px 0;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 3px;
+      
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+    }
+  }
+  
+  .detail-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detail-meta {
+    color: $text-color-secondary;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    background: rgba($primary-color, 0.05);
+    border-radius: 8px;
+    display: inline-block;
+  }
+  
+  .rich-content {
+    line-height: 2;
+    color: $text-color-primary;
+    
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: $text-color-primary;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+  }
 }
 
 @media (max-width: 1400px) {
