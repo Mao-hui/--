@@ -484,29 +484,14 @@ export default {
 }
 
 .jobs-section {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 1) 100%);
+  background: white;
   border-radius: 16px;
-  padding: 50px 50px;
+  padding: 50px 40px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(64, 158, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
-    animation: rotate 60s linear infinite;
-  }
+  transition: box-shadow 0.3s ease;
   
   &:hover {
-    box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
-    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   }
   
   h2 {

@@ -187,25 +187,16 @@ export default {
     .qr-code {
       @include flex-center;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       margin-top: 20px;
       
       .qr-placeholder {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         background: white;
-        border-radius: 12px;
+        border-radius: 8px;
         @include flex-center;
         overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 3px solid rgba(64, 158, 255, 0.3);
-        
-        &:hover {
-          transform: scale(1.1) rotate(3deg);
-          box-shadow: 0 8px 24px rgba(64, 158, 255, 0.4);
-          border-color: $primary-color;
-        }
         
         img {
           width: 100%;
@@ -216,30 +207,20 @@ export default {
       
       span {
         font-size: 14px;
-        color: #ecf0f1;
-        font-weight: 500;
-        letter-spacing: 0.5px;
+        color: #bdc3c7;
       }
     }
   }
   
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 30px;
+    border-top: 1px solid #34495e;
+    padding-top: 20px;
     text-align: center;
-    position: relative;
-    z-index: 1;
     
     p {
-      color: rgba(236, 240, 241, 0.8);
+      color: #bdc3c7;
       font-size: 14px;
       margin: 0;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-      
-      &:hover {
-        color: rgba(236, 240, 241, 1);
-      }
     }
   }
 }

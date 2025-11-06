@@ -621,46 +621,26 @@ export default {
   }
   
   .news-card {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
-    border: 1px solid rgba(64, 158, 255, 0.12);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    background: white;
+    border: 1px solid $border-color-lighter;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     align-items: stretch;
     padding: 0;
-    border-radius: 12px;
-    position: relative;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, $primary-color, $primary-light);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1;
-    }
     
     &:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 16px 40px rgba(64, 158, 255, 0.18);
-      border-color: rgba($primary-color, 0.4);
-      
-      &::before {
-        transform: scaleX(1);
-      }
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      border-color: rgba($primary-color, 0.3);
     }
     
     &.active {
       border: 2px solid $primary-color;
-      box-shadow: 0 12px 32px rgba($primary-color, 0.25);
+      box-shadow: 0 8px 24px rgba($primary-color, 0.2);
     }
     
     .news-date {

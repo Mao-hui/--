@@ -374,72 +374,42 @@ export default {
   }
   
   .banner-title {
-    font-size: 52px;
+    font-size: 48px;
     font-weight: bold;
     color: white;
     margin-bottom: 20px;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(64, 158, 255, 0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     line-height: 1.2;
-    letter-spacing: 1px;
-    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .banner-subtitle {
-    font-size: 22px;
+    font-size: 20px;
     color: white;
     opacity: 0.95;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     line-height: 1.5;
-    letter-spacing: 0.5px;
-    animation: fadeInUp 0.8s 0.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 }
 
 .products-content {
-  padding: 80px 0;
-  background: linear-gradient(180deg, $background-color-light 0%, #ffffff 50%, $background-color-light 100%);
+  padding: 60px 0;
+  background: $background-color-light;
   min-height: 600px;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 300px;
-    background: radial-gradient(ellipse at top, rgba(64, 158, 255, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
 }
 
 .products-main {
   // 分类网格样式
   .category-grid-wrapper {
-    margin-bottom: 50px;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 40px;
     
     .category-grid {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       gap: 0;
-      border: 1px solid rgba(64, 158, 255, 0.15);
-      border-radius: 12px;
+      border: 1px solid $border-color-base;
+      border-radius: 0;
       overflow: hidden;
       background: white;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
       
       .category-item {
         padding: 14px 20px;
@@ -506,42 +476,17 @@ export default {
     }
     
     .product-card {
-      padding: 24px 24px 20px;
+      padding: 20px 20px 16px;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(64, 158, 255, 0.12);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid $border-color-lighter;
       cursor: pointer;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
-      position: relative;
-      overflow: hidden;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, $primary-color, $primary-light);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
       
       &:hover {
-        transform: translateY(-6px) scale(1.01);
-        box-shadow: 0 12px 32px rgba(64, 158, 255, 0.15);
-        border-color: rgba($primary-color, 0.4);
-        
-        &::before {
-          transform: scaleX(1);
-        }
-        
-        .product-title {
-          color: $primary-color;
-        }
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+        border-color: rgba($primary-color, 0.3);
       }
       
       .product-header {

@@ -621,41 +621,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  
-  &:hover {
-    transform: translateX(3px);
-    
-    img {
-      transform: rotate(5deg) scale(1.05);
-    }
-    
-    .logo-title {
-      background: linear-gradient(135deg, $primary-color 0%, #66B1FF 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-  
-  img { 
-    height: 36px; 
-    display: block;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 2px 4px rgba(64, 158, 255, 0.2));
-  }
-  
+  img { height: 36px; display: block; }
   .logo-title {
-    background: linear-gradient(135deg, $primary-color 0%, #357ABD 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: $primary-color;
     font-size: 22px;
     font-weight: bold;
     letter-spacing: 2px;
     line-height: 1;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
   

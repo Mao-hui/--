@@ -224,22 +224,14 @@ export default {
   }
   
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 30px;
+    border-top: 1px solid #34495e;
+    padding-top: 20px;
     text-align: center;
-    position: relative;
-    z-index: 1;
     
     p {
-      color: rgba(236, 240, 241, 0.8);
+      color: #bdc3c7;
       font-size: 14px;
       margin: 0;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-      
-      &:hover {
-        color: rgba(236, 240, 241, 1);
-      }
     }
   }
 }

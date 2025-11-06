@@ -589,18 +589,15 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/styles/main.scss';
 .header {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
   transform: translateY(0);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &.header-hidden {
     transform: translateY(-100%);
@@ -621,41 +618,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  
-  &:hover {
-    transform: translateX(3px);
-    
-    img {
-      transform: rotate(5deg) scale(1.05);
-    }
-    
-    .logo-title {
-      background: linear-gradient(135deg, $primary-color 0%, #66B1FF 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-  
-  img { 
-    height: 36px; 
-    display: block;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 2px 4px rgba(64, 158, 255, 0.2));
-  }
-  
+  img { height: 36px; display: block; }
   .logo-title {
-    background: linear-gradient(135deg, $primary-color 0%, #357ABD 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: $primary-color;
     font-size: 22px;
     font-weight: bold;
     letter-spacing: 2px;
     line-height: 1;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
   

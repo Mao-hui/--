@@ -704,123 +704,21 @@ export default {
 
 /* 新增：方案卡样式与通用状态样式 */
 .solution-content {
-  .schemes-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 24px; 
-    position: relative;
-    z-index: 1;
-  }
-  
-  .scheme-card { 
-    display: flex; 
-    flex-direction: column; 
-    padding: 0; 
-    overflow: hidden; 
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-    border-radius: 12px;
-    border: 1px solid rgba(64, 158, 255, 0.12);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    position: relative;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, $primary-color, $primary-light);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1;
-    }
-  }
-  
-  .scheme-cover { 
-    width: 100%; 
-    height: 160px; 
-    background: #f6f8fa; 
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-    overflow: hidden;
-    position: relative;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
-    }
-  }
-  
-  .scheme-cover img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-  }
-  
-  .scheme-body { padding: 20px; }
-  
-  .scheme-title { 
-    font-size: 17px; 
-    margin: 0 0 8px; 
-    color: $text-color-primary; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-  
-  .scheme-sub { 
-    margin: 0 0 10px; 
-    color: $text-color-secondary; 
-    font-size: 13px; 
-  }
-  
-  .scheme-desc { 
-    color: $text-color-regular; 
-    font-size: 14px; 
-    line-height: 1.7; 
-    display: -webkit-box; 
-    -webkit-line-clamp: 3; 
-    line-clamp: 3; 
-    -webkit-box-orient: vertical; 
-    overflow: hidden; 
-  }
-  
-  .scheme-tags { 
-    margin-top: 12px; 
-    display: flex; 
-    gap: 6px; 
-  }
-  
-  .scheme-actions { 
-    padding: 12px 20px 16px; 
-    display: flex; 
-    justify-content: flex-end; 
-  }
-  
+  .schemes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .scheme-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-cover { width: 100%; height: 120px; background: #f6f8fa; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-body { padding: 14px; }
+  .scheme-title { font-size: 16px; margin: 0 0 5px; color: $text-color-primary; transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scheme-sub { margin: 0 0 6px; color: $text-color-secondary; font-size: 12px; }
+  .scheme-desc { color: $text-color-regular; font-size: 13px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .scheme-tags { margin-top: 8px; display: flex; gap: 5px; }
+  .scheme-actions { padding: 10px 14px 14px; display: flex; justify-content: flex-end; }
   .scheme-card:hover { 
-    transform: translateY(-6px) scale(1.01); 
-    box-shadow: 0 12px 32px rgba(64, 158, 255, 0.15);
-    border-color: rgba($primary-color, 0.3);
-    
-    &::before {
-      transform: scaleX(1);
-    }
-    
-    .scheme-cover img { 
-      transform: scale(1.1); 
-    }
-    
-    .scheme-title { 
-      color: $primary-color; 
-      transform: translateX(3px);
-    }
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    .scheme-cover img { transform: scale(1.05); }
+    .scheme-title { color: $primary-color; }
   }
 }
 

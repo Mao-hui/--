@@ -707,7 +707,6 @@ export default {
       background: linear-gradient(135deg, $primary-color, $primary-light);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
       opacity: 0;
       transition: opacity 0.4s;
@@ -786,12 +785,11 @@ export default {
     }
     
     h3 {
-      font-size: 19px;
-      margin-bottom: 14px;
+      font-size: 18px;
+      margin-bottom: 12px;
       color: $text-color-primary;
       font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: 0.3px;
+      transition: color 0.3s ease;
     }
     
     p {

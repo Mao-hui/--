@@ -506,42 +506,17 @@ export default {
     }
     
     .product-card {
-      padding: 24px 24px 20px;
+      padding: 20px 20px 16px;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(64, 158, 255, 0.12);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid $border-color-lighter;
       cursor: pointer;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
-      position: relative;
-      overflow: hidden;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, $primary-color, $primary-light);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
       
       &:hover {
-        transform: translateY(-6px) scale(1.01);
-        box-shadow: 0 12px 32px rgba(64, 158, 255, 0.15);
-        border-color: rgba($primary-color, 0.4);
-        
-        &::before {
-          transform: scaleX(1);
-        }
-        
-        .product-title {
-          color: $primary-color;
-        }
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+        border-color: rgba($primary-color, 0.3);
       }
       
       .product-header {

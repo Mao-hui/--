@@ -707,7 +707,6 @@ export default {
       background: linear-gradient(135deg, $primary-color, $primary-light);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask-composite: exclude;
       opacity: 0;
       transition: opacity 0.4s;
