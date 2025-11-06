@@ -618,6 +618,18 @@ export default {
         color: $text-color-primary;
         position: relative;
         
+        // 为有下拉菜单的项创建连接区域
+        &.dropdown-active::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: 0;
+          right: 0;
+          height: 8px;
+          background: transparent;
+          z-index: 1002;
+        }
+        
         // hover时显示主题色
         &:hover {
           color: $primary-color;
@@ -669,30 +681,27 @@ export default {
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
         z-index: 1001;
         margin-top: 0;
-        overflow: visible; // 改为visible以显示连接区域
+        padding-top: 8px; // 添加顶部padding创建连接区域
+        overflow: hidden;
         animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-top: none;
         
-        // 创建连接区域，防止鼠标从导航项移动到下拉菜单时触发leave事件
+        // 创建连接区域，防止鼠标移动时触发leave事件
         &::before {
           content: '';
           position: absolute;
-          top: -10px; // 扩展到导航项下方
+          top: -8px;
           left: 0;
           right: 0;
-          height: 10px;
+          height: 8px;
           background: transparent;
-          pointer-events: auto; // 确保能捕获鼠标事件
         }
         
         .dropdown-content {
           display: flex;
           height: 100%;
           max-height: 400px;
-          position: relative;
-          z-index: 1;
-          overflow: hidden; // 内容区域保持overflow hidden
         }
         
         .dropdown-left {

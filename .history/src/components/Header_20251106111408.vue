@@ -618,6 +618,18 @@ export default {
         color: $text-color-primary;
         position: relative;
         
+        // 为有下拉菜单的项创建连接区域
+        &.dropdown-active::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: 0;
+          right: 0;
+          height: 8px;
+          background: transparent;
+          z-index: 1002;
+        }
+        
         // hover时显示主题色
         &:hover {
           color: $primary-color;

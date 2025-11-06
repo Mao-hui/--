@@ -230,7 +230,6 @@ export default {
     let hideTimer = null
     let showTimer = null
     let currentHoverItem = null
-    let isInDropdown = false // 标记鼠标是否在下拉菜单内
     
     // 滚动控制相关
     const isHeaderHidden = ref(false)
@@ -258,7 +257,7 @@ export default {
     }
     
     const handleMouseEnter = (item) => {
-      // 清除所有隐藏定时器，确保菜单能显示
+      // 清除隐藏定时器，确保菜单能显示
       clearHideTimer()
       
       // 记录当前悬停的项
@@ -288,7 +287,6 @@ export default {
         if (showDropdown.value) {
           showDropdown.value = ''
           selectedCategory.value = ''
-          isInDropdown = false
         }
       }
     }
@@ -302,47 +300,33 @@ export default {
       // 清除显示定时器
       clearShowTimer()
       
-      // 如果鼠标已经在下拉菜单内，不隐藏
-      if (isInDropdown && showDropdown.value === item.path) {
-        return
-      }
-      
       // 延迟隐藏，以便用户能移动到下拉菜单
       clearHideTimer()
       hideTimer = setTimeout(() => {
-        // 再次检查，确保用户没有移动到下拉菜单或其他导航项
+        // 再次检查，确保用户没有移动到下拉菜单
+        // 只有在没有其他悬停项且当前菜单仍显示时才隐藏
         if (showDropdown.value === item.path) {
-          // 如果鼠标已经移入下拉菜单，不隐藏
-          if (isInDropdown) {
-            return
+          // 检查是否鼠标已经移入下拉菜单（通过检查 currentHoverItem 是否仍为当前项）
+          // 如果 currentHoverItem 已改变，说明移到了其他导航项，不隐藏
+          if (currentHoverItem === item || !currentHoverItem) {
+            showDropdown.value = ''
+            selectedCategory.value = ''
           }
-          // 如果鼠标移到了其他导航项，不隐藏当前菜单（让新项处理）
-          if (currentHoverItem && currentHoverItem !== item) {
-            return
-          }
-          // 只有在确定鼠标不在任何相关区域时才隐藏
-          showDropdown.value = ''
-          selectedCategory.value = ''
-          currentHoverItem = null
-          isInDropdown = false
         }
         hideTimer = null
-      }, 200) // 200ms 延迟，给用户足够时间移动到下拉菜单
+      }, 150) // 150ms 延迟，给用户足够时间移动到下拉菜单
     }
     
-    const handleDropdownEnter = (item) => {
+    const handleDropdownEnter = () => {
       // 清除隐藏定时器，保持下拉菜单显示
       clearHideTimer()
       // 清除显示定时器
       clearShowTimer()
-      // 标记鼠标在下拉菜单内
-      isInDropdown = true
       // 保持 currentHoverItem，确保下拉菜单继续显示
-      if (item) {
-        currentHoverItem = item
-      } else if (!currentHoverItem && showDropdown.value) {
+      // 如果 currentHoverItem 被清空，则恢复它
+      if (!currentHoverItem && showDropdown.value) {
         // 根据当前显示的菜单路径找到对应的菜单项
-        const menuItem = menuItems.value.find(m => m.path === showDropdown.value)
+        const menuItem = menuItems.value.find(item => item.path === showDropdown.value)
         if (menuItem) {
           currentHoverItem = menuItem
         }
@@ -350,21 +334,11 @@ export default {
     }
     
     const handleDropdownLeave = () => {
-      // 标记鼠标已离开下拉菜单
-      isInDropdown = false
-      
-      // 延迟隐藏，给用户时间移回导航项
-      clearHideTimer()
-      hideTimer = setTimeout(() => {
-        // 如果鼠标已经移回导航项或其他区域，隐藏菜单
-        if (!isInDropdown && (!currentHoverItem || showDropdown.value !== currentHoverItem.path)) {
-          clearAllTimers()
-          currentHoverItem = null
-          showDropdown.value = ''
-          selectedCategory.value = ''
-        }
-        hideTimer = null
-      }, 150)
+      // 清除所有定时器并立即隐藏
+      clearAllTimers()
+      currentHoverItem = null
+      showDropdown.value = ''
+      selectedCategory.value = ''
     }
     
     // 保存滚动监听器清理函数
@@ -669,30 +643,15 @@ export default {
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
         z-index: 1001;
         margin-top: 0;
-        overflow: visible; // 改为visible以显示连接区域
+        overflow: hidden;
         animation: fadeInDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-top: none;
-        
-        // 创建连接区域，防止鼠标从导航项移动到下拉菜单时触发leave事件
-        &::before {
-          content: '';
-          position: absolute;
-          top: -10px; // 扩展到导航项下方
-          left: 0;
-          right: 0;
-          height: 10px;
-          background: transparent;
-          pointer-events: auto; // 确保能捕获鼠标事件
-        }
         
         .dropdown-content {
           display: flex;
           height: 100%;
           max-height: 400px;
-          position: relative;
-          z-index: 1;
-          overflow: hidden; // 内容区域保持overflow hidden
         }
         
         .dropdown-left {
