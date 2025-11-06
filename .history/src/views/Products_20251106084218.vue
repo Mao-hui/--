@@ -395,7 +395,7 @@ export default {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       gap: 0;
-      border: 1px solid $border-color-base;
+      border: 1px solid #e0e0e0;
       border-radius: 0;
       overflow: hidden;
       background: white;
@@ -408,9 +408,9 @@ export default {
         cursor: pointer;
         transition: all 0.3s ease;
         background: white;
-        color: $text-color-regular;
-        border-right: 1px solid $border-color-base;
-        border-bottom: 1px solid $border-color-base;
+        color: #666666;
+        border-right: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
         position: relative;
         line-height: 1.5;
         white-space: nowrap;
@@ -420,13 +420,18 @@ export default {
           border-right: none;
         }
         
+        // 去除最后一行的下边框
+        &:nth-last-child(-n+8) {
+          border-bottom: none;
+        }
+        
         &:hover:not(.active) {
-          background: rgba(64, 158, 255, 0.08);
-          color: $primary-color;
+          background: rgba(240, 72, 62, 0.05);
+          color: #F0483E;
         }
         
         &.active {
-          background: $primary-color;
+          background: #F0483E;
           color: white;
           font-weight: 600;
         }

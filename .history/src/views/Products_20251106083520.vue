@@ -395,38 +395,41 @@ export default {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       gap: 0;
-      border: 1px solid $border-color-base;
-      border-radius: 0;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
       overflow: hidden;
       background: white;
       
       .category-item {
-        padding: 14px 20px;
+        padding: 16px 20px;
         text-align: center;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.3s ease;
         background: white;
-        color: $text-color-regular;
-        border-right: 1px solid $border-color-base;
-        border-bottom: 1px solid $border-color-base;
+        color: #666666;
+        border-right: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
         position: relative;
-        line-height: 1.5;
-        white-space: nowrap;
         
-        // 去除每行最后一列的右边框
+        // 去除最后一列的右边框
         &:nth-child(8n) {
           border-right: none;
         }
         
-        &:hover:not(.active) {
-          background: rgba(64, 158, 255, 0.08);
-          color: $primary-color;
+        // 去除最后一行的下边框（需要根据实际行数计算）
+        &:nth-last-child(-n+8) {
+          border-bottom: none;
+        }
+        
+        &:hover {
+          background: rgba(240, 72, 62, 0.05);
+          color: #F0483E;
         }
         
         &.active {
-          background: $primary-color;
+          background: #F0483E;
           color: white;
           font-weight: 600;
         }

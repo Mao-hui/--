@@ -223,17 +223,6 @@ export default {
       }
     }
     
-    // 获取所有分类（小分类）
-    const getAllCategories = () => {
-      const allCategories = [{ key: 'all', name: '全部产品' }]
-      categoryGroups.value.forEach(group => {
-        group.children.forEach(child => {
-          allCategories.push(child)
-        })
-      })
-      return allCategories
-    }
-    
     const getCurrentCategory = () => {
       if (activeCategory.value === 'all') return { key: 'all', name: '全部产品' }
       for (const g of categoryGroups.value) {
@@ -387,53 +376,6 @@ export default {
 }
 
 .products-main {
-  // 分类网格样式
-  .category-grid-wrapper {
-    margin-bottom: 40px;
-    
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 0;
-      border: 1px solid $border-color-base;
-      border-radius: 0;
-      overflow: hidden;
-      background: white;
-      
-      .category-item {
-        padding: 14px 20px;
-        text-align: center;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: white;
-        color: $text-color-regular;
-        border-right: 1px solid $border-color-base;
-        border-bottom: 1px solid $border-color-base;
-        position: relative;
-        line-height: 1.5;
-        white-space: nowrap;
-        
-        // 去除每行最后一列的右边框
-        &:nth-child(8n) {
-          border-right: none;
-        }
-        
-        &:hover:not(.active) {
-          background: rgba(64, 158, 255, 0.08);
-          color: $primary-color;
-        }
-        
-        &.active {
-          background: $primary-color;
-          color: white;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-  
   .category-content {
     .category-header {
       margin-bottom: 30px;
