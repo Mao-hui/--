@@ -267,9 +267,6 @@ export default {
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         
-        // 显示下拉菜单时，确保导航栏也显示
-        isHeaderHidden.value = false
-        
         // 自动选择第一个分类
         const categories = getDropdownCategories(item.path)
         if (categories.length > 0) {

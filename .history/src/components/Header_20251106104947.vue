@@ -267,9 +267,6 @@ export default {
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         
-        // 显示下拉菜单时，确保导航栏也显示
-        isHeaderHidden.value = false
-        
         // 自动选择第一个分类
         const categories = getDropdownCategories(item.path)
         if (categories.length > 0) {
@@ -341,8 +338,14 @@ export default {
       selectedCategory.value = ''
     }
     
-    // 保存滚动监听器清理函数
-    let scrollCleanup = null
+    // 组件卸载时清理定时器
+    onBeforeUnmount(() => {
+      clearAllTimers()
+      currentHoverItem = null
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
+      }
+    })
     
     const getDropdownCategories = (path) => {
       if (path === '/products') {
@@ -487,21 +490,17 @@ export default {
       window.addEventListener('scroll', throttledScroll, { passive: true })
       
       // 保存清理函数
-      scrollCleanup = () => {
+      const cleanup = () => {
         window.removeEventListener('scroll', throttledScroll)
         if (scrollTimeout) {
           clearTimeout(scrollTimeout)
         }
       }
-    })
-    
-    // 组件卸载时清理定时器和滚动监听器
-    onBeforeUnmount(() => {
-      clearAllTimers()
-      currentHoverItem = null
-      if (scrollCleanup) {
-        scrollCleanup()
-      }
+      
+      // 在组件卸载时清理
+      onBeforeUnmount(() => {
+        cleanup()
+      })
     })
     
     return {
@@ -512,6 +511,7 @@ export default {
       handleSelect,
       handleMouseEnter,
       handleMouseLeave,
+      handleDropdownEnter,
       handleDropdownEnter,
       handleDropdownLeave,
       getDropdownCategories,
@@ -537,13 +537,6 @@ export default {
   left: 0;
   right: 0;
   z-index: 1000;
-  transform: translateY(0);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.header-hidden {
-    transform: translateY(-100%);
-    box-shadow: none;
-  }
   
   .header-content {
     @include flex-between;

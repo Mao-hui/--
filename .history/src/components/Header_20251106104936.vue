@@ -267,9 +267,6 @@ export default {
         // 立即显示菜单，不添加延迟，确保响应及时
         showDropdown.value = item.path
         
-        // 显示下拉菜单时，确保导航栏也显示
-        isHeaderHidden.value = false
-        
         // 自动选择第一个分类
         const categories = getDropdownCategories(item.path)
         if (categories.length > 0) {
@@ -341,8 +338,11 @@ export default {
       selectedCategory.value = ''
     }
     
-    // 保存滚动监听器清理函数
-    let scrollCleanup = null
+    // 组件卸载时清理定时器
+    onBeforeUnmount(() => {
+      clearAllTimers()
+      currentHoverItem = null
+    })
     
     const getDropdownCategories = (path) => {
       if (path === '/products') {
@@ -415,93 +415,9 @@ export default {
       console.log('联系我们')
     }
     
-    // 处理滚动事件
-    const handleScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop
-      const currentTime = Date.now()
-      const timeDiff = currentTime - lastScrollTime
-      const scrollDiff = Math.abs(currentScrollTop - lastScrollTop)
-      
-      // 计算滚动速度（px/ms）
-      const scrollSpeed = timeDiff > 0 ? scrollDiff / timeDiff : 0
-      
-      // 清除之前的滚动定时器
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout)
-      }
-      
-      // 如果下拉菜单显示，保持导航栏显示
-      if (showDropdown.value) {
-        isHeaderHidden.value = false
-        lastScrollTop = currentScrollTop
-        lastScrollTime = currentTime
-        return
-      }
-      
-      // 向下滚动且速度较快（> 0.5 px/ms）时隐藏导航栏
-      if (currentScrollTop > lastScrollTop && currentScrollTop > 100 && scrollSpeed > 0.5) {
-        isHeaderHidden.value = true
-      } 
-      // 向上滚动时显示导航栏
-      else if (currentScrollTop < lastScrollTop) {
-        isHeaderHidden.value = false
-      }
-      // 滚动到顶部时显示导航栏
-      else if (currentScrollTop <= 100) {
-        isHeaderHidden.value = false
-      }
-      
-      lastScrollTop = currentScrollTop
-      lastScrollTime = currentTime
-      
-      // 设置滚动结束后的延迟处理，确保滚动停止后也能正确显示
-      scrollTimeout = setTimeout(() => {
-        // 如果滚动停止且距离顶部较近，显示导航栏
-        const stoppedScrollTop = window.pageYOffset || document.documentElement.scrollTop
-        if (stoppedScrollTop <= 200) {
-          isHeaderHidden.value = false
-        }
-      }, 150)
-    }
-    
     onMounted(() => {
       loadProducts()
       loadSolutions()
-      
-      // 初始化滚动位置
-      lastScrollTop = window.pageYOffset || document.documentElement.scrollTop
-      lastScrollTime = Date.now()
-      
-      // 监听滚动事件，使用节流优化性能
-      let ticking = false
-      const throttledScroll = () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            handleScroll()
-            ticking = false
-          })
-          ticking = true
-        }
-      }
-      
-      window.addEventListener('scroll', throttledScroll, { passive: true })
-      
-      // 保存清理函数
-      scrollCleanup = () => {
-        window.removeEventListener('scroll', throttledScroll)
-        if (scrollTimeout) {
-          clearTimeout(scrollTimeout)
-        }
-      }
-    })
-    
-    // 组件卸载时清理定时器和滚动监听器
-    onBeforeUnmount(() => {
-      clearAllTimers()
-      currentHoverItem = null
-      if (scrollCleanup) {
-        scrollCleanup()
-      }
     })
     
     return {
@@ -520,8 +436,7 @@ export default {
       getDropdownDetails,
       goToPage,
       goToDetail,
-      contactUs,
-      isHeaderHidden
+      contactUs
     }
   }
 }
@@ -537,13 +452,6 @@ export default {
   left: 0;
   right: 0;
   z-index: 1000;
-  transform: translateY(0);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.header-hidden {
-    transform: translateY(-100%);
-    box-shadow: none;
-  }
   
   .header-content {
     @include flex-between;
