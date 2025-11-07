@@ -17,7 +17,7 @@
               }]"
               @mouseenter="handleMouseEnter(item)"
               @mouseleave="handleMouseLeave(item)"
-              @click="handleSelect(item)"
+              @click="handleSelect(item.path)"
             >
               {{ item.name }}
             </div>
@@ -538,16 +538,9 @@ export default {
       selectedCategory.value = ''
     }
     
-    const handleSelect = (item) => {
-      // 如果有下拉菜单，不跳转路由，只是切换下拉菜单的显示
-      if (item.hasDropdown) {
-        // 如果已经显示了该菜单，则不做任何操作（保持打开）
-        // 如果显示的是其他菜单或没有显示，由 handleMouseEnter 处理
-        return
-      }
-      
-      // 没有下拉菜单的导航项，跳转并关闭菜单
-      router.push(item.path)
+    const handleSelect = (path) => {
+      router.push(path)
+      // 关闭下拉菜单
       showDropdown.value = ''
       selectedCategory.value = ''
     }
@@ -1059,88 +1052,35 @@ export default {
       padding: 24px 32px;
       overflow-y: auto;
       background: transparent;
-      
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-      
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      
-      &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 3px;
-        
-        &:hover {
-          background: rgba(0, 0, 0, 0.3);
-        }
-      }
-      
-      .right-content {
-        .right-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 20px;
-          padding-bottom: 14px;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
           
-          h3 {
-            font-size: 19px;
-            font-weight: 700;
-            color: $text-color-primary;
-            margin: 0;
-            letter-spacing: 0.6px;
+          &::-webkit-scrollbar {
+            width: 5px;
           }
           
-          .link-text {
-            font-size: 13px;
-            color: $primary-color;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(64, 158, 255, 0.08);
+          &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          
+          &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
             
             &:hover {
-              color: white;
-              background: $primary-color;
-              transform: translateY(-1px);
-              box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
-            }
-            
-            &::after {
-              content: '↗';
-              font-size: 13px;
-              margin-left: 2px;
-              transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            &:hover::after {
-              transform: translate(3px, -3px);
+              background: rgba(0, 0, 0, 0.3);
             }
           }
-        }
-        
-        .right-list {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 14px;
           
-          .detail-item {
-            padding: 14px 16px;
-            background: rgba(245, 247, 250, 0.5);
-            border-radius: 8px;
+          .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(48, 49, 51, 0.85);
             position: relative;
-            overflow: hidden;
+            margin: 2px 8px;
+            border-radius: 4px;
             
             &::before {
               content: '';
@@ -1148,174 +1088,307 @@ export default {
               left: 0;
               top: 0;
               bottom: 0;
-              width: 2px;
+              width: 3px;
+              height: 0;
               background: $primary-color;
-              transform: scaleY(0);
-              transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              border-radius: 0 2px 2px 0;
+              transition: height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             }
             
             &:hover {
               background: rgba(64, 158, 255, 0.08);
-              border-color: rgba(64, 158, 255, 0.2);
-              transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(64, 158, 255, 0.15);
-              
-              .detail-name {
-                color: $primary-color;
-              }
-              
-              .detail-desc {
-                opacity: 1;
-                color: rgba(48, 49, 51, 0.8);
-              }
+              color: $primary-color;
               
               &::before {
-                transform: scaleY(1);
+                height: 60%;
+                top: 20%;
+                background: $primary-color;
               }
             }
             
-            .detail-name {
+            &.active {
+              background: rgba(64, 158, 255, 0.12);
+              color: $primary-color;
+              
+              &::before {
+                height: 100%;
+                background: $primary-color;
+              }
+            }
+            
+            .category-name {
               font-size: 14px;
-              font-weight: 600;
-              color: $text-color-primary;
-              margin-bottom: 8px;
-              transition: all 0.3s ease;
+              font-weight: 500;
               letter-spacing: 0.3px;
+              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
               line-height: 1.5;
             }
             
-            .detail-desc {
-              font-size: 12px;
-              color: rgba(48, 49, 51, 0.65);
-              line-height: 1.6;
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              line-clamp: 2;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              opacity: 0.85;
-              transition: all 0.3s ease;
+            &.active .category-name {
+              font-weight: 600;
+              letter-spacing: 0.4px;
+            }
+            
+            .arrow-icon {
+              font-size: 16px;
+              color: rgba(48, 49, 51, 0.4);
+              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            &.active .arrow-icon {
+              color: $primary-color;
+              transform: translateX(3px);
+            }
+            
+            &:hover .arrow-icon {
+              color: rgba(64, 158, 255, 0.8);
             }
           }
         }
         
-        // 解决方案的样式（按小行业分组）
-        .right-list-solutions {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
+        .dropdown-right {
+          flex: 1;
+          padding: 24px 32px;
+          overflow-y: auto;
+          background: transparent;
           
-          .small-industry-group {
-            margin-bottom: 0;
+          &::-webkit-scrollbar {
+            width: 6px;
+          }
+          
+          &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          
+          &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
             
-            .small-industry-name {
-              font-size: 16px;
-              font-weight: 600;
-              color: $text-color-primary;
-              margin-bottom: 10px;
-              padding-bottom: 8px;
-              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-              letter-spacing: 0.4px;
+            &:hover {
+              background: rgba(0, 0, 0, 0.3);
             }
-            
-            .schemes-list {
+          }
+          
+          .right-content {
+            .right-header {
               display: flex;
-              flex-direction: column;
-              gap: 6px;
+              align-items: center;
+              justify-content: space-between;
+              margin-bottom: 20px;
+              padding-bottom: 14px;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
               
-              .scheme-item {
-                padding: 10px 14px;
-                background: rgba(245, 247, 250, 0.5);
-                border-radius: 6px;
+              h3 {
+                font-size: 19px;
+                font-weight: 700;
+                color: $text-color-primary;
+                margin: 0;
+                letter-spacing: 0.6px;
+              }
+              
+              .link-text {
+                font-size: 13px;
+                color: $primary-color;
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                color: rgba(48, 49, 51, 0.85);
-                font-size: 14px;
-                position: relative;
-                border: 1px solid rgba(0, 0, 0, 0.06);
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(64, 158, 255, 0.08);
+                
+                &:hover {
+                  color: white;
+                  background: $primary-color;
+                  transform: translateY(-1px);
+                  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+                }
                 
                 &::after {
+                  content: '↗';
+                  font-size: 13px;
+                  margin-left: 2px;
+                  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                
+                &:hover::after {
+                  transform: translate(3px, -3px);
+                }
+              }
+            }
+            
+            .right-list {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 14px;
+              
+              .detail-item {
+                padding: 14px 16px;
+                background: rgba(245, 247, 250, 0.5);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                position: relative;
+                overflow: hidden;
+                
+                &::before {
                   content: '';
                   position: absolute;
                   left: 0;
+                  top: 0;
                   bottom: 0;
-                  width: 0;
-                  height: 2px;
+                  width: 2px;
                   background: $primary-color;
-                  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                  border-radius: 0 2px 2px 0;
+                  transform: scaleY(0);
+                  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
                 
                 &:hover {
                   background: rgba(64, 158, 255, 0.08);
-                  color: $primary-color;
                   border-color: rgba(64, 158, 255, 0.2);
-                  transform: translateX(4px);
-                  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.15);
+                  transform: translateY(-2px);
+                  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.15);
                   
-                  &::after {
-                    width: 100%;
+                  .detail-name {
+                    color: $primary-color;
+                  }
+                  
+                  .detail-desc {
+                    opacity: 1;
+                    color: rgba(48, 49, 51, 0.8);
+                  }
+                  
+                  &::before {
+                    transform: scaleY(1);
+                  }
+                }
+                
+                .detail-name {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: $text-color-primary;
+                  margin-bottom: 8px;
+                  transition: all 0.3s ease;
+                  letter-spacing: 0.3px;
+                  line-height: 1.5;
+                }
+                
+                .detail-desc {
+                  font-size: 12px;
+                  color: rgba(48, 49, 51, 0.65);
+                  line-height: 1.6;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 2;
+                  line-clamp: 2;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  opacity: 0.85;
+                  transition: all 0.3s ease;
+                }
+              }
+            }
+            
+            // 解决方案的样式（按小行业分组）
+            .right-list-solutions {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+              
+              .small-industry-group {
+                margin-bottom: 0;
+                
+                .small-industry-name {
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: $text-color-primary;
+                  margin-bottom: 10px;
+                  padding-bottom: 8px;
+                  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                  letter-spacing: 0.4px;
+                }
+                
+                .schemes-list {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 6px;
+                  
+                  .scheme-item {
+                    padding: 10px 14px;
+                    background: rgba(245, 247, 250, 0.5);
+                    border-radius: 6px;
+                    cursor: pointer;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    color: rgba(48, 49, 51, 0.85);
+                    font-size: 14px;
+                    position: relative;
+                    border: 1px solid rgba(0, 0, 0, 0.06);
+                    
+                    &::after {
+                      content: '';
+                      position: absolute;
+                      left: 0;
+                      bottom: 0;
+                      width: 0;
+                      height: 2px;
+                      background: $primary-color;
+                      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                      border-radius: 0 2px 2px 0;
+                    }
+                    
+                    &:hover {
+                      background: rgba(64, 158, 255, 0.08);
+                      color: $primary-color;
+                      border-color: rgba(64, 158, 255, 0.2);
+                      transform: translateX(4px);
+                      box-shadow: 0 2px 8px rgba(64, 158, 255, 0.15);
+                      
+                      &::after {
+                        width: 100%;
+                      }
+                    }
                   }
                 }
               }
             }
           }
+          
+          .right-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            gap: 12px;
+            
+            p {
+              color: rgba(48, 49, 51, 0.5);
+              font-size: 14px;
+            }
+          }
         }
       }
       
-      .right-empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
-        gap: 12px;
-        
-        p {
-          color: rgba(48, 49, 51, 0.5);
-          font-size: 14px;
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
         }
       }
     }
   }
-}
-
-// 折叠动画
-.expand-enter-active,
-.expand-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-.expand-enter-from,
-.expand-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-
-.expand-enter-to,
-.expand-leave-from {
-  max-height: 500px;
-  opacity: 1;
-}
-
-// 下拉菜单动画
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// 移除旧的header相关样式，因为已经在.header内定义
-.header-actions {
-  .el-button {
-    border-radius: 25px;
-    padding: 10px 20px;
+  
+  .header-actions {
+    .el-button {
+      border-radius: 25px;
+      padding: 10px 20px;
+    }
   }
 }
 

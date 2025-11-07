@@ -538,16 +538,9 @@ export default {
       selectedCategory.value = ''
     }
     
-    const handleSelect = (item) => {
-      // 如果有下拉菜单，不跳转路由，只是切换下拉菜单的显示
-      if (item.hasDropdown) {
-        // 如果已经显示了该菜单，则不做任何操作（保持打开）
-        // 如果显示的是其他菜单或没有显示，由 handleMouseEnter 处理
-        return
-      }
-      
-      // 没有下拉菜单的导航项，跳转并关闭菜单
-      router.push(item.path)
+    const handleSelect = (path) => {
+      router.push(path)
+      // 关闭下拉菜单
       showDropdown.value = ''
       selectedCategory.value = ''
     }
