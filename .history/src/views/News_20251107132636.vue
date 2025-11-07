@@ -1,19 +1,18 @@
 <template>
-  <el-config-provider :locale="locale">
-    <div class="news">
-      <Header />
-      
-      <!-- Banner区域 -->
-      <div class="banner-section" :style="bannerStyle">
-        <div class="banner-content">
-          <div class="banner-overlay">
-            <!-- <h1 class="banner-title">新闻中心</h1>
-            <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
-          </div>
+  <div class="news">
+    <Header />
+    
+    <!-- Banner区域 -->
+    <div class="banner-section" :style="bannerStyle">
+      <div class="banner-content">
+        <div class="banner-overlay">
+          <!-- <h1 class="banner-title">新闻中心</h1>
+          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
         </div>
       </div>
-      
-      <div class="news-content">
+    </div>
+    
+    <div class="news-content">
       <div class="container">
         <!-- 新闻横幅 -->
         <!-- <div class="news-banner">
@@ -117,8 +116,7 @@
     </div>
     
     <Footer />
-    </div>
-  </el-config-provider>
+  </div>
 </template>
 
 <script>

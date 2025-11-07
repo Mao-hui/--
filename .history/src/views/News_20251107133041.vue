@@ -61,6 +61,7 @@
                   @change="showMonthDropdown = false"
                   style="width: 100%;"
                   :clearable="true"
+                  :locale="locale"
                 />
               </div>
             </div>

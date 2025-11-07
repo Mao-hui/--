@@ -61,6 +61,7 @@
                   @change="showMonthDropdown = false"
                   style="width: 100%;"
                   :clearable="true"
+                  :locale="locale"
                 />
               </div>
             </div>
@@ -117,8 +118,7 @@
     </div>
     
     <Footer />
-    </div>
-  </el-config-provider>
+  </div>
 </template>
 
 <script>

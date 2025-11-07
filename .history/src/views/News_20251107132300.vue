@@ -1,19 +1,18 @@
 <template>
-  <el-config-provider :locale="locale">
-    <div class="news">
-      <Header />
-      
-      <!-- Banner区域 -->
-      <div class="banner-section" :style="bannerStyle">
-        <div class="banner-content">
-          <div class="banner-overlay">
-            <!-- <h1 class="banner-title">新闻中心</h1>
-            <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
-          </div>
+  <div class="news">
+    <Header />
+    
+    <!-- Banner区域 -->
+    <div class="banner-section" :style="bannerStyle">
+      <div class="banner-content">
+        <div class="banner-overlay">
+          <!-- <h1 class="banner-title">新闻中心</h1>
+          <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
         </div>
       </div>
-      
-      <div class="news-content">
+    </div>
+    
+    <div class="news-content">
       <div class="container">
         <!-- 新闻横幅 -->
         <!-- <div class="news-banner">
@@ -50,18 +49,19 @@
             </div>
             <div class="filter-item" :class="{ active: !!monthFilter }" @click="showMonthDropdown = !showMonthDropdown">
               <el-icon><Calendar /></el-icon>
-              <span>{{ monthFilter || '月份' }}</span>
+              <span>{{ monthFilter ? monthFilter + '月' : '全部月份' }}</span>
               <el-icon class="arrow-icon"><ArrowDown /></el-icon>
               <div v-if="showMonthDropdown" class="filter-dropdown month-dropdown" @click.stop>
-                <el-date-picker
-                  v-model="monthFilter"
-                  type="month"
-                  placeholder="选择月份"
-                  value-format="YYYY-MM"
-                  @change="showMonthDropdown = false"
-                  style="width: 100%;"
-                  :clearable="true"
-                />
+                <div class="dropdown-option" @click="selectMonth('')">全部月份</div>
+                <div 
+                  v-for="month in 12" 
+                  :key="month"
+                  class="dropdown-option"
+                  :class="{ active: monthFilter === month }"
+                  @click="selectMonth(month)"
+                >
+                  {{ month }}月
+                </div>
               </div>
             </div>
           </div>
@@ -117,8 +117,7 @@
     </div>
     
     <Footer />
-    </div>
-  </el-config-provider>
+  </div>
 </template>
 
 <script>
@@ -129,7 +128,6 @@ import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsList } from '@/api'
 import newsImage from '@/assets/image/news.png'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 export default {
   name: 'News',
@@ -155,7 +153,6 @@ export default {
     const showYearDropdown = ref(false)
     const showMonthDropdown = ref(false)
     const availableYears = ref([])
-    const locale = zhCn // Element Plus 中文语言包
     
     const bannerStyle = computed(() => {
       // 使用本地图片
@@ -226,6 +223,11 @@ export default {
       showYearDropdown.value = false
     }
     
+    const selectMonth = (month) => {
+      monthFilter.value = month
+      showMonthDropdown.value = false
+    }
+    
     // 获取所有可用年份
     const updateAvailableYears = () => {
       const years = new Set()
@@ -247,10 +249,15 @@ export default {
     }
     
     const displayedList = computed(() => {
-      const month = (monthFilter.value || '').trim()
+      const month = monthFilter.value
       const year = (yearFilter.value || '').trim()
       return newsList.value.filter(a => {
-        const hitMonth = !month || (a.date && a.date.slice(0, 7) === month)
+        // 月份筛选：比较月份数字（1-12）
+        let hitMonth = true
+        if (month && a.date) {
+          const dateMonth = parseInt(a.date.slice(5, 7)) // 从 YYYY-MM-DD 中提取月份
+          hitMonth = dateMonth === month
+        }
         const hitYear = !year || (a.date && a.date.slice(0, 4) === year)
         return hitMonth && hitYear
       })
@@ -292,8 +299,7 @@ export default {
       availableYears,
       selectYear,
       displayedList,
-      bannerStyle,
-      locale
+      bannerStyle
     }
   }
 }
