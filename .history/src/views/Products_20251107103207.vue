@@ -83,6 +83,25 @@
           </div>
         </div>
       </div>
+    
+    <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="1200px">
+      <div class="product-detail" v-loading="detailLoading">
+        <div class="product-meta" v-if="currentProduct">
+          <div class="meta-item" v-if="currentProduct.tags && currentProduct.tags.length">
+            <span class="meta-label">分类：</span>
+            <el-tag 
+              v-for="tag in currentProduct.tags" 
+              :key="tag" 
+              size="small"
+              style="margin-right: 8px;"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+        <div class="rich-content" v-html="currentProduct && currentProduct.content"></div>
+      </div>
+    </el-dialog>
 
     <Footer />
   </div>
@@ -105,12 +124,14 @@ export default {
   },
   setup() {
     const route = useRoute()
-    const router = useRouter()
     const activeCategory = ref('all')
     const loading = ref(false)
     const error = ref('')
     const categoryGroups = ref([]) // [{ key, name, children: [{key,name}] }]
     const products = ref({ all: [] })
+    const dialogVisible = ref(false)
+    const currentProduct = ref(null)
+    const detailLoading = ref(false)
     
     const stripHtml = (html) => {
       if (!html) return ''
@@ -257,6 +278,9 @@ export default {
       getCurrentCategory,
       getCurrentProducts,
       getAllCategories,
+      dialogVisible,
+      currentProduct,
+      detailLoading,
       openDetail
     }
   }

@@ -83,6 +83,25 @@
           </div>
         </div>
       </div>
+    
+    <el-dialog v-model="dialogVisible" :title="currentProduct && currentProduct.name" width="1200px">
+      <div class="product-detail" v-loading="detailLoading">
+        <div class="product-meta" v-if="currentProduct">
+          <div class="meta-item" v-if="currentProduct.tags && currentProduct.tags.length">
+            <span class="meta-label">分类：</span>
+            <el-tag 
+              v-for="tag in currentProduct.tags" 
+              :key="tag" 
+              size="small"
+              style="margin-right: 8px;"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+        <div class="rich-content" v-html="currentProduct && currentProduct.content"></div>
+      </div>
+    </el-dialog>
 
     <Footer />
   </div>
@@ -257,6 +276,9 @@ export default {
       getCurrentCategory,
       getCurrentProducts,
       getAllCategories,
+      dialogVisible,
+      currentProduct,
+      detailLoading,
       openDetail
     }
   }

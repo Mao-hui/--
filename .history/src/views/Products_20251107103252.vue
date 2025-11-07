@@ -257,6 +257,9 @@ export default {
       getCurrentCategory,
       getCurrentProducts,
       getAllCategories,
+      dialogVisible,
+      currentProduct,
+      detailLoading,
       openDetail
     }
   }

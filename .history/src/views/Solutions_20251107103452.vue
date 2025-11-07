@@ -336,6 +336,9 @@ export default {
       ecommerceFeatures,
       manufacturingSystems,
       setActiveBig,
+      dialogVisible,
+      detailItem,
+      detailLoading,
       openDetail,
       bannerStyle
     }

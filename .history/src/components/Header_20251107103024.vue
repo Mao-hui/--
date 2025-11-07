@@ -540,23 +540,25 @@ export default {
     
     const goToDetail = (path, detail) => {
       if (path === '/products') {
-        // 通过路由跳转到产品详情页
-        router.push({
+        // 在新窗口打开产品详情页
+        const url = router.resolve({
           path: '/product-detail',
           query: {
             productId: detail.id,
             category: detail.smallKey
           }
-        })
+        }).href
+        window.open(url, '_blank')
       } else if (path === '/solutions') {
-        // 通过路由跳转到解决方案详情页
-        router.push({
+        // 在新窗口打开解决方案详情页
+        const url = router.resolve({
           path: '/solution-detail',
           query: {
             schemeId: detail.id,
             bigIndustryId: detail.bigIndustryId
           }
-        })
+        }).href
+        window.open(url, '_blank')
       }
       showDropdown.value = ''
       selectedCategory.value = ''

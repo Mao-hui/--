@@ -71,6 +71,10 @@
       </div>
     </div>
     
+    <el-dialog v-model="dialogVisible" :title="detailItem && detailItem.schemeName" width="900px">
+      <div v-loading="detailLoading" class="rich-content" v-html="detailItem && detailItem.description"></div>
+    </el-dialog>
+    
     <Footer />
   </div>
 </template>
@@ -92,9 +96,11 @@ export default {
   },
   setup() {
     const route = useRoute()
-    const router = useRouter()
     const loading = ref(false)
     const error = ref('')
+    const dialogVisible = ref(false)
+    const detailItem = ref(null)
+    const detailLoading = ref(false)
     const bigCategories = ref([])
     const activeBig = ref('')
     const bigToSchemes = ref({})
@@ -336,6 +342,9 @@ export default {
       ecommerceFeatures,
       manufacturingSystems,
       setActiveBig,
+      dialogVisible,
+      detailItem,
+      detailLoading,
       openDetail,
       bannerStyle
     }
