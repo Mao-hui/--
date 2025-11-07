@@ -515,22 +515,21 @@ export default {
     
     const goToDetail = (path, detail) => {
       if (path === '/products') {
-        // 在新窗口打开产品详情页
-        const url = router.resolve({
-          path: '/product-detail',
+        // 跳转到产品页面，并传递productId，页面会自动打开详情对话框
+        router.push({
+          path: '/products',
           query: {
-            productId: detail.id,
-            category: detail.smallKey
+            category: detail.smallKey,
+            productId: detail.id
           }
-        }).href
-        window.open(url, '_blank')
+        })
       } else if (path === '/solutions') {
         // 在新窗口打开解决方案详情页
         const url = router.resolve({
-          path: '/solution-detail',
+          path: '/solutions',
           query: {
-            schemeId: detail.id,
-            bigIndustryId: detail.bigIndustryId
+            bigIndustryId: detail.bigIndustryId,
+            schemeId: detail.id
           }
         }).href
         window.open(url, '_blank')
