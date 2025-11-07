@@ -72,6 +72,7 @@
               <div v-if="selectedCategory" class="right-content">
                 <div class="right-header">
                   <h3>{{ getSelectedCategoryName() }}</h3>
+                  <span class="link-text" @click="goToPage('/products')">查看全部</span>
                 </div>
                 <div class="right-list">
                   <div 
@@ -111,6 +112,7 @@
               <div v-if="selectedCategory" class="right-content">
                 <div class="right-header">
                   <h3>{{ getSelectedCategoryName() }}</h3>
+                  <span class="link-text" @click="goToPage('/solutions')">查看全部</span>
                 </div>
                 <div class="right-list">
                   <div 

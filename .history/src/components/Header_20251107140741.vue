@@ -72,6 +72,7 @@
               <div v-if="selectedCategory" class="right-content">
                 <div class="right-header">
                   <h3>{{ getSelectedCategoryName() }}</h3>
+                  <span class="link-text" @click="goToPage('/products')">查看全部</span>
                 </div>
                 <div class="right-list">
                   <div 
@@ -111,6 +112,7 @@
               <div v-if="selectedCategory" class="right-content">
                 <div class="right-header">
                   <h3>{{ getSelectedCategoryName() }}</h3>
+                  <span class="link-text" @click="goToPage('/solutions')">查看全部</span>
                 </div>
                 <div class="right-list">
                   <div 
@@ -531,10 +533,6 @@ export default {
     }
     
     const goToPage = (path) => {
-      // 产品中心和解决方案页面隐藏，不跳转到列表页
-      if (path === '/products' || path === '/solutions') {
-        return
-      }
       router.push(path)
       showDropdown.value = ''
       selectedCategory.value = ''
