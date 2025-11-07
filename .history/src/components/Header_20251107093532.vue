@@ -460,25 +460,14 @@ export default {
     
     // 切换产品中心大行业的折叠状态
     const toggleCategory = (categoryKey) => {
-      const isCurrentlyExpanded = expandedCategories.value[categoryKey]
+      expandedCategories.value[categoryKey] = !expandedCategories.value[categoryKey]
       
-      // 手风琴效果：先关闭所有分类
-      Object.keys(expandedCategories.value).forEach(key => {
-        expandedCategories.value[key] = false
-      })
-      
-      // 如果当前是关闭状态，则展开；如果当前是展开状态，则保持关闭（实现折叠效果）
-      if (!isCurrentlyExpanded) {
-        expandedCategories.value[categoryKey] = true
-        
-        // 展开时，自动选择第一个小行业
+      // 如果展开，自动选择第一个小行业
+      if (expandedCategories.value[categoryKey]) {
         const subCategories = getProductSubCategories(categoryKey)
         if (subCategories.length > 0) {
           selectedCategory.value = subCategories[0].key
         }
-      } else {
-        // 如果是关闭当前展开的分类，清空选中的分类
-        selectedCategory.value = ''
       }
     }
     
