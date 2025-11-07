@@ -725,7 +725,6 @@ export default {
       selectCategory,
       getSelectedCategoryName,
       getDropdownDetails,
-      getSolutionSchemes,
       goToPage,
       goToDetail,
       contactUs,
@@ -1226,24 +1225,66 @@ export default {
           }
         }
         
-        // 解决方案卡片额外样式
-        .solution-card {
-          position: relative;
+        // 解决方案的样式（按小行业分组）
+        .right-list-solutions {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
           
-          .solution-tag {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 4px 10px;
-            background: rgba(103, 194, 58, 0.1);
-            color: #67c23a;
-            font-size: 12px;
-            border-radius: 4px;
-            font-weight: 500;
-          }
-          
-          &:hover .solution-tag {
-            background: rgba(103, 194, 58, 0.15);
+          .small-industry-group {
+            margin-bottom: 0;
+            
+            .small-industry-name {
+              font-size: 16px;
+              font-weight: 600;
+              color: $text-color-primary;
+              margin-bottom: 10px;
+              padding-bottom: 8px;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+              letter-spacing: 0.4px;
+            }
+            
+            .schemes-list {
+              display: flex;
+              flex-direction: column;
+              gap: 6px;
+              
+              .scheme-item {
+                padding: 10px 14px;
+                background: rgba(245, 247, 250, 0.5);
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                color: rgba(48, 49, 51, 0.85);
+                font-size: 14px;
+                position: relative;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                
+                &::after {
+                  content: '';
+                  position: absolute;
+                  left: 0;
+                  bottom: 0;
+                  width: 0;
+                  height: 2px;
+                  background: $primary-color;
+                  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                  border-radius: 0 2px 2px 0;
+                }
+                
+                &:hover {
+                  background: rgba(64, 158, 255, 0.08);
+                  color: $primary-color;
+                  border-color: rgba(64, 158, 255, 0.2);
+                  transform: translateX(4px);
+                  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.15);
+                  
+                  &::after {
+                    width: 100%;
+                  }
+                }
+              }
+            }
           }
         }
       }
