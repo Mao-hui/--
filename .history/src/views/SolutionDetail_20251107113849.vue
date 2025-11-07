@@ -58,7 +58,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetScheme, apiGetSchemeDetail } from '@/api'
+import { apiGetSchemeDetail } from '@/api'
 import soulImage from '@/assets/image/soul.png'
 
 export default {
@@ -74,7 +74,7 @@ export default {
     const error = ref('')
     const solutionInfo = ref({})
     
-    // Banner背景图样式 - 使用方案的 smallIndustryUrl 或 bigIndustryUrl
+    // Banner背景图样式 - 使用方案自己的图片，没有则使用默认图
     const bannerStyle = computed(() => {
       const imageUrl = solutionInfo.value.imageUrl || soulImage
       return {
@@ -112,56 +112,27 @@ export default {
       error.value = ''
       
       try {
-        // 使用 apiGetScheme 获取完整的方案列表（包含图片URL）
-        const listRes = await apiGetScheme()
-        console.log('方案列表API返回数据:', listRes)
-        
-        if (listRes && listRes.code === 200 && Array.isArray(listRes.data)) {
-          // 从列表中找到对应的方案
-          const schemeItem = listRes.data.find(item => String(item.schemeId) === String(schemeId))
-          console.log('找到的方案数据:', schemeItem)
-          
-          if (!schemeItem) {
-            error.value = '未找到该方案'
-            ElMessage.error(error.value)
-            return
-          }
-          
-          // 再调用详情接口获取富文本内容
-          const detailRes = await apiGetSchemeDetail({ schemeId })
-          console.log('方案详情API返回数据:', detailRes)
-          
-          // 提取详情接口的富文本内容
-          let rawContent = '<p>暂无详细内容</p>'
-          if (detailRes && detailRes.code === 200 && detailRes.data) {
-            const detailItem = Array.isArray(detailRes.data) ? detailRes.data[0] : detailRes.data
-            rawContent = detailItem?.description || detailItem?.content || rawContent
-          }
-          
-          // 提取图片URL（从列表接口获取）
-          const imageUrl = schemeItem.smallIndustryUrl || schemeItem.bigIndustryUrl || ''
-          console.log('提取的图片URL:', imageUrl)
-          console.log('smallIndustryUrl:', schemeItem.smallIndustryUrl)
-          console.log('bigIndustryUrl:', schemeItem.bigIndustryUrl)
+        const res = await apiGetSchemeDetail({ schemeId })
+        if (res && res.code === 200 && res.data) {
+          // description字段作为富文本内容，可能包含HTML
+          const rawContent = res.data.description || res.data.content || '<p>暂无详细内容</p>'
           
           solutionInfo.value = {
-            name: schemeItem.schemeName || '方案详情',
+            name: res.data.schemeName || '方案详情',
             brief: stripHtml(rawContent), // 纯文本简介（去除HTML标签）
             content: decodeHtml(rawContent), // 富文本内容（解码HTML实体）
-            tags: [],
-            // 方案图片：从列表接口获取，优先使用小分类图片(smallIndustryUrl)
-            imageUrl: imageUrl
+            tags: res.data.tags || []
           }
           
-          // 添加行业标签
-          if (schemeItem.bigIndustryName) {
-            solutionInfo.value.tags.push(schemeItem.bigIndustryName)
-          }
-          if (schemeItem.smallIndustryName) {
-            solutionInfo.value.tags.push(schemeItem.smallIndustryName)
+          // 如果没有标签但有行业信息，添加标签
+          if ((!solutionInfo.value.tags || solutionInfo.value.tags.length === 0) && res.data.bigIndustryName) {
+            solutionInfo.value.tags = [res.data.bigIndustryName]
+            if (res.data.smallIndustryName) {
+              solutionInfo.value.tags.push(res.data.smallIndustryName)
+            }
           }
         } else {
-          error.value = listRes?.msg || listRes?.message || '加载方案列表失败'
+          error.value = res?.msg || res?.message || '加载方案详情失败'
           ElMessage.error(error.value)
         }
       } catch (e) {
