@@ -2,21 +2,19 @@
   <div class="product-detail-page">
     <Header />
     
-    <!-- 面包屑导航 -->
-    <div class="breadcrumb-section">
-      <div class="container">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/products' }">产品中心</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ productInfo.name || '产品详情' }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-    </div>
-    
     <!-- Banner区域 - 产品名称嵌入静态图片 -->
     <div class="banner-section" :style="bannerStyle" v-if="!loading && !error && productInfo.name">
-      <div class="banner-content">
-        <h1 class="product-name">{{ productInfo.name }}</h1>
+      <div class="banner-overlay">
+        <div class="container">
+          <div class="breadcrumb-nav">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: '/products' }">产品中心</el-breadcrumb-item>
+              <el-breadcrumb-item>{{ productInfo.name }}</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <h1 class="product-name">{{ productInfo.name }}</h1>
+        </div>
       </div>
     </div>
     
@@ -150,8 +148,7 @@ export default {
     return {
       loading,
       error,
-      productInfo,
-      bannerStyle
+      productInfo
     }
   }
 }
@@ -167,39 +164,11 @@ export default {
   background: #f5f7fa;
 }
 
-// 面包屑导航
 .breadcrumb-section {
   background: white;
   padding: 20px 0;
   border-bottom: 1px solid #e4e7ed;
   margin-top: 70px; // header高度
-}
-
-// Banner区域
-.banner-section {
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    text-align: center;
-    
-    .product-name {
-      font-size: 48px;
-      font-weight: 700;
-      color: white;
-      margin: 0;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
-      line-height: 1.3;
-    }
-  }
 }
 
 .detail-content {
@@ -220,6 +189,41 @@ export default {
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.detail-header {
+  border-bottom: 2px solid #e4e7ed;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: $text-color-primary;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.detail-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-description {
+  background: #f8f9fa;
+  border-left: 4px solid $primary-color;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  border-radius: 4px;
+  
+  p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: $text-color-regular;
+    margin: 0;
+  }
 }
 
 .detail-body {

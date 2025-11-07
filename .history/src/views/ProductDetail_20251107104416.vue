@@ -2,21 +2,29 @@
   <div class="product-detail-page">
     <Header />
     
-    <!-- 面包屑导航 -->
-    <div class="breadcrumb-section">
-      <div class="container">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/products' }">产品中心</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ productInfo.name || '产品详情' }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-    </div>
-    
     <!-- Banner区域 - 产品名称嵌入静态图片 -->
-    <div class="banner-section" :style="bannerStyle" v-if="!loading && !error && productInfo.name">
+    <div class="banner-section" :style="bannerStyle" v-if="!loading && !error">
       <div class="banner-content">
-        <h1 class="product-name">{{ productInfo.name }}</h1>
+        <div class="banner-overlay">
+          <div class="breadcrumb-nav">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: '/products' }">产品中心</el-breadcrumb-item>
+              <el-breadcrumb-item>{{ productInfo.name || '产品详情' }}</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <h1 class="product-name">{{ productInfo.name }}</h1>
+          <div class="product-tags" v-if="productInfo.tags && productInfo.tags.length">
+            <el-tag 
+              v-for="tag in productInfo.tags" 
+              :key="tag" 
+              size="large"
+              effect="plain"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -74,7 +82,6 @@ export default {
     const error = ref('')
     const productInfo = ref({})
     
-    // Banner背景图样式
     const bannerStyle = computed(() => {
       return {
         backgroundImage: `url('${prod1Image}')`,
@@ -165,39 +172,96 @@ export default {
   display: flex;
   flex-direction: column;
   background: #f5f7fa;
+  padding-top: 70px; // header高度
 }
 
-// 面包屑导航
-.breadcrumb-section {
-  background: white;
-  padding: 20px 0;
-  border-bottom: 1px solid #e4e7ed;
-  margin-top: 70px; // header高度
-}
-
-// Banner区域
+// Banner区域样式
 .banner-section {
   position: relative;
-  height: 400px;
+  overflow: hidden;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(64, 158, 255, 0.85) 0%, rgba(33, 150, 243, 0.75) 100%);
+    z-index: 1;
+  }
   
   .banner-content {
     position: relative;
     z-index: 2;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .banner-overlay {
     text-align: center;
+    
+    .breadcrumb-nav {
+      margin-bottom: 30px;
+      
+      :deep(.el-breadcrumb) {
+        display: flex;
+        justify-content: center;
+        
+        .el-breadcrumb__item {
+          .el-breadcrumb__inner {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s;
+            
+            &:hover {
+              color: white;
+            }
+          }
+          
+          &:last-child .el-breadcrumb__inner {
+            color: white;
+          }
+        }
+        
+        .el-breadcrumb__separator {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
     
     .product-name {
       font-size: 48px;
       font-weight: 700;
       color: white;
-      margin: 0;
+      margin: 0 0 20px 0;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       letter-spacing: 2px;
       line-height: 1.3;
+    }
+    
+    .product-tags {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      
+      :deep(.el-tag) {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        backdrop-filter: blur(10px);
+        font-size: 14px;
+        padding: 8px 16px;
+        height: auto;
+        font-weight: 500;
+      }
     }
   }
 }

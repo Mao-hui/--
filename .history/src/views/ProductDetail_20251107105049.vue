@@ -165,14 +165,7 @@ export default {
   display: flex;
   flex-direction: column;
   background: #f5f7fa;
-}
-
-// 面包屑导航
-.breadcrumb-section {
-  background: white;
-  padding: 20px 0;
-  border-bottom: 1px solid #e4e7ed;
-  margin-top: 70px; // header高度
+  padding-top: 70px; // header高度
 }
 
 // Banner区域
@@ -184,11 +177,52 @@ export default {
   justify-content: center;
   overflow: hidden;
   
-  .banner-content {
+  .banner-overlay {
     position: relative;
     z-index: 2;
     width: 100%;
     text-align: center;
+    
+    // 半透明遮罩
+    &::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -10%;
+      right: -10%;
+      bottom: -200px;
+      background: linear-gradient(135deg, rgba(64, 158, 255, 0.8) 0%, rgba(33, 150, 243, 0.75) 100%);
+      z-index: -1;
+    }
+    
+    .breadcrumb-nav {
+      margin-bottom: 30px;
+      
+      :deep(.el-breadcrumb) {
+        display: flex;
+        justify-content: center;
+        
+        .el-breadcrumb__item {
+          .el-breadcrumb__inner {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s;
+            
+            &:hover {
+              color: white;
+            }
+          }
+          
+          &:last-child .el-breadcrumb__inner {
+            color: white;
+          }
+        }
+        
+        .el-breadcrumb__separator {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
     
     .product-name {
       font-size: 48px;
