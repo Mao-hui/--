@@ -174,16 +174,12 @@ export default {
     }
     
     onMounted(() => {
-      // 页面加载时滚动到顶部
-      window.scrollTo(0, 0)
       loadSolutionDetail()
     })
     
     // 监听路由参数变化，当切换方案时重新加载数据
     watch(() => route.query.schemeId, (newId, oldId) => {
       if (newId && newId !== oldId) {
-        // 切换方案时，先滚动到顶部
-        window.scrollTo({ top: 0, behavior: 'smooth' })
         loadSolutionDetail()
       }
     })
