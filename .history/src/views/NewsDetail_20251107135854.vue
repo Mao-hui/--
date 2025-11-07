@@ -301,19 +301,6 @@ export default {
     height: 150px;
   }
   
-  .back-navigation {
-    padding: 0 16px;
-    margin-bottom: 20px;
-    
-    .back-link {
-      font-size: 13px;
-      
-      .back-arrow {
-        font-size: 18px;
-      }
-    }
-  }
-  
   .article-header h1 {
     font-size: 24px;
   }

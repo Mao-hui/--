@@ -175,37 +175,6 @@ export default {
   min-height: 600px;
 }
 
-.back-navigation {
-  max-width: 800px;
-  margin: 0 auto 30px;
-  padding: 0 20px;
-  
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: $text-color-secondary;
-    text-decoration: none;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    padding: 8px 0;
-    
-    .back-arrow {
-      font-size: 20px;
-      font-weight: bold;
-      transition: transform 0.3s ease;
-    }
-    
-    &:hover {
-      color: $primary-color;
-      
-      .back-arrow {
-        transform: translateX(-4px);
-      }
-    }
-  }
-}
-
 .article-container {
   max-width: 800px;
   margin: 0 auto;
@@ -299,19 +268,6 @@ export default {
 @media (max-width: 768px) {
   .banner-section {
     height: 150px;
-  }
-  
-  .back-navigation {
-    padding: 0 16px;
-    margin-bottom: 20px;
-    
-    .back-link {
-      font-size: 13px;
-      
-      .back-arrow {
-        font-size: 18px;
-      }
-    }
   }
   
   .article-header h1 {
