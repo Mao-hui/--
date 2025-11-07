@@ -100,7 +100,6 @@
                 :key="category.key"
                 :class="['category-item', { active: selectedCategory === category.key }]"
                 @mouseenter="selectCategory(category.key, '/solutions')"
-                @click.stop
               >
                 <span class="category-name">{{ category.name }}</span>
                 <el-icon v-if="selectedCategory === category.key" class="arrow-icon">

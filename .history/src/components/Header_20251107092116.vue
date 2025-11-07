@@ -60,7 +60,6 @@
                       :key="subCategory.key"
                       :class="['sub-category-item', { active: selectedCategory === subCategory.key }]"
                       @mouseenter="selectCategory(subCategory.key, '/products')"
-                      @click.stop
                     >
                       <span>{{ subCategory.name }}</span>
                     </div>
@@ -100,7 +99,6 @@
                 :key="category.key"
                 :class="['category-item', { active: selectedCategory === category.key }]"
                 @mouseenter="selectCategory(category.key, '/solutions')"
-                @click.stop
               >
                 <span class="category-name">{{ category.name }}</span>
                 <el-icon v-if="selectedCategory === category.key" class="arrow-icon">

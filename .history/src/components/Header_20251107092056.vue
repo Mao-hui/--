@@ -60,7 +60,6 @@
                       :key="subCategory.key"
                       :class="['sub-category-item', { active: selectedCategory === subCategory.key }]"
                       @mouseenter="selectCategory(subCategory.key, '/products')"
-                      @click.stop
                     >
                       <span>{{ subCategory.name }}</span>
                     </div>
@@ -100,7 +99,6 @@
                 :key="category.key"
                 :class="['category-item', { active: selectedCategory === category.key }]"
                 @mouseenter="selectCategory(category.key, '/solutions')"
-                @click.stop
               >
                 <span class="category-name">{{ category.name }}</span>
                 <el-icon v-if="selectedCategory === category.key" class="arrow-icon">
@@ -615,7 +613,7 @@ export default {
       
       // 检查点击是否在导航区域内
       const nav = event.target.closest('.nav')
-      const dropdown = event.target.closest('.fullscreen-dropdown')
+      const dropdown = event.target.closest('.dropdown-menu')
       
       // 如果点击的不是导航或下拉菜单，关闭下拉菜单
       if (!nav && !dropdown) {
