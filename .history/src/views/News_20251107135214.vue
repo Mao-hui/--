@@ -85,7 +85,6 @@
               v-for="article in displayedList" 
               :key="article.id"
               :class="['news-card', 'card', { active: selectedArticle === article.id }]"
-              @click="handleOpen(article)"
             >
               <div class="news-date">{{ article.date }}</div>
               <div class="news-image">
@@ -93,9 +92,9 @@
               </div>
               <h3 class="news-title">{{ article.title }}</h3>
               <div class="news-action">
-                <span class="learn-more-link">
+                <a href="javascript:void(0)" class="learn-more-link" @click.stop="handleOpen(article)">
                   了解更多+
-                </span>
+                </a>
               </div>
             </div>
           </div>
