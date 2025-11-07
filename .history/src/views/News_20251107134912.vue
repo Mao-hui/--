@@ -242,36 +242,6 @@ export default {
       currentPage.value = page
       await fetchNews()
     }
-    
-    // 计算总页数
-    const totalPages = computed(() => {
-      return Math.ceil(totalNews.value / pageSize.value) || 1
-    })
-    
-    // 分页导航方法
-    const goToFirstPage = async () => {
-      if (currentPage.value !== 1) {
-        await handlePageChange(1)
-      }
-    }
-    
-    const goToPrevPage = async () => {
-      if (currentPage.value > 1) {
-        await handlePageChange(currentPage.value - 1)
-      }
-    }
-    
-    const goToNextPage = async () => {
-      if (currentPage.value < totalPages.value) {
-        await handlePageChange(currentPage.value + 1)
-      }
-    }
-    
-    const goToLastPage = async () => {
-      if (currentPage.value !== totalPages.value) {
-        await handlePageChange(totalPages.value)
-      }
-    }
     const selectYear = (year) => {
       yearFilter.value = year
       showYearDropdown.value = false
@@ -330,13 +300,8 @@ export default {
       selectedArticle,
       newsList,
       totalNews: totalNewsComputed,
-      totalPages,
       selectArticle,
       handlePageChange,
-      goToFirstPage,
-      goToPrevPage,
-      goToNextPage,
-      goToLastPage,
       loading,
       error,
       handleOpen,
@@ -687,53 +652,50 @@ export default {
   }
   
   .pagination-section {
-    display: flex;
-    justify-content: center;
+    @include flex-between;
     align-items: center;
     margin-top: 50px;
     padding-top: 30px;
     border-top: 1px solid $border-color-lighter;
     
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      
-      .pagination-btn {
-        width: 32px;
-        height: 32px;
-        border: 1px solid #dcdfe6;
-        background: white;
-        color: #606266;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .pagination-info {
+      color: $text-color-regular;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    :deep(.el-pagination) {
+      .btn-next,
+      .btn-prev {
+        border-radius: 6px;
         transition: all 0.3s ease;
         
-        &:hover:not(:disabled) {
+        &:hover {
           color: $primary-color;
-          border-color: $primary-color;
           background: rgba($primary-color, 0.1);
-        }
-        
-        &:disabled {
-          cursor: not-allowed;
-          color: #c0c4cc;
-          border-color: #e4e7ed;
-          background: #f5f7fa;
         }
       }
       
-      .pagination-info {
-        color: $text-color-regular;
-        font-size: 14px;
-        font-weight: 500;
-        min-width: 60px;
-        text-align: center;
-        padding: 0 8px;
+      .el-pager li {
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        
+        &.is-active {
+          background: $primary-color;
+          color: white;
+          font-weight: 600;
+        }
+        
+        &:hover {
+          color: $primary-color;
+          background: rgba($primary-color, 0.1);
+        }
+      }
+      
+      .el-pagination__jump {
+        .el-input__wrapper {
+          border-radius: 6px;
+        }
       }
     }
   }
@@ -933,23 +895,9 @@ export default {
   }
   
   .pagination-section {
-    margin-top: 30px;
-    padding-top: 20px;
-    
-    .pagination-controls {
-      gap: 8px;
-      
-      .pagination-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-      }
-      
-      .pagination-info {
-        font-size: 13px;
-        min-width: 50px;
-      }
-    }
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
   
   .preview-panel {

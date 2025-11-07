@@ -933,23 +933,9 @@ export default {
   }
   
   .pagination-section {
-    margin-top: 30px;
-    padding-top: 20px;
-    
-    .pagination-controls {
-      gap: 8px;
-      
-      .pagination-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-      }
-      
-      .pagination-info {
-        font-size: 13px;
-        min-width: 50px;
-      }
-    }
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
   
   .preview-panel {

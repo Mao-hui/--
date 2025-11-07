@@ -284,18 +284,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .banner-section {
-    height: 300px;
-    
-    .banner-content {
-      padding: 0 20px 40px; // 移动端减小内边距
-      
-      .product-name {
-        font-size: 32px;
-      }
-    }
-  }
-  
   .detail-main {
     padding: 24px 16px;
   }
