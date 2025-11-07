@@ -37,12 +37,6 @@
             <div class="detail-body">
               <div class="rich-content" v-html="productInfo.content"></div>
             </div>
-            
-            <!-- 返回按钮 -->
-            <div class="detail-actions">
-              <el-button @click="$router.back()">返回上一页</el-button>
-              <el-button type="primary" @click="$router.push('/products')">返回产品列表</el-button>
-            </div>
           </div>
         </div>
       </div>
@@ -285,14 +279,6 @@ export default {
       font-weight: 600;
     }
   }
-}
-
-.detail-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  padding-top: 32px;
-  border-top: 1px solid #e4e7ed;
 }
 
 @media (max-width: 768px) {
