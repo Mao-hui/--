@@ -6,6 +6,7 @@
     <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
         <div class="banner-overlay">
+          <h1 class="banner-title">{{ article.title || '新闻详情' }}</h1>
         </div>
       </div>
     </div>
@@ -13,7 +14,7 @@
     <div class="news-detail-content">
       <div class="container">
         <div class="article-container">
-          <!-- 文章标题和信息 -->
+          <!-- 文章标题 -->
           <div class="article-header">
             <h1>{{ article.title }}</h1>
             <p class="article-date">{{ article.date }}</p>
@@ -125,8 +126,6 @@ export default {
     }
     
     onMounted(() => {
-      // 页面加载时滚动到顶部
-      window.scrollTo(0, 0)
       loadNewsDetail()
     })
     
@@ -148,10 +147,46 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  .banner-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  
+  .banner-overlay {
+    padding: 0 20px;
+    text-align: center;
+  }
+  
+  .banner-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    line-height: 1.4;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 .news-detail-content {
@@ -252,7 +287,15 @@ export default {
 
 @media (max-width: 768px) {
   .banner-section {
-    height: 150px;
+    height: 350px;
+    
+    .banner-content {
+      padding: 0 20px;
+    }
+    
+    .banner-title {
+      font-size: 28px;
+    }
   }
   
   .article-header h1 {

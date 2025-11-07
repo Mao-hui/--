@@ -6,6 +6,7 @@
     <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
         <div class="banner-overlay">
+          <h1 class="banner-title">{{ article.title || '新闻详情' }}</h1>
         </div>
       </div>
     </div>
@@ -13,7 +14,7 @@
     <div class="news-detail-content">
       <div class="container">
         <div class="article-container">
-          <!-- 文章标题和信息 -->
+          <!-- 文章标题 -->
           <div class="article-header">
             <h1>{{ article.title }}</h1>
             <p class="article-date">{{ article.date }}</p>
@@ -75,16 +76,6 @@ export default {
       content: ''
     })
     
-    // Banner背景图样式
-    const bannerStyle = computed(() => {
-      return {
-        backgroundImage: `url('${newsImage}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    })
-    
     const formatDate = (val) => {
       if (!val) return ''
       const d = new Date(val)
@@ -125,15 +116,12 @@ export default {
     }
     
     onMounted(() => {
-      // 页面加载时滚动到顶部
-      window.scrollTo(0, 0)
       loadNewsDetail()
     })
     
     return {
       article,
-      loading,
-      bannerStyle
+      loading
     }
   }
 }
@@ -145,13 +133,22 @@ export default {
   padding-top: 70px;
 }
 
-.banner-section {
-  position: relative;
-  overflow: hidden;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+  
+  h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 20px;
+    opacity: 0.9;
+  }
 }
 
 .news-detail-content {
@@ -251,8 +248,16 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .banner-section {
-    height: 150px;
+  .page-header {
+    padding: 60px 0;
+    
+    h1 {
+      font-size: 32px;
+    }
+    
+    p {
+      font-size: 16px;
+    }
   }
   
   .article-header h1 {

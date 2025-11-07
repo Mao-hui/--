@@ -125,8 +125,6 @@ export default {
     }
     
     onMounted(() => {
-      // 页面加载时滚动到顶部
-      window.scrollTo(0, 0)
       loadNewsDetail()
     })
     
@@ -252,7 +250,15 @@ export default {
 
 @media (max-width: 768px) {
   .banner-section {
-    height: 150px;
+    height: 350px;
+    
+    .banner-content {
+      padding: 0 20px;
+    }
+    
+    .banner-title {
+      font-size: 28px;
+    }
   }
   
   .article-header h1 {
