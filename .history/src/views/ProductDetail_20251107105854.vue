@@ -147,13 +147,6 @@ export default {
       loadProductDetail()
     })
     
-    // 监听路由参数变化，当切换产品时重新加载数据
-    watch(() => route.query.productId, (newId, oldId) => {
-      if (newId && newId !== oldId) {
-        loadProductDetail()
-      }
-    })
-    
     return {
       loading,
       error,

@@ -1,5 +1,5 @@
 <template>
-  <div class="product-detail-page">
+  <div class="solution-detail-page">
     <Header />
     
     <!-- 面包屑导航 -->
@@ -7,16 +7,9 @@
       <div class="container">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/products' }">产品中心</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ productInfo.name || '产品详情' }}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/solutions' }">解决方案</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ solutionInfo.name || '方案详情' }}</el-breadcrumb-item>
         </el-breadcrumb>
-      </div>
-    </div>
-    
-    <!-- Banner区域 - 产品名称嵌入静态图片 -->
-    <div class="banner-section" :style="bannerStyle" v-if="!loading && !error && productInfo.name">
-      <div class="banner-content">
-        <h1 class="product-name">{{ productInfo.name }}</h1>
       </div>
     </div>
     
@@ -27,21 +20,42 @@
           <div v-if="error" class="error-message">
             <el-result icon="error" :title="error">
               <template #extra>
-                <el-button type="primary" @click="$router.push('/products')">返回产品列表</el-button>
+                <el-button type="primary" @click="$router.push('/solutions')">返回解决方案列表</el-button>
               </template>
             </el-result>
           </div>
           
-          <div v-else-if="productInfo" class="detail-main">
-            <!-- 产品详细内容 - 富文本 -->
+          <div v-else-if="solutionInfo" class="detail-main">
+            <!-- 方案标题 -->
+            <div class="detail-header">
+              <h1 class="detail-title">{{ solutionInfo.name }}</h1>
+              <div class="detail-meta" v-if="solutionInfo.tags && solutionInfo.tags.length">
+                <el-tag 
+                  v-for="tag in solutionInfo.tags" 
+                  :key="tag" 
+                  size="large"
+                  type="success"
+                  effect="plain"
+                >
+                  {{ tag }}
+                </el-tag>
+              </div>
+            </div>
+            
+            <!-- 方案简介 -->
+            <div class="detail-description" v-if="solutionInfo.brief">
+              <p>{{ solutionInfo.brief }}</p>
+            </div>
+            
+            <!-- 方案详细内容 -->
             <div class="detail-body">
-              <div class="rich-content" v-html="productInfo.content"></div>
+              <div class="rich-content" v-html="solutionInfo.content"></div>
             </div>
             
             <!-- 返回按钮 -->
             <div class="detail-actions">
               <el-button @click="$router.back()">返回上一页</el-button>
-              <el-button type="primary" @click="$router.push('/products')">返回产品列表</el-button>
+              <el-button type="primary" @click="$router.push('/solutions')">返回解决方案列表</el-button>
             </div>
           </div>
         </div>
@@ -53,16 +67,15 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
-import { apiGetProductDetail } from '@/api'
-import prod1Image from '@/assets/image/prod1.png'
+import { apiGetSchemeDetail } from '@/api'
 
 export default {
-  name: 'ProductDetail',
+  name: 'SolutionDetail',
   components: {
     Header,
     Footer
@@ -72,17 +85,7 @@ export default {
     const router = useRouter()
     const loading = ref(false)
     const error = ref('')
-    const productInfo = ref({})
-    
-    // Banner背景图样式
-    const bannerStyle = computed(() => {
-      return {
-        backgroundImage: `url('${prod1Image}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    })
+    const solutionInfo = ref({})
     
     // 去除HTML标签，用于显示纯文本描述
     const stripHtml = (html) => {
@@ -98,12 +101,12 @@ export default {
       return txt.value
     }
     
-    const loadProductDetail = async () => {
-      const productId = route.query.productId
+    const loadSolutionDetail = async () => {
+      const schemeId = route.query.schemeId
       
-      if (!productId) {
-        error.value = '缺少产品ID参数'
-        ElMessage.error('缺少产品ID参数')
+      if (!schemeId) {
+        error.value = '缺少方案ID参数'
+        ElMessage.error('缺少方案ID参数')
         return
       }
       
@@ -111,32 +114,32 @@ export default {
       error.value = ''
       
       try {
-        const res = await apiGetProductDetail({ productId })
+        const res = await apiGetSchemeDetail({ schemeId })
         if (res && res.code === 200 && res.data) {
           // description字段作为富文本内容，可能包含HTML
           const rawContent = res.data.description || res.data.content || '<p>暂无详细内容</p>'
           
-          productInfo.value = {
-            name: res.data.productName || '产品详情',
-            description: stripHtml(rawContent), // 纯文本描述（去除HTML标签）
+          solutionInfo.value = {
+            name: res.data.schemeName || '方案详情',
+            brief: stripHtml(rawContent), // 纯文本简介（去除HTML标签）
             content: decodeHtml(rawContent), // 富文本内容（解码HTML实体）
             tags: res.data.tags || []
           }
           
           // 如果没有标签但有行业信息，添加标签
-          if ((!productInfo.value.tags || productInfo.value.tags.length === 0) && res.data.bigIndustryName) {
-            productInfo.value.tags = [res.data.bigIndustryName]
+          if ((!solutionInfo.value.tags || solutionInfo.value.tags.length === 0) && res.data.bigIndustryName) {
+            solutionInfo.value.tags = [res.data.bigIndustryName]
             if (res.data.smallIndustryName) {
-              productInfo.value.tags.push(res.data.smallIndustryName)
+              solutionInfo.value.tags.push(res.data.smallIndustryName)
             }
           }
         } else {
-          error.value = res?.msg || res?.message || '加载产品详情失败'
+          error.value = res?.msg || res?.message || '加载方案详情失败'
           ElMessage.error(error.value)
         }
       } catch (e) {
-        console.error('加载产品详情失败:', e)
-        error.value = '加载产品详情失败，请稍后重试'
+        console.error('加载方案详情失败:', e)
+        error.value = '加载方案详情失败，请稍后重试'
         ElMessage.error(error.value)
       } finally {
         loading.value = false
@@ -144,21 +147,13 @@ export default {
     }
     
     onMounted(() => {
-      loadProductDetail()
-    })
-    
-    // 监听路由参数变化，当切换产品时重新加载数据
-    watch(() => route.query.productId, (newId, oldId) => {
-      if (newId && newId !== oldId) {
-        loadProductDetail()
-      }
+      loadSolutionDetail()
     })
     
     return {
       loading,
       error,
-      productInfo,
-      bannerStyle
+      solutionInfo
     }
   }
 }
@@ -167,46 +162,18 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/styles/main.scss';
 
-.product-detail-page {
+.solution-detail-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #f5f7fa;
 }
 
-// 面包屑导航
 .breadcrumb-section {
   background: white;
   padding: 20px 0;
   border-bottom: 1px solid #e4e7ed;
   margin-top: 70px; // header高度
-}
-
-// Banner区域
-.banner-section {
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    text-align: center;
-    
-    .product-name {
-      font-size: 48px;
-      font-weight: 700;
-      color: white;
-      margin: 0;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
-      line-height: 1.3;
-    }
-  }
 }
 
 .detail-content {
@@ -227,6 +194,41 @@ export default {
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.detail-header {
+  border-bottom: 2px solid #e4e7ed;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: $text-color-primary;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.detail-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-description {
+  background: #f0f9ff;
+  border-left: 4px solid #67c23a;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  border-radius: 4px;
+  
+  p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: $text-color-regular;
+    margin: 0;
+  }
 }
 
 .detail-body {
