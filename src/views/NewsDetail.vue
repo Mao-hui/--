@@ -63,7 +63,7 @@ import { Phone, Share } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsDetail } from '@/api'
-import newsImage from '@/assets/image/news.png'
+import newsImage from '@/assets/image/新闻中心.png'
 
 export default {
   name: 'NewsDetail',
@@ -163,7 +163,7 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,7 +298,7 @@ export default {
 
 @media (max-width: 768px) {
   .banner-section {
-    height: 150px;
+    height: 300px;
   }
   
   .back-navigation {

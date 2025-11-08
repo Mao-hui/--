@@ -53,7 +53,7 @@ import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetScheme, apiGetSchemeDetail } from '@/api'
-import soulImage from '@/assets/image/soul.png'
+import soulImage from '@/assets/image/解决方案.png'
 
 export default {
   name: 'SolutionDetail',
