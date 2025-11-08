@@ -265,53 +265,59 @@ export default {
 }
 
 .company-intro {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 16px;
   padding: 60px 50px;
   margin-bottom: 60px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(64, 158, 255, 0.1);
   position: relative;
+  overflow: hidden;
   
-  // 添加背景图片并设置透明度
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('@/assets/image/about4.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.15;
-    z-index: 0;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
+    animation: rotate 60s linear infinite;
   }
   
-  h2 {
-    font-size: 36px;
-    color: $text-color-primary;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 20px;
-    z-index: 1;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
-      border-radius: 2px;
-    }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  &:hover {
+    box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
+    transform: translateY(-4px);
   }
   
   .intro-content {
-    position: relative;
-    z-index: 1;
-    
     .intro-text {
+      h2 {
+        font-size: 36px;
+        color: $text-color-primary;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 20px;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 3px;
+          background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+          border-radius: 2px;
+        }
+      }
       
       .intro-image {
         float: right;
@@ -670,16 +676,7 @@ export default {
   
   .company-intro {
     padding: 30px 20px;
-    
-    h2 {
-      font-size: 26px;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      
-      &::after {
-        width: 40px;
-      }
-    }
+    border-radius: 12px;
     
     .intro-content .intro-text {
       .intro-image {
@@ -690,6 +687,16 @@ export default {
         img {
           width: 100%;
           max-width: 300px;
+        }
+      }
+      
+      h2 {
+        font-size: 26px;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        
+        &::after {
+          width: 40px;
         }
       }
       

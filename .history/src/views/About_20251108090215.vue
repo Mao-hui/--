@@ -670,16 +670,7 @@ export default {
   
   .company-intro {
     padding: 30px 20px;
-    
-    h2 {
-      font-size: 26px;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      
-      &::after {
-        width: 40px;
-      }
-    }
+    border-radius: 12px;
     
     .intro-content .intro-text {
       .intro-image {
@@ -690,6 +681,16 @@ export default {
         img {
           width: 100%;
           max-width: 300px;
+        }
+      }
+      
+      h2 {
+        font-size: 26px;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        
+        &::after {
+          width: 40px;
         }
       }
       
