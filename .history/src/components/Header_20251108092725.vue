@@ -1199,8 +1199,7 @@ export default {
                 font-size: 16px;
                 color: rgba(48, 49, 51, 0.4);
                 transition: all 0.3s ease;
-                opacity: 0; // 默认隐藏
-                visibility: hidden;
+                transform: rotate(-45deg);
               }
               
               &:hover {
@@ -1209,9 +1208,7 @@ export default {
                 
                 .arrow-icon {
                   color: $primary-color;
-                  opacity: 1; // 悬停时显示
-                  visibility: visible;
-                  transform: translate(2px, -2px);
+                  transform: rotate(-45deg) translate(2px, -2px);
                 }
               }
             }

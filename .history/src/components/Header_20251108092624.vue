@@ -138,7 +138,7 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ArrowRight, ArrowDown, ArrowUp, TopRight } from '@element-plus/icons-vue'
+import { ArrowRight, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { apiGetProduct, apiGetScheme } from '@/api'
 
 export default {
@@ -146,8 +146,7 @@ export default {
   components: {
     ArrowRight,
     ArrowDown,
-    ArrowUp,
-    TopRight
+    ArrowUp
   },
   setup() {
     const router = useRouter()
@@ -1169,50 +1168,31 @@ export default {
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 12px;
             max-height: 380px; // 限制高度，超出后自动换列
             align-content: flex-start;
             
             .tag-item {
               display: inline-flex;
               align-items: center;
-              justify-content: space-between;
-              gap: 8px;
-              padding: 12px 24px;
-              background: transparent;
-              border-radius: 0;
+              padding: 10px 20px;
+              background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(64, 158, 255, 0.05) 100%);
+              border-radius: 20px;
               cursor: pointer;
               transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              border: none;
-              border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-              font-size: 18px;
+              border: 1px solid rgba(64, 158, 255, 0.15);
+              font-size: 16px;
               font-weight: 500;
               color: $text-color-primary;
               letter-spacing: 0.5px;
               white-space: nowrap;
               
-              span {
-                flex: 1;
-              }
-              
-              .arrow-icon {
-                font-size: 16px;
-                color: rgba(48, 49, 51, 0.4);
-                transition: all 0.3s ease;
-                opacity: 0; // 默认隐藏
-                visibility: hidden;
-              }
-              
               &:hover {
-                background: rgba(64, 158, 255, 0.05);
+                background: linear-gradient(135deg, rgba(64, 158, 255, 0.15) 0%, rgba(64, 158, 255, 0.1) 100%);
+                border-color: $primary-color;
+                transform: translateX(4px) scale(1.02);
                 color: $primary-color;
-                
-                .arrow-icon {
-                  color: $primary-color;
-                  opacity: 1; // 悬停时显示
-                  visibility: visible;
-                  transform: translate(2px, -2px);
-                }
+                box-shadow: 0 4px 12px rgba(64, 158, 255, 0.2);
               }
             }
           }

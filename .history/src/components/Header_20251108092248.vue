@@ -80,8 +80,7 @@
                     class="tag-item"
                     @click="goToDetail('/products', detail)"
                   >
-                    <span>{{ detail.name }}</span>
-                    <el-icon class="arrow-icon"><TopRight /></el-icon>
+                    {{ detail.name }}
                   </div>
                 </div>
               </div>
@@ -112,15 +111,18 @@
                 <div class="right-header">
                   <h3>{{ getSelectedCategoryName() }}</h3>
                 </div>
-                <div class="right-list tags-list">
+                <div class="right-list">
                   <div 
                     v-for="scheme in getSolutionSchemes(selectedCategory)"
                     :key="scheme.id"
-                    class="tag-item"
+                    class="detail-item solution-card"
                     @click="goToDetail('/solutions', scheme)"
                   >
-                    <span>{{ scheme.name }}</span>
-                    <el-icon class="arrow-icon"><TopRight /></el-icon>
+                    <div class="detail-name">{{ scheme.name }}</div>
+                    <div class="detail-desc">{{ scheme.description }}</div>
+                    <div class="solution-tag" v-if="scheme.smallIndustryName">
+                      {{ scheme.smallIndustryName }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -138,7 +140,7 @@
 <script>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ArrowRight, ArrowDown, ArrowUp, TopRight } from '@element-plus/icons-vue'
+import { ArrowRight, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { apiGetProduct, apiGetScheme } from '@/api'
 
 export default {
@@ -146,8 +148,7 @@ export default {
   components: {
     ArrowRight,
     ArrowDown,
-    ArrowUp,
-    TopRight
+    ArrowUp
   },
   setup() {
     const router = useRouter()
@@ -1165,59 +1166,97 @@ export default {
         }
         
         .right-list {
-          &.tags-list {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            gap: 14px;
-            max-height: 380px; // 限制高度，超出后自动换列
-            align-content: flex-start;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+          
+          .detail-item {
+            padding: 14px 16px;
+            background: rgba(245, 247, 250, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
             
-            .tag-item {
-              display: inline-flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 8px;
-              padding: 12px 24px;
-              background: transparent;
-              border-radius: 0;
-              cursor: pointer;
-              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              border: none;
-              border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-              font-size: 18px;
-              font-weight: 500;
-              color: $text-color-primary;
-              letter-spacing: 0.5px;
-              white-space: nowrap;
+            &::before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              width: 2px;
+              background: $primary-color;
+              transform: scaleY(0);
+              transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            &:hover {
+              background: rgba(64, 158, 255, 0.08);
+              border-color: rgba(64, 158, 255, 0.2);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(64, 158, 255, 0.15);
               
-              span {
-                flex: 1;
-              }
-              
-              .arrow-icon {
-                font-size: 16px;
-                color: rgba(48, 49, 51, 0.4);
-                transition: all 0.3s ease;
-                opacity: 0; // 默认隐藏
-                visibility: hidden;
-              }
-              
-              &:hover {
-                background: rgba(64, 158, 255, 0.05);
+              .detail-name {
                 color: $primary-color;
-                
-                .arrow-icon {
-                  color: $primary-color;
-                  opacity: 1; // 悬停时显示
-                  visibility: visible;
-                  transform: translate(2px, -2px);
-                }
               }
+              
+              .detail-desc {
+                opacity: 1;
+                color: rgba(48, 49, 51, 0.8);
+              }
+              
+              &::before {
+                transform: scaleY(1);
+              }
+            }
+            
+            .detail-name {
+              font-size: 14px;
+              font-weight: 600;
+              color: $text-color-primary;
+              margin-bottom: 8px;
+              transition: all 0.3s ease;
+              letter-spacing: 0.3px;
+              line-height: 1.5;
+            }
+            
+            .detail-desc {
+              font-size: 12px;
+              color: rgba(48, 49, 51, 0.65);
+              line-height: 1.6;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              opacity: 0.85;
+              transition: all 0.3s ease;
             }
           }
         }
         
+        // 解决方案卡片额外样式
+        .solution-card {
+          position: relative;
+          
+          .solution-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 10px;
+            background: rgba(103, 194, 58, 0.1);
+            color: #67c23a;
+            font-size: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+          }
+          
+          &:hover .solution-tag {
+            background: rgba(103, 194, 58, 0.15);
+          }
+        }
       }
       
       .right-empty {
