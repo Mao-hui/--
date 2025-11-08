@@ -847,7 +847,7 @@ export default {
         &:hover {
           color: $primary-color;
           background: transparent;
-          border-bottom-color: $primary-color;
+          border-bottom-color: transparent; // 移除蓝色下划线
           transform: translateY(-1px); // 轻微上移效果
         }
         
