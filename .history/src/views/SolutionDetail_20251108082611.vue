@@ -321,10 +321,6 @@ export default {
   
   .rich-content {
     font-size: 14px;
-    
-    :deep(p) {
-      font-size: 14px;
-    }
   }
 }
 </style>
