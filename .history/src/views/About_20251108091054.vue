@@ -646,7 +646,7 @@ export default {
     height: 380px;
     
     .banner-content {
-      padding: 0 40px 60px;
+      padding: 0 30px;
     }
     
     .banner-title {
@@ -657,10 +657,10 @@ export default {
 
 @media (max-width: 768px) {
   .banner-section {
-    height: 300px;
+    height: 350px;
     
     .banner-content {
-      padding: 0 20px 40px;
+      padding: 0 20px;
     }
     
     .banner-title {
