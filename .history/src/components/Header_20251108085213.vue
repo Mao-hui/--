@@ -769,8 +769,7 @@ export default {
   }
   
   .header-content {
-    display: flex;
-    align-items: center;
+    @include flex-between;
     height: 70px;
   }
   
@@ -822,8 +821,9 @@ export default {
 }
   
   .nav {
+    flex: 1;
     display: flex;
-    margin-left: 60px;
+    justify-content: center;
     
     .nav-menu {
       display: flex;
@@ -1326,7 +1326,6 @@ export default {
     
     .nav {
       margin: 10px 0;
-      margin-left: 0;
       width: 100%;
       
       .nav-menu {
