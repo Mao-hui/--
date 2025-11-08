@@ -1169,8 +1169,7 @@ export default {
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
-            row-gap: 14px; // 行间距
-            column-gap: 60px; // 列间距，参照商汤样式
+            gap: 14px;
             max-height: 380px; // 限制高度，超出后自动换列
             align-content: flex-start;
             
