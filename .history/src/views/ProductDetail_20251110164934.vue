@@ -53,7 +53,7 @@ import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetProductDetail } from '@/api'
-import prod1Image from '@/assets/image/p1.jpg'
+import prod1Image from '@/assets/image/bg5.jpg'
 
 export default {
   name: 'ProductDetail',
@@ -200,7 +200,7 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px 100px;
+    padding: 0 20px 0px;
     
     .product-name {
       font-size: 48px;

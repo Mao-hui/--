@@ -162,7 +162,7 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: flex-end;
   
@@ -183,7 +183,7 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px 100px;
+    padding: 0 20px 0px;
     
     .news-title {
       font-size: 48px;

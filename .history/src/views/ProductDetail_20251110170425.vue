@@ -189,7 +189,7 @@ export default {
 // Banner区域
 .banner-section {
   position: relative;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: flex-end; // 改为底部对齐
   overflow: hidden;
@@ -200,7 +200,7 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px 100px;
+    padding: 0 20px 0px;
     
     .product-name {
       font-size: 48px;

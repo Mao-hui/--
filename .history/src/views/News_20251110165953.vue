@@ -385,14 +385,14 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 800px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 40px;
   }
   
   .banner-overlay {
-    padding: 0;
-    text-align: left;
+    padding: 0 20px;
+    text-align: center;
   }
   
   .banner-title {

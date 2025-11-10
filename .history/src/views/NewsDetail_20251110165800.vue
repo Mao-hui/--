@@ -2,10 +2,11 @@
   <div class="news-detail">
     <Header />
     
-    <!-- Banner区域 - 新闻标题嵌入静态图片 -->
-    <div class="banner-section" :style="bannerStyle" v-if="!loading && !error && article.title">
+    <!-- Banner区域 -->
+    <div class="banner-section" :style="bannerStyle">
       <div class="banner-content">
-        <h1 class="news-title">{{ article.title }}</h1>
+        <div class="banner-overlay">
+        </div>
       </div>
     </div>
     
@@ -164,38 +165,8 @@ export default {
   overflow: hidden;
   height: 400px;
   display: flex;
-  align-items: flex-end;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  }
-  
-  .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px 100px;
-    
-    .news-title {
-      font-size: 48px;
-      font-weight: 700;
-      color: white;
-      margin: 0;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      letter-spacing: 2px;
-      line-height: 1.3;
-      text-align: left;
-    }
-  }
+  align-items: center;
+  justify-content: center;
 }
 
 .news-detail-content {

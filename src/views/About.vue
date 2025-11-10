@@ -238,9 +238,9 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1600px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 0 60px 80px; // 左右60px，底部80px
+    padding: 0 20px 80px;
   }
   
   .banner-overlay {
@@ -262,6 +262,12 @@ export default {
 .about-content {
   padding: 60px 0;
   background: $background-color-light;
+  
+  :deep(.container) {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 }
 
 .company-intro {

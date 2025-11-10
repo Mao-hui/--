@@ -7,8 +7,8 @@
       <div class="banner-section" :style="bannerStyle">
         <div class="banner-content">
           <div class="banner-overlay">
-            <h1 class="banner-title">新闻中心</h1>
-            <!-- <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
+            <!-- <h1 class="banner-title">新闻中心</h1>
+            <p class="banner-subtitle">了解最新的行业动态和技术资讯</p> -->
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@ import { Calendar, ArrowDown } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsList } from '@/api'
-import newsImage from '@/assets/image/n1.jpg'
+import newsImage from '@/assets/image/n1.png'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 export default {
@@ -385,14 +385,14 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 800px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 40px;
   }
   
   .banner-overlay {
-    padding: 0;
-    text-align: left;
+    padding: 0 20px;
+    text-align: center;
   }
   
   .banner-title {
