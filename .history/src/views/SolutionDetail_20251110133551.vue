@@ -230,7 +230,7 @@ export default {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 100px 80px; // 左右内边距120px，底部80px
+    padding: 0 120px 80px; // 左右内边距120px，底部80px
     
     .solution-name {
       font-size: 48px;

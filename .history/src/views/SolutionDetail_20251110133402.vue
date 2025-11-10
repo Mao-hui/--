@@ -199,14 +199,14 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  // background: #f5f7fa;
+  background: #f5f7fa;
 }
 
 // 面包屑导航
 .breadcrumb-section {
   background: white;
   padding: 20px 0;
-  // border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid #e4e7ed;
   margin-top: 70px; // header高度
   
   :deep(.container) {
@@ -230,7 +230,7 @@ export default {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 100px 80px; // 左右内边距120px，底部80px
+    padding: 0 120px 80px; // 左右内边距120px，底部80px
     
     .solution-name {
       font-size: 48px;
