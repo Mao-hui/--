@@ -247,7 +247,7 @@ export default {
 
 .rich-content {
   font-size: 16px;
-  line-height: 1.3;
+  line-height: 1.8;
   color: $text-color-primary;
   text-align: justify;
   

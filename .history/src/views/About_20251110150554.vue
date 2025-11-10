@@ -643,7 +643,7 @@ export default {
   }
   
   .rich-content { 
-    line-height: 1.3;
+    line-height: 1.8;
     
     img { 
       max-width: 100%; 
