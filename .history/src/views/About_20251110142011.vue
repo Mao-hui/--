@@ -352,8 +352,8 @@ export default {
   border-radius: 16px;
   padding: 50px 50px;
   margin-bottom: 60px;
-  // box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  // transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   // border: 1px solid rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -365,13 +365,13 @@ export default {
     right: -50%;
     width: 200%;
     height: 200%;
-    // background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
     animation: rotate 60s linear infinite;
   }
   
   &:hover {
-    // box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
-    // transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
+    transform: translateY(-4px);
   }
   
   h2 {
@@ -397,9 +397,8 @@ export default {
   
   .contact-wrapper {
     display: flex;
-    justify-content: space-between;
-    // align-items: flex-start;
-    // justify-content: center;
+    align-items: flex-start;
+    justify-content: center;
     position: relative;
     width: 100%;
     max-width: 1200px;
@@ -423,13 +422,13 @@ export default {
     gap: 16px;
     flex-shrink: 0;
     position: relative;
-    text-align: left;
+    text-align: right;
     padding-right: 50px;
     box-sizing: border-box;
     
     .contact-item {
       @include flex-center;
-      justify-content: flex-start;
+      justify-content: flex-end;
       gap: 12px;
       padding: 18px 20px;
       background: linear-gradient(135deg, rgba($primary-color, 0.05) 0%, rgba($primary-color, 0.02) 100%);
@@ -437,6 +436,8 @@ export default {
       border: none;
       transition: all 0.3s ease;
       cursor: pointer;
+      width: fit-content;
+      margin-left: auto;
       
       &:hover {
         background: linear-gradient(135deg, rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.05) 100%);
@@ -470,11 +471,18 @@ export default {
       width: 140px;
       height: 140px;
       background: white;
-      border: none;
+      border: 2px solid rgba($primary-color, 0.2);
       border-radius: 12px;
       @include flex-center;
       overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
       transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 24px rgba($primary-color, 0.2);
+        border-color: $primary-color;
+      }
       
       img {
         width: 100%;
@@ -493,12 +501,12 @@ export default {
 }
 
 .jobs-section {
-  // background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 1) 100%);
   border-radius: 16px;
   padding: 50px 50px;
-  // box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  // border: 1px solid rgba(64, 158, 255, 0.1);
+  border: 1px solid rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
   
@@ -509,13 +517,13 @@ export default {
     left: -50%;
     width: 200%;
     height: 200%;
-    // background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(64, 158, 255, 0.03) 0%, transparent 70%);
     animation: rotate 60s linear infinite;
   }
   
   &:hover {
-    // box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
-    // transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(64, 158, 255, 0.15);
+    transform: translateY(-4px);
   }
   
   h2 {
@@ -534,7 +542,7 @@ export default {
       transform: translateX(-50%);
       width: 60px;
       height: 3px;
-      // background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
       border-radius: 2px;
     }
   }

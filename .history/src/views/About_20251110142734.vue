@@ -534,7 +534,7 @@ export default {
       transform: translateX(-50%);
       width: 60px;
       height: 3px;
-      // background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+      background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
       border-radius: 2px;
     }
   }
