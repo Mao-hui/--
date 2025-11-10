@@ -377,7 +377,8 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background:#ffffff;
+    // background: rgba(0, 0, 0, 0.3);
     z-index: 1;
   }
   
@@ -436,7 +437,7 @@ export default {
   // background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 1) 100%);
   border-radius: 16px;
   padding: 50px 40px;
-  // box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   border: none;
   position: relative;
   overflow: hidden;
