@@ -53,7 +53,7 @@ import { ElMessage } from 'element-plus'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetProductDetail } from '@/api'
-import prod1Image from '@/assets/image/prod1.png'
+import prod1Image from '@/assets/image/bg5.jpg'
 
 export default {
   name: 'ProductDetail',

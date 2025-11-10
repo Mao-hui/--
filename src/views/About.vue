@@ -277,7 +277,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('@/assets/image/about4.png');
+    background-image: url('@/assets/image/bg1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

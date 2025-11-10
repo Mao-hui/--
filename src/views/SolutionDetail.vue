@@ -213,6 +213,11 @@ export default {
     max-width: 1000px;
     padding-left: 120px;
     padding-right: 120px;
+    text-align: left;
+  }
+  
+  :deep(.el-breadcrumb) {
+    text-align: left;
   }
 }
 

@@ -63,7 +63,7 @@ import { Phone, Share } from '@element-plus/icons-vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { apiGetNewsDetail } from '@/api'
-import newsImage from '@/assets/image/news.png'
+import newsImage from '@/assets/image/bg7.jpg'
 
 export default {
   name: 'NewsDetail',
