@@ -556,7 +556,6 @@ export default {
       
       ::v-deep(table) {
         width: 100% !important;
-        table-layout: fixed;
       }
       
       ::v-deep(.el-table__header) {
@@ -568,14 +567,12 @@ export default {
           font-weight: 600;
           padding: 16px 0;
           white-space: nowrap;
-          width: calc(100% / 6);
         }
       }
       
       ::v-deep(.el-table__body) {
         td {
           padding: 16px 0;
-          width: calc(100% / 6);
         }
       }
       

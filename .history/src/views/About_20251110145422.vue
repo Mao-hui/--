@@ -62,12 +62,12 @@
           <h2>在招职位</h2>
           <div class="jobs-table">
             <el-table :data="jobList" style="width: 100%" v-loading="loading" :fit="true">
-              <el-table-column prop="position" label="职位名称" show-overflow-tooltip />
-              <el-table-column prop="count" label="招聘人数" align="center" />
-              <el-table-column prop="education" label="学历要求" align="center" />
-              <el-table-column prop="location" label="工作地点" align="center" />
-              <el-table-column prop="date" label="发布时间" align="center" />
-              <el-table-column label="操作" align="center">
+              <el-table-column prop="position" label="职位名称" min-width="130" show-overflow-tooltip />
+              <el-table-column prop="count" label="招聘人数" width="110" align="center" />
+              <el-table-column prop="education" label="学历要求" width="130" align="center" />
+              <el-table-column prop="location" label="工作地点" width="130" align="center" />
+              <el-table-column prop="date" label="发布时间" width="150" align="center" />
+              <el-table-column label="操作" width="130" align="center" fixed="right">
                 <template #default="scope">
                   <el-button type="primary" size="small" @click="viewJobDetail(scope.row)">
                     查看详情
@@ -556,7 +556,6 @@ export default {
       
       ::v-deep(table) {
         width: 100% !important;
-        table-layout: fixed;
       }
       
       ::v-deep(.el-table__header) {
@@ -568,14 +567,12 @@ export default {
           font-weight: 600;
           padding: 16px 0;
           white-space: nowrap;
-          width: calc(100% / 6);
         }
       }
       
       ::v-deep(.el-table__body) {
         td {
           padding: 16px 0;
-          width: calc(100% / 6);
         }
       }
       
