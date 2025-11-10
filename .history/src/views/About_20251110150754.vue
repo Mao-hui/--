@@ -648,17 +648,13 @@ export default {
     img { 
       max-width: 100%; 
       display: block; 
-      margin: 12px 0; 
+      margin: 16px 0; 
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     p {
       margin-bottom: 12px;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
   }
 }
