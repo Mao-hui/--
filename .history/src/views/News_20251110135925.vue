@@ -615,8 +615,13 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.5s ease;
         display: block;
       }
+    }
+    
+    &:hover .news-image img {
+      transform: scale(1.05);
     }
     
     .news-title {
@@ -631,7 +636,12 @@ export default {
       line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      transition: color 0.3s ease;
       flex: 1;
+    }
+    
+    &:hover .news-title {
+      color: $primary-color;
     }
     
     .news-action {
@@ -642,7 +652,13 @@ export default {
         color: $primary-color;
         font-size: 14px;
         text-decoration: none;
+        transition: all 0.3s ease;
         display: inline-block;
+        
+        &:hover {
+          color: darken($primary-color, 10%);
+          transform: translateX(4px);
+        }
       }
     }
   }

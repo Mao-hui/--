@@ -642,7 +642,13 @@ export default {
         color: $primary-color;
         font-size: 14px;
         text-decoration: none;
+        transition: all 0.3s ease;
         display: inline-block;
+        
+        &:hover {
+          color: darken($primary-color, 10%);
+          transform: translateX(4px);
+        }
       }
     }
   }
