@@ -273,30 +273,15 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .breadcrumb-section {
-    :deep(.container) {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
-  
   .banner-section {
     height: 300px;
     
     .banner-content {
       padding: 0 20px 40px; // 移动端减小内边距
-      max-width: 100%;
       
       .product-name {
         font-size: 32px;
       }
-    }
-  }
-  
-  .detail-content {
-    :deep(.container) {
-      padding-left: 20px;
-      padding-right: 20px;
     }
   }
   

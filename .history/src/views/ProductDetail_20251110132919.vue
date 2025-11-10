@@ -178,12 +178,6 @@ export default {
   padding: 20px 0;
   border-bottom: 1px solid #e4e7ed;
   margin-top: 70px; // header高度
-  
-  :deep(.container) {
-    max-width: 1000px;
-    padding-left: 120px;
-    padding-right: 120px;
-  }
 }
 
 // Banner区域
@@ -198,9 +192,9 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 120px 80px; // 左右内边距120px，底部80px
+    padding: 0 60px 80px; // 左右内边距60px，底部80px
     
     .product-name {
       font-size: 48px;
@@ -217,13 +211,7 @@ export default {
 
 .detail-content {
   flex: 1;
-  padding: 60px 0;
-  
-  :deep(.container) {
-    max-width: 1000px;
-    padding-left: 120px;
-    padding-right: 120px;
-  }
+  padding: 40px 0;
 }
 
 .content-wrapper {
@@ -237,7 +225,7 @@ export default {
 .detail-main {
   background: white;
   border-radius: 12px;
-  padding: 60px 0;
+  padding: 40px;
   // box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -273,30 +261,15 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .breadcrumb-section {
-    :deep(.container) {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
-  
   .banner-section {
     height: 300px;
     
     .banner-content {
       padding: 0 20px 40px; // 移动端减小内边距
-      max-width: 100%;
       
       .product-name {
         font-size: 32px;
       }
-    }
-  }
-  
-  .detail-content {
-    :deep(.container) {
-      padding-left: 20px;
-      padding-right: 20px;
     }
   }
   
