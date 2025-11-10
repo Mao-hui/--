@@ -766,10 +766,17 @@ export default {
     box-shadow: none;
   }
   
+  :deep(.container) {
+    padding-left: 80px;
+    padding-right: 20px;
+  }
+  
   .header-content {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     height: 70px;
+    padding-right: 0;
   }
   
   // .logo {
@@ -800,7 +807,7 @@ export default {
   }
   
   img { 
-    height: 36px; 
+    height: 44px; 
     display: block;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 2px 4px rgba(64, 158, 255, 0.2));
@@ -811,7 +818,7 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
     letter-spacing: 2px;
     line-height: 1;
@@ -821,7 +828,7 @@ export default {
   
   .nav {
     display: flex;
-    margin-left: 60px;
+    margin-left: 50px;
     
     .nav-menu {
       display: flex;
