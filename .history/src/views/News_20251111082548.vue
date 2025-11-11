@@ -385,7 +385,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -419,7 +419,7 @@ export default {
   min-height: 400px;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -581,6 +581,7 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     margin-bottom: 30px;
+    padding: 160px;
     align-items: start;
   }
   
@@ -593,7 +594,7 @@ export default {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     align-items: stretch;
-    padding:0 4px;
+    padding: 0;
     border-radius: 12px;
     position: relative;
     

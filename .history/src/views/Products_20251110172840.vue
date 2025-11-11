@@ -303,7 +303,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -601,7 +601,7 @@ export default {
     height: 450px;
     
     .banner-content {
-      padding: 0 24px;
+      padding: 0 30px;
     }
     
     .banner-title {

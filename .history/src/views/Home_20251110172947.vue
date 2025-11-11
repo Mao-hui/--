@@ -399,16 +399,12 @@ export default {
   overflow: hidden;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1800px;
     margin: 0 auto;
     padding: 0 16px;
   }
   
   &::before {
-
-
-
-
     content: '';
     position: absolute;
     top: -50%;
@@ -551,7 +547,7 @@ export default {
   position: relative;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -681,7 +677,7 @@ export default {
   position: relative;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 16px;
   }

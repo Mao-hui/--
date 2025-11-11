@@ -385,7 +385,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -419,7 +419,7 @@ export default {
   min-height: 400px;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }

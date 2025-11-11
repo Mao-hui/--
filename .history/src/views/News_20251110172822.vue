@@ -385,9 +385,9 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 20px;
   }
   
   .banner-overlay {
@@ -419,7 +419,7 @@ export default {
   min-height: 400px;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -593,7 +593,7 @@ export default {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     align-items: stretch;
-    padding:0 4px;
+    padding: 0;
     border-radius: 12px;
     position: relative;
     
@@ -808,7 +808,7 @@ export default {
     height: 380px;
     
     .banner-content {
-      padding: 0 24px;
+      padding: 0 30px;
     }
     
     .banner-title {

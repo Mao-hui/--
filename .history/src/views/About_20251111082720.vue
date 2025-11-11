@@ -238,7 +238,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px 80px;
   }
@@ -264,7 +264,7 @@ export default {
   background: $background-color-light;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }
@@ -408,7 +408,7 @@ export default {
     // justify-content: center;
     position: relative;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     
     &::before {

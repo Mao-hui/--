@@ -210,7 +210,7 @@ export default {
   margin-top: 70px; // header高度
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1200px;
     padding-left: 80px;
     padding-right: 80px;
     text-align: left;
@@ -233,7 +233,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px 100px;
     
@@ -255,7 +255,7 @@ export default {
   padding: 20px 0;
   
   :deep(.container) {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
   }
