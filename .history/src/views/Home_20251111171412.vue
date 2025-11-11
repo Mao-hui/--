@@ -699,7 +699,7 @@ export default {
   
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(187px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 32px;
     margin-top: 60px;
     position: relative;
@@ -708,7 +708,6 @@ export default {
   
   .feature-card {
     padding: 40px 28px;
-    min-height: 360px;
     text-align: center;
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
@@ -924,7 +923,6 @@ export default {
     
     .feature-card {
       padding: 24px 18px;
-      min-height: auto;
       
       .feature-icon .el-icon {
         font-size: 36px;

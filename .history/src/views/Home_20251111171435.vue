@@ -924,7 +924,6 @@ export default {
     
     .feature-card {
       padding: 24px 18px;
-      min-height: auto;
       
       .feature-icon .el-icon {
         font-size: 36px;

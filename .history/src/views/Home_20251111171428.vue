@@ -708,7 +708,7 @@ export default {
   
   .feature-card {
     padding: 40px 28px;
-    min-height: 360px;
+    min-height: 300px;
     text-align: center;
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
@@ -924,7 +924,6 @@ export default {
     
     .feature-card {
       padding: 24px 18px;
-      min-height: auto;
       
       .feature-icon .el-icon {
         font-size: 36px;
