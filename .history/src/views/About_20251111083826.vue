@@ -240,7 +240,7 @@ export default {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 16px 180px;
+    padding: 0 16px 120px;
   }
   
   .banner-overlay {
@@ -674,7 +674,7 @@ export default {
     height: 380px;
     
     .banner-content {
-      padding: 0 30px 100px;
+      padding: 0 30px 60px;
     }
     
     .banner-title {
