@@ -352,7 +352,6 @@ export default {
 .banner-section {
   position: relative;
   overflow: hidden;
-  overflow-y: hidden;
   height: 450px;
   display: flex;
   align-items: center;
@@ -384,7 +383,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 16px;
   }

@@ -181,7 +181,7 @@ export default {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1300px;;
     margin: 0 auto;
     padding: 0 16px 100px;
     
@@ -204,14 +204,14 @@ export default {
   min-height: 600px;
   
   :deep(.container) {
-    max-width: 1240px;
+    max-width: 1300px;;
     margin: 0 auto;
     padding: 0 16px;
   }
 }
 
 .back-navigation {
-  max-width: 1240px;
+  max-width: 1300px;;
   margin: 0 auto 30px;
   padding: 0 16px;
   
@@ -242,7 +242,7 @@ export default {
 }
 
 .article-container {
-  max-width: 1240px;
+  max-width: 1300px;;
   margin: 0 auto;
   position: relative;
 }
