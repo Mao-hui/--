@@ -767,7 +767,7 @@ export default {
   }
   
   :deep(.container) {
-    padding-left: 200px;
+    padding-left: 800px;
     padding-right: 20px;
   }
   
