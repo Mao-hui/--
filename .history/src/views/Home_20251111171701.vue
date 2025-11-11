@@ -430,7 +430,7 @@ export default {
   
   .capabilities-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     margin-top: 60px;
     position: relative;
@@ -440,7 +440,6 @@ export default {
   .capability-card {
     padding: 50px 24px;
     height: 500px;
-    box-sizing: border-box;
     text-align: center;
     position: relative;
     overflow: hidden;

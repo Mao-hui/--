@@ -439,8 +439,7 @@ export default {
   
   .capability-card {
     padding: 50px 24px;
-    height: 500px;
-    box-sizing: border-box;
+    height: 400px;
     text-align: center;
     position: relative;
     overflow: hidden;

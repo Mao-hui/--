@@ -430,7 +430,7 @@ export default {
   
   .capabilities-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     margin-top: 60px;
     position: relative;
