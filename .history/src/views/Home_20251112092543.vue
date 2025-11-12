@@ -714,7 +714,7 @@ export default {
   .feature-card {
     padding: 40px 28px;
     min-height: 360px;
-    text-align: center;
+    // text-align: center;
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
     border-radius: 16px;
@@ -828,7 +828,6 @@ export default {
       line-height: 1.7;
       font-size: 14px;
       margin: 0;
-      text-align: left;
     }
   }
 }

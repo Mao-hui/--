@@ -439,11 +439,9 @@ export default {
   }
   
   .capability-card {
-    padding: 30px 24px 80px;
+    padding: 30px 24px 100px;
     min-height: auto;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -544,7 +542,6 @@ export default {
       text-align: left;
       word-wrap: break-word;
       word-break: break-all;
-      flex: 1;
     }
   }
 }
@@ -828,7 +825,6 @@ export default {
       line-height: 1.7;
       font-size: 14px;
       margin: 0;
-      text-align: left;
     }
   }
 }

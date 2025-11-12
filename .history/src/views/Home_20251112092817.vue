@@ -828,7 +828,8 @@ export default {
       line-height: 1.7;
       font-size: 14px;
       margin: 0;
-      text-align: left;
+      // text-align: left;
+      text-indent: 2em;
     }
   }
 }

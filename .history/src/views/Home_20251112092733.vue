@@ -829,6 +829,7 @@ export default {
       font-size: 14px;
       margin: 0;
       text-align: left;
+      text-indent: 20px;
     }
   }
 }
