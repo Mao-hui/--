@@ -439,7 +439,7 @@ export default {
   }
   
   .capability-card {
-    padding: 30px 24px 100px;
+    padding: 30px 24px 24px;
     min-height: auto;
     box-sizing: border-box;
     text-align: center;

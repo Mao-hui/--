@@ -435,11 +435,10 @@ export default {
     margin-top: 60px;
     position: relative;
     z-index: 1;
-    align-items: start;
   }
   
   .capability-card {
-    padding: 30px 24px 100px;
+    padding: 30px 24px 24px;
     min-height: auto;
     box-sizing: border-box;
     text-align: center;
@@ -503,10 +502,11 @@ export default {
     }
     
     .capability-icon {
+      margin-bottom: 18px;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       width: 60px;
       height: 60px;
-      margin: 0 auto 12px;
+      margin: 0 auto 18px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -528,7 +528,7 @@ export default {
     
     h3 {
       font-size: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       color: $text-color-primary;
       font-weight: 600;
       transition: color 0.3s ease;
@@ -536,7 +536,7 @@ export default {
     
     p {
       color: $text-color-regular;
-      line-height: 1.5;
+      line-height: 1.7;
       font-size: 14px;
       margin: 0;
       text-align: left;
