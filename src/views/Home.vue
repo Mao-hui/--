@@ -316,6 +316,10 @@ export default {
 @import '../assets/styles/main.scss';
 .home {
   padding-top: 70px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .hero {
@@ -405,11 +409,15 @@ export default {
   // padding-bottom: 100px;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
   
   :deep(.container) {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   &::before {
@@ -562,11 +570,16 @@ export default {
   padding-top: 100px;
   padding-bottom: 100px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   
   :deep(.container) {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   &::before {
@@ -692,11 +705,16 @@ export default {
   padding-top: 100px;
   padding-bottom: 100px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   
   :deep(.container) {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   &::after {
@@ -849,10 +867,17 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .home {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
   .hero {
     height: 180px;
     max-height: 30vh;
     overflow: hidden;
+    width: 100%;
     
     :deep(.el-carousel) {
       height: 180px !important;
@@ -895,18 +920,37 @@ export default {
   
   .section-title {
     font-size: 28px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    padding: 0 16px;
   }
   
   .capabilities {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+    :deep(.container) {
+      padding: 0 16px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
     .capabilities-grid {
       grid-template-columns: 1fr;
       gap: 20px;
       margin-top: 30px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .capability-card {
-      padding: 28px 20px;
+      padding: 28px 16px;
       min-height: auto;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
       
       .capability-icon .el-icon {
         font-size: 40px;
@@ -915,26 +959,57 @@ export default {
       h3 {
         font-size: 18px;
         margin-bottom: 12px;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
       
       p {
         font-size: 13px;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
       }
     }
   }
   
   .solutions-banner {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+    :deep(.container) {
+      padding: 0 16px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
     .solutions-banner-content {
       grid-template-columns: 1fr;
       gap: 12px;
       margin-top: 20px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .solution-item {
       height: 140px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
       
-      .solution-image .solution-overlay h3 {
-        font-size: 16px;
+      .solution-image {
+        width: 100%;
+        height: 100%;
+        
+        .solution-overlay h3 {
+          font-size: 16px;
+          word-wrap: break-word;
+          word-break: break-word;
+          overflow-wrap: break-word;
+          padding: 0 10px;
+        }
       }
     }
     
@@ -947,15 +1022,30 @@ export default {
   }
   
   .why-choose {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+    :deep(.container) {
+      padding: 0 16px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
     .features-grid {
       grid-template-columns: 1fr;
       gap: 20px;
       margin-top: 30px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .feature-card {
-      padding: 24px 18px;
+      padding: 24px 16px;
       min-height: auto;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
       
       .feature-icon .el-icon {
         font-size: 36px;
@@ -964,10 +1054,17 @@ export default {
       h3 {
         font-size: 16px;
         margin-bottom: 10px;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
       
       p {
         font-size: 13px;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
       }
     }
   }

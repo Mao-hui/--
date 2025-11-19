@@ -214,6 +214,10 @@ export default {
 @import '../assets/styles/main.scss';
 .about {
   padding-top: 70px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .banner-section {
@@ -262,11 +266,16 @@ export default {
 .about-content {
   padding: 60px 0;
   background: $background-color-light;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   
   :deep(.container) {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -274,6 +283,9 @@ export default {
   padding: 60px 50px;
   margin-bottom: 60px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   
   // 添加背景图片并设置透明度
   &::before {
@@ -343,6 +355,10 @@ export default {
           color: $text-color-primary;
           margin-bottom: 12px;
           text-align: justify;
+          word-wrap: break-word;
+          word-break: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
           
           &:last-child {
             margin-bottom: 0;
@@ -363,6 +379,8 @@ export default {
   // border: 1px solid rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
   
   &::before {
     content: '';
@@ -410,6 +428,7 @@ export default {
     width: 100%;
     max-width: 1240px;
     margin: 0 auto;
+    box-sizing: border-box;
     
     &::before {
       content: '';
@@ -432,6 +451,8 @@ export default {
     text-align: left;
     padding-right: 50px;
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
     
     .contact-item {
       @include flex-center;
@@ -458,7 +479,9 @@ export default {
         font-size: 16px;
         color: $text-color-primary;
         font-weight: 500;
-        white-space: nowrap;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
     }
   }
@@ -507,6 +530,8 @@ export default {
   // border: 1px solid rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
   
   &::before {
     content: '';
@@ -545,9 +570,15 @@ export default {
     }
   }
   
+  .scroll-hint {
+    display: none;
+  }
+  
   .jobs-table {
     width: 100%;
     overflow-x: auto;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
     
     .el-table {
       width: 100%;
@@ -684,77 +715,274 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .about-content {
+    :deep(.container) {
+      padding: 0 16px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  
   .banner-section {
     height: 300px;
+    width: 100%;
     
     .banner-content {
-      padding: 0 20px 40px;
+      padding: 0 16px 40px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .banner-title {
       font-size: 32px;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
   }
   
   .company-intro {
-    padding: 30px 20px;
+    padding: 30px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     
     h2 {
       font-size: 26px;
       margin-bottom: 30px;
       padding-bottom: 15px;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      padding-left: 0;
+      padding-right: 0;
       
       &::after {
         width: 40px;
       }
     }
     
-    .intro-content .intro-text {
-      .intro-image {
-        float: none;
-        margin: 0 0 20px 0;
-        text-align: center;
-        
-        img {
-          width: 100%;
-          max-width: 300px;
-        }
-      }
+    .intro-content {
+      width: 100%;
+      box-sizing: border-box;
       
-      .intro-description p {
-        font-size: 14px;
-        line-height: 1.3;
+      .intro-text {
+        width: 100%;
+        box-sizing: border-box;
+        
+        .intro-image {
+          float: none;
+          margin: 0 0 20px 0;
+          text-align: center;
+          width: 100%;
+          
+          img {
+            width: 100%;
+            max-width: 300px;
+          }
+        }
+        
+        .intro-description {
+          width: 100%;
+          box-sizing: border-box;
+          
+          p {
+            font-size: 14px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+          }
+        }
       }
     }
   }
   
   .contact-section,
   .jobs-section {
-    padding: 30px 20px;
+    padding: 30px 16px;
     border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     
     h2 {
       font-size: 26px;
       margin-bottom: 30px;
       padding-bottom: 15px;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      padding-left: 0;
+      padding-right: 0;
       
       &::after {
         width: 40px;
       }
     }
-    
+  }
+  
+  .contact-section {
     .contact-wrapper {
       flex-direction: column;
       gap: 30px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .contact-info {
       width: 100%;
+      padding-right: 0;
+      box-sizing: border-box;
+      
+      .contact-item {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 16px;
+        flex-wrap: wrap;
+        
+        span {
+          flex: 1;
+          min-width: 0;
+          word-wrap: break-word;
+          word-break: break-word;
+          overflow-wrap: break-word;
+        }
+      }
     }
     
-    .qr-code .qr-placeholder {
-      width: 120px;
-      height: 120px;
+    .qr-code {
+      width: 100%;
+      padding-left: 0;
+      box-sizing: border-box;
+      align-items: center;
+      
+      .qr-placeholder {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  }
+  
+  .jobs-section {
+    .scroll-hint {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      color: $text-color-regular;
+      padding: 8px 0;
+      margin-bottom: 10px;
+      background: rgba($primary-color, 0.05);
+      border-radius: 6px;
+      
+      &::before {
+        content: '← →';
+        margin-right: 6px;
+        color: $primary-color;
+        font-weight: bold;
+      }
+    }
+    
+    .jobs-table {
+      width: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+      
+      // 添加滚动条样式提示
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+        border-radius: 3px;
+        
+        &:hover {
+          background: darken($primary-color, 10%);
+        }
+      }
+      
+      .el-table {
+        width: 100%;
+        min-width: 700px;
+        table-layout: auto;
+        
+        ::v-deep(.el-table__body-wrapper),
+        ::v-deep(.el-table__header-wrapper) {
+          overflow-x: visible;
+        }
+        
+        ::v-deep(table) {
+          width: 100%;
+          min-width: 700px;
+          table-layout: auto;
+        }
+        
+        ::v-deep(.el-table__header) {
+          th {
+            font-size: 12px;
+            padding: 12px 8px;
+            white-space: nowrap;
+            word-wrap: normal;
+            min-width: 80px;
+            
+            &:first-child {
+              min-width: 120px; // 职位名称列更宽
+            }
+            
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5) {
+              min-width: 90px;
+            }
+            
+            &:last-child {
+              min-width: 100px; // 操作列
+            }
+          }
+        }
+        
+        ::v-deep(.el-table__body) {
+          td {
+            font-size: 12px;
+            padding: 12px 8px;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            min-width: 80px;
+            
+            &:first-child {
+              min-width: 120px; // 职位名称列更宽
+            }
+            
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5) {
+              min-width: 90px;
+            }
+            
+            &:last-child {
+              min-width: 100px; // 操作列
+              
+              .el-button {
+                font-size: 11px;
+                padding: 6px 10px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
