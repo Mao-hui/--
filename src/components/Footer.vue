@@ -252,9 +252,196 @@ export default {
 
 @media (max-width: 768px) {
   .footer {
+    padding: 32px 0 16px;
+    
+    :deep(.container) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    
     .footer-content {
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 16px;
+      margin-bottom: 24px;
+    }
+    
+    .footer-section {
+      width: 100%;
+      
+      h3 {
+        font-size: 15px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        
+        &::after {
+          width: 30px;
+          height: 1.5px;
+        }
+      }
+      
+      ul {
+        li {
+          margin-bottom: 6px;
+          
+          a {
+            font-size: 13px;
+            line-height: 1.5;
+          }
+        }
+      }
+      
+      .contact-item {
+        margin-bottom: 10px;
+        
+        .el-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+        
+        span {
+          font-size: 13px;
+          line-height: 1.5;
+        }
+      }
+      
+      .contact-info {
+        p {
+          font-size: 12px;
+          margin-bottom: 5px;
+          line-height: 1.6;
+          word-break: break-all;
+        }
+      }
+      
+      .qr-code {
+        margin-top: 0;
+        align-items: center;
+        
+        .qr-placeholder {
+          width: 70px;
+          height: 70px;
+          border-width: 2px;
+        }
+        
+        span {
+          font-size: 12px;
+          letter-spacing: 0.3px;
+        }
+      }
+      
+      // 联系方式和联系我们占满整行
+      &:first-child,
+      &:nth-child(4) {
+        grid-column: 1 / -1;
+      }
+      
+      // 二维码单独一行，居中显示
+      &:last-child {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        margin-top: 8px;
+      }
+    }
+    
+    .footer-bottom {
+      padding-top: 16px;
+      border-top-width: 1px;
+      
+      p {
+        font-size: 11px;
+        line-height: 1.7;
+        word-break: break-all;
+        padding: 0 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 28px 0 14px;
+    
+    :deep(.container) {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
       gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .footer-section {
+      h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        
+        &::after {
+          width: 25px;
+        }
+      }
+      
+      ul li {
+        margin-bottom: 5px;
+        
+        a {
+          font-size: 12px;
+        }
+      }
+      
+      .contact-item {
+        margin-bottom: 8px;
+        
+        .el-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+        
+        span {
+          font-size: 12px;
+        }
+      }
+      
+      .contact-info {
+        p {
+          font-size: 11px;
+          margin-bottom: 4px;
+        }
+      }
+      
+      .qr-code {
+        .qr-placeholder {
+          width: 60px;
+          height: 60px;
+        }
+        
+        span {
+          font-size: 11px;
+        }
+      }
+      
+      // 小屏幕下所有section都占满整行
+      &:first-child,
+      &:nth-child(4),
+      &:last-child {
+        grid-column: 1;
+      }
+    }
+    
+    .footer-bottom {
+      padding-top: 14px;
+      
+      p {
+        font-size: 10px;
+        line-height: 1.8;
+        padding: 0 4px;
+      }
     }
   }
 }

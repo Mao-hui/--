@@ -1286,36 +1286,170 @@ export default {
 
 @media (max-width: 768px) {
   .header {
-    .header-content {
-      flex-direction: column;
-      height: auto;
-      padding: 10px 0;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
+    
+    :deep(.container) {
+      padding-left: 12px;
+      padding-right: 12px;
     }
     
-    .nav {
-      margin: 10px 0;
-      margin-left: 0;
-      width: 100%;
+    .header-content {
+      height: 56px;
+      padding: 0;
+      justify-content: space-between;
+    }
+    
+    .logo {
+      gap: 8px;
+      flex-shrink: 0;
       
-      .nav-menu {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+      img {
+        height: 30px;
+        filter: drop-shadow(0 1px 3px rgba(64, 158, 255, 0.15));
+      }
+      
+      .logo-title {
+        font-size: 17px;
+        letter-spacing: 1px;
+      }
+      
+      // 移动端禁用 hover 效果
+      &:hover {
+        transform: none;
         
-        .el-menu-item {
-          font-size: 14px;
-          padding: 8px 12px;
-          margin: 0 2px;
+        img {
+          transform: none;
         }
       }
     }
     
-    .header-actions {
-      margin-top: 10px;
+    .nav {
+      margin-left: 8px;
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       
-      .el-button {
-        font-size: 14px;
-        padding: 8px 16px;
+      &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+      
+      // 添加渐变遮罩提示可滚动
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95));
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      .nav-menu {
+        gap: 0;
+        padding-right: 20px;
+        
+        .nav-item {
+          font-size: 13px;
+          padding: 0 14px;
+          height: 32px;
+          line-height: 32px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          border-bottom-width: 2px;
+          position: relative;
+          z-index: 2;
+          
+          // 移动端优化触摸反馈
+          &:active {
+            background: rgba(64, 158, 255, 0.08);
+            transform: scale(0.98);
+          }
+          
+          &.active:not(.dropdown-active) {
+            border-bottom-width: 2px;
+          }
+        }
+      }
+    }
+    
+    .fullscreen-dropdown {
+      top: 56px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      
+      .dropdown-layout {
+        flex-direction: column;
+        min-height: auto;
+        max-height: calc(100vh - 56px);
+        
+        .dropdown-left {
+          width: 100%;
+          border-right: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          max-height: 180px;
+          padding: 8px 0;
+          
+          .category-group {
+            margin: 2px 4px;
+            
+            .category-title {
+              padding: 10px 12px;
+              font-size: 14px;
+            }
+            
+            .sub-categories {
+              .sub-category-item {
+                padding: 8px 12px 8px 28px;
+                font-size: 13px;
+              }
+            }
+          }
+          
+          &.solutions-left {
+            .category-item {
+              padding: 10px 16px;
+              font-size: 13px;
+            }
+          }
+        }
+        
+        .dropdown-right {
+          padding: 12px;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          
+          .right-content {
+            .right-header {
+              margin-bottom: 12px;
+              padding-bottom: 10px;
+              
+              h3 {
+                font-size: 15px;
+              }
+            }
+            
+            .right-list.tags-list {
+              max-height: calc(100vh - 200px);
+              row-gap: 10px;
+              
+              .tag-item {
+                padding: 10px 12px;
+                font-size: 13px;
+                border-bottom-width: 1px;
+                
+                &:active {
+                  background: rgba(64, 158, 255, 0.1);
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -1323,12 +1457,105 @@ export default {
 
 @media (max-width: 480px) {
   .header {
+    :deep(.container) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    
+    .header-content {
+      height: 52px;
+    }
+    
+    .logo {
+      gap: 6px;
+      
+      img {
+        height: 26px;
+      }
+      
+      .logo-title {
+        font-size: 15px;
+        letter-spacing: 0.5px;
+      }
+    }
+    
     .nav {
+      margin-left: 6px;
+      
+      &::after {
+        width: 15px;
+      }
+      
       .nav-menu {
-        .el-menu-item {
+        padding-right: 15px;
+        
+        .nav-item {
           font-size: 12px;
-          padding: 6px 8px;
-          margin: 0 1px;
+          padding: 0 10px;
+          height: 30px;
+          line-height: 30px;
+          border-bottom-width: 1.5px;
+        }
+      }
+    }
+    
+    .fullscreen-dropdown {
+      top: 52px;
+      
+      .dropdown-layout {
+        max-height: calc(100vh - 52px);
+        
+        .dropdown-left {
+          max-height: 140px;
+          padding: 6px 0;
+          
+          .category-group {
+            margin: 1px 2px;
+            
+            .category-title {
+              padding: 8px 10px;
+              font-size: 13px;
+            }
+            
+            .sub-categories {
+              .sub-category-item {
+                padding: 6px 10px 6px 24px;
+                font-size: 12px;
+              }
+            }
+          }
+          
+          &.solutions-left {
+            .category-item {
+              padding: 8px 12px;
+              font-size: 12px;
+            }
+          }
+        }
+        
+        .dropdown-right {
+          padding: 10px;
+          
+          .right-content {
+            .right-header {
+              margin-bottom: 10px;
+              padding-bottom: 8px;
+              
+              h3 {
+                font-size: 14px;
+              }
+            }
+            
+            .right-list.tags-list {
+              max-height: calc(100vh - 180px);
+              row-gap: 8px;
+              
+              .tag-item {
+                padding: 8px 10px;
+                font-size: 12px;
+              }
+            }
+          }
         }
       }
     }
