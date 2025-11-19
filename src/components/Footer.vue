@@ -50,7 +50,7 @@
       </div>
       
       <div class="footer-bottom">
-        <p>Copyright © 蚌埠向量科技有限公司版权所有 皖ICP备000000号</p>
+        <p>Copyright © 蚌埠向量科技有限公司版权所有 皖ICP备2025103222号-1</p>
       </div>
     </div>
   </footer>
