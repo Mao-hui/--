@@ -360,6 +360,10 @@ export default {
 @import '../assets/styles/main.scss';
 .news {
   padding-top: 70px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .banner-section {
@@ -491,6 +495,16 @@ export default {
       font-size: 15px;
       transition: all 0.3s ease;
       border-bottom: 2px solid transparent;
+      box-sizing: border-box;
+      overflow: visible;
+      
+      @media (max-width: 768px) {
+        padding: 8px 8px;
+        gap: 4px;
+        font-size: 13px;
+        flex: 1;
+        min-width: 0;
+      }
       
       &:hover {
         color: $text-color-primary;
@@ -503,12 +517,38 @@ export default {
       
       .el-icon {
         font-size: 16px;
+        flex-shrink: 0;
+        
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+      
+      span {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        
+        @media (max-width: 768px) {
+          font-size: 13px;
+        }
       }
       
       .arrow-icon {
         font-size: 12px;
         margin-left: 4px;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
+        
+        @media (max-width: 768px) {
+          font-size: 10px;
+          margin-left: 2px;
+        }
       }
       
       &:hover .arrow-icon {
@@ -549,11 +589,44 @@ export default {
         :deep(.el-date-picker) {
           border: none;
           box-shadow: none;
+          
+          @media (max-width: 768px) {
+            width: 100% !important;
+            
+            .el-picker-panel {
+              width: 100% !important;
+              max-width: 100%;
+              left: 0 !important;
+              right: 0 !important;
+              margin: 0 !important;
+            }
+            
+            .el-date-picker__header {
+              padding: 12px;
+            }
+            
+            .el-picker-panel__content {
+              width: 100%;
+            }
+            
+            .el-date-table {
+              width: 100%;
+            }
+          }
         }
         
         &.month-dropdown {
           padding: 16px;
           min-width: 300px;
+          
+          @media (max-width: 768px) {
+            min-width: auto;
+            width: calc(100vw - 32px);
+            max-width: 320px;
+            left: 50%;
+            transform: translateX(-50%);
+            right: auto;
+          }
         }
       }
     }
@@ -848,6 +921,65 @@ export default {
     justify-content: space-between;
     padding: 10px;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    
+    .filter-item {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      max-width: 50%;
+      box-sizing: border-box;
+      
+      span {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        display: inline-block;
+      }
+      
+      .filter-dropdown {
+        @media (max-width: 768px) {
+          position: fixed;
+          left: 50% !important;
+          transform: translateX(-50%);
+          right: auto !important;
+          width: calc(100vw - 32px) !important;
+          max-width: 320px;
+          z-index: 2000;
+          margin-top: 8px;
+          box-sizing: border-box;
+        }
+        
+        &.month-dropdown {
+          @media (max-width: 768px) {
+            padding: 12px;
+            box-sizing: border-box;
+            
+            :deep(.el-date-picker) {
+              width: 100% !important;
+              box-sizing: border-box;
+              
+              .el-picker-panel {
+                width: 100% !important;
+                max-width: 100%;
+                box-sizing: border-box;
+              }
+              
+              .el-input__wrapper {
+                width: 100%;
+                box-sizing: border-box;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   .news-grid {
@@ -971,6 +1103,30 @@ export default {
     
     .preview-cover {
       height: 200px;
+    }
+  }
+}
+
+// 全局样式：确保Element Plus日期选择器在移动端不超出屏幕
+:deep(.el-picker__popper) {
+  @media (max-width: 768px) {
+    max-width: calc(100vw - 32px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    
+    .el-picker-panel {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+    }
+    
+    .el-month-table {
+      width: 100%;
+      
+      td {
+        padding: 8px;
+      }
     }
   }
 }
