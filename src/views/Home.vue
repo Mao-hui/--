@@ -388,13 +388,21 @@ export default {
     user-select: none;
     -webkit-user-drag: none;
     transition: transform 0.5s ease;
+    
+    @media (max-width: 768px) {
+      object-fit: contain;
+      object-position: center;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+    }
   }
 }
 
 .capabilities {
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
-  padding-top: 100px;
-  padding-bottom: 100px;
+  // padding-top: 100px;
+  // padding-bottom: 100px;
   position: relative;
   overflow: hidden;
   
@@ -842,16 +850,32 @@ export default {
 
 @media (max-width: 768px) {
   .hero {
-    height: 280px;
-    max-height: 40vh;
+    height: 180px;
+    max-height: 30vh;
+    overflow: hidden;
+    
+    :deep(.el-carousel) {
+      height: 180px !important;
+    }
     
     :deep(.el-carousel__container) {
-      height: 280px !important;
+      height: 180px !important;
+    }
+    
+    :deep(.el-carousel__item) {
+      height: 180px !important;
+      padding: 0;
+      overflow: hidden;
     }
     
     :deep(.el-carousel__arrow) {
       width: 40px;
       height: 40px;
+      display: none; // 移动端隐藏箭头，使用滑动切换
+    }
+    
+    :deep(.el-carousel__indicators) {
+      bottom: 10px;
     }
     
     .hero-content .hero-text {
