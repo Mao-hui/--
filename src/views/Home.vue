@@ -25,7 +25,7 @@
     <!-- 企业开发能力 -->
     <section class="capabilities section">
       <div class="container">
-        <h2 class="section-title">企业开发能力</h2>
+        <h2 class="section-title">企业开发领域</h2>
         <div class="capabilities-grid">
           <div 
             v-for="capability in capabilities" 
